@@ -1,0 +1,6 @@
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('/static/sources/imagesite1.png');
+  background-position: center;
+}

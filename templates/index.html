@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Paris" content="Paris sportifs super bowl">
+    <meta name="keywords" content="football, paris, superbowl">
+    <meta name="author" content="Stania">
+
+    <title>Paris sportifs Super Bowl</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center mt-5 text-white">Paris sportifs Super Bowl</h1>
+      <p class="text-center text-white">L'endroit idéal pour gagner de l'argent avec les paris sportifs</p>
+    </div>
+    <div class="container">
+      <h4 class="text-white">Matchs du jour : {{current_date}}</h4>
+      <div class="table-responsive">
+        <table class="table table-border-outer text-white">
+            <thead>
+              <tr>
+                <td>New Orleans vs Atlanta</td>
+                <td>San Francisco vs Chicago</td>      
+              </tr>
+              <tr>               
+                <td>New England vs Miami</td>
+                <td>Baltimore vs New York</td>
+              </tr>
+              <tr>
+                <td>Pittsburgh vs Cincinnati</td>
+                <td>Philadelphia vs Detroit</td>
+              </tr>
+            </thead>
+        </table>
+      </div>
+    </div>
+    <div class="container">
+      <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="text-center">
+          <button type="button" class="btn btn-primary mx-2">Se connecter</button>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-primary mx-2">Visualiser tous les matchs</button>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-primary mx-2">Parier</button>
+        </div>
+      </div>
+    </div>  
+  </body>
+</html>
