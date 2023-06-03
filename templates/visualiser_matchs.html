@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Visualiser tous les matchs{% endblock %}
+{% block styles %}
+<!-- Aquí puedes incluir los enlaces a tus archivos CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% endblock %}
+{% block content %}
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Equipes</th>
+      <th>Jour</th>
+      <th>Début</th>
+      <th>Fin</th>
+      <th>Statut</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for match in matchs %}
+    <tr>
+      <td>{{ match.Equipes }}</td>
+      <td>{{ match.Jour }}</td>
+      <td>{{ match.Début }}</td>
+      <td>{{ match.Fin }}</td>
+      <td>{{ match.Statut }}</td>
+      <td>{{ match.Score }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+{% endblock %}
+
