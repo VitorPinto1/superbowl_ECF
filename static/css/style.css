@@ -3,4 +3,12 @@ body {
   background-repeat: no-repeat;
   background-image: url('/static/sources/imagesite1.png');
   background-position: center;
+  height: 100vh;
+}
+
+.btn-container-index {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 }

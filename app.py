@@ -21,15 +21,32 @@ def index():
     formatted_date = now.strftime("%d/%m/%Y")
     return render_template('index.html', current_date=formatted_date)
 
+class Matchs:
+    def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, joueurs, cote, commentaires):
+        self.equipe1 = equipe1
+        self.equipe2 = equipe2
+        self.jour = jour
+        self.debut = debut
+        self.fin = fin
+        self.statut = statut
+        self.score = score
+        self.meteo = meteo
+        self.joueurs = joueurs
+        self.cote = cote
+        self.commentaires = commentaires
+
 @app.route('/visualiser_matchs')
 def visualiser_matchs():
     matchs = [
-        {'Equipes': 'Equipo A vs Equipo B', 'Jour': '2023-06-01', 'Début': '18:00', 'Fin': '20:00', 'Statut': 'Termine', 'Score': '2-1'},
-        {'Equipes': 'Equipo C vs Equipo D', 'Jour': '2023-06-02', 'Début': '19:30', 'Fin': '21:30', 'Statut': 'En Cours', 'Score': '0-0'},
-        {'Equipes': 'Equipo E vs Equipo F', 'Jour': '2023-06-03', 'Début': '16:00', 'Fin': '18:00', 'Statut': 'À Venir', 'Score': ''}
-    ]
+        Matchs('Kansas City Chiefs', 'Dallas Cowboys', '23/05', '09:00', '11:00', 'En cours','4-2', 'soleil','pepe', '500$' , 'el mejor jugador'),
+        Matchs('New England Patriots', 'Green Bay Packers', '24/05', '08:00', '10:00', 'Termine','0-3', 'pluie', 'batista', '400$', 'que rule'),
+        Matchs('Pittsburgh Steelers', 'San Francisco 49ers', '29/05', '10:00', '12:00', 'À venir','', 'horage', 'ronaldinho', '2000$', 'El gaucho')
+        ]
     return render_template('visualiser_matchs.html', matchs = matchs)
 
+@app.route('/miser')
+def miser():
+    return render_template('miser.html')
 
 def create_app():
     app = Flask(__name__)
