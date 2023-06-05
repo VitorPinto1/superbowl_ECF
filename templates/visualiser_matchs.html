@@ -21,7 +21,7 @@
     <tr data-bs-toggle="modal" data-bs-target="#modal" data-equipo1="{{ match.equipe1 }}" 
     data-equipo2="{{ match.equipe2 }}" data-jour="{{ match.jour }}" data-debut="{{ match.debut }}" 
     data-fin="{{ match.fin }}" data-statut="{{ match.statut }}" data-score="{{ match.score }}" data-meteo="{{ match.meteo}}"
-    data-joueurs="{{ match.joueurs }}" data-cote="{{ match.cote }}" data-commentaires="{{ match.commentaires}}">
+    data-joueurs="{{ match.joueurs }}" data-cote1="{{ match.cote1 }}"  data-cote2="{{ match.cote2 }}" data-commentaires="{{ match.commentaires}}">
       <td>{{ match.equipe1 }} vs {{ match.equipe2 }}</td>
       <td>{{ match.jour }}</td>
       <td>{{ match.debut }}</td>
@@ -53,15 +53,27 @@
         <p id="score"></p>
         <p id="meteo"></p>
         <p id="joueurs"></p>
-        <p id="cote"></p>
+        <p id="cote1"></p>
+        <p id="cote2"></p>
         <p id="commentaires"></p>
+       
       </div>
       <div class="modal-footer">
-        <a href="{{ url_for('miser') }}" class="btn btn-primary">Miser</a>
+        <form id="modal-form" method="POST" action="{{ url_for('store_in_session') }}">
+          <input type="hidden" name="equipe1" id="form-equipe1">
+          <input type="hidden" name="equipe2" id="form-equipe2">
+          <input type="hidden" name="cote1" id="form-cote1">
+          <input type="hidden" name="cote2" id="form-cote2">
+          <button type="submit" class="btn btn-primary">Miser</button> 
+        </form>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
 
 <!-- JavaScript de Bootstrap -->
 
@@ -85,7 +97,8 @@
         var score = modalTrigger.dataset.score;
         var meteo = modalTrigger.dataset.meteo;
         var joueurs = modalTrigger.dataset.joueurs;
-        var cote = modalTrigger.dataset.cote;
+        var cote1 = modalTrigger.dataset.cote1;
+        var cote2 = modalTrigger.dataset.cote2;
         var commentaires = modalTrigger.dataset.commentaires;
 
         document.getElementById("equipe1").innerText = equipe1;
@@ -97,8 +110,19 @@
         document.getElementById("score").innerText = "Score: " + score;
         document.getElementById("meteo").innerText = "Météo: " + meteo;
         document.getElementById("joueurs").innerText = "Joueurs: " + joueurs;
-        document.getElementById("cote").innerText = "Cote: " + cote;
+        document.getElementById("cote1").innerText = "Cote 1: " + cote1;
+        document.getElementById("cote2").innerText = "Cote 2: " + cote2;
         document.getElementById("commentaires").innerText = "Commentaires: " + commentaires;
+
+        document.getElementById("form-equipe1").value = equipe1;
+        document.getElementById("form-equipe2").value = equipe2;
+        document.getElementById("form-cote1").value = cote1;
+        document.getElementById("form-cote2").value = cote2;
+
+        document.querySelector('.btn-close').addEventListener('click', function() {
+          modal.hide();
+        });
+        
 
         
         modal.show();
@@ -110,3 +134,5 @@
 
 
 {% endblock %}
+
+
