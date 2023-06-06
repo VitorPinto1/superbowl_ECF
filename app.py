@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, session, request, url_for
 from flask_bootstrap import Bootstrap
 from datetime import datetime
+import json
 
 
 
@@ -38,13 +39,19 @@ class Matchs:
         self.cote2 = cote2
         self.commentaires = commentaires
 
-@app.route('/visualiser_matchs')
-def visualiser_matchs():
-    matchs = [
+
+def obtenir_matchs():
+     matchs = [
         Matchs('Kansas City Chiefs', 'Dallas Cowboys', '23/05', '09:00', '11:00', 'En cours','4-2', 'soleil','pepe', '500$', '200$' , 'el mejor jugador'),
         Matchs('New England Patriots', 'Green Bay Packers', '24/05', '08:00', '10:00', 'Termine','0-3', 'pluie', 'batista', '400$','200$', 'que rule'),
         Matchs('Pittsburgh Steelers', 'San Francisco 49ers', '29/05', '10:00', '12:00', 'À venir','', 'horage', 'ronaldinho', '2000$','200$', 'El gaucho')
         ]
+     return matchs
+
+
+@app.route('/visualiser_matchs')
+def visualiser_matchs():
+    matchs = obtenir_matchs()
     return render_template('visualiser_matchs.html', matchs = matchs)
 
 
@@ -63,6 +70,23 @@ def miser():
     cote1 = session.get('cote1')
     cote2 = session.get('cote2')
     return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
+
+
+@app.route('/parier')
+def parier():
+    matchs = obtenir_matchs()
+    return render_template('parier.html', matchs=matchs)
+
+
+@app.route('/miser_sur_la_selection', methods=['POST'])
+def miser_sur_la_selection():
+    donnees_selectionnees = request.form.get('donnees_selectionnees')
+    
+    # Convertir los datos de JSON a objeto Python
+    matchs_selectionnes = json.loads(donnees_selectionnees)
+    
+    # Renderizar la plantilla "miser_sur_la_selection.html" y pasar los datos seleccionados
+    return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes)
 
 
 
