@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Miser sur la sélection{% endblock %}
+{% block content %}
+
+
+<div class="container">
+  <h1 class="text-center mt-5">Miser sur la sélection</h1>
+  <h2>Résultats sélectionnés :</h2>
+  <ul>
+    {% for match in matchs_selectionnes %}
+    <li>{{ match.id }} - {{ match.equipe1 }} vs {{ match.equipe2 }}</li>
+    <!-- Mostrar otros datos del partido según tus necesidades -->
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

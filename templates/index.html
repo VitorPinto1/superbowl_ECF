@@ -3,13 +3,13 @@
 {% block title %}Paris sportifs Super Bowl{% endblock %}
 {% block content %}
 <div class="container">
-  <h1 class="text-center mt-5 text-white">Paris sportifs Super Bowl</h1>
-  <p class="text-center text-white">L'endroit idéal pour gagner de l'argent avec les paris sportifs</p>
+  <h1 class="text-center mt-5">Paris sportifs Super Bowl</h1>
+  <p class="text-center">L'endroit idéal pour gagner de l'argent avec les paris sportifs</p>
 </div>
 <div class="container">
-  <h4 class="text-white">Matchs du jour : {{current_date}}</h4>
+  <h4 class="text">Matchs du jour : {{current_date}}</h4>
   <div class="table-responsive">
-    <table class="table table-border-outer text-white">
+    <table class="table table-border-outer ">
         <thead>
           <tr>
             <td>New Orleans vs Atlanta</td>
@@ -36,7 +36,7 @@
       <a class="btn btn-primary mx-2" href="{{ url_for('visualiser_matchs') }}">Visualiser tous les matchs</a>
     </div>
     <div class="text-center">
-      <button type="button" class="btn btn-primary mx-2">Parier</button>
+      <a class="btn btn-primary mx-2" href="{{ url_for('parier')}}">Parier</a>
     </div>
   </div>
 </div>  
