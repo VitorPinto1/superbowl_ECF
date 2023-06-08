@@ -9,10 +9,26 @@
   <h2>Résultats sélectionnés :</h2>
   <ul>
     {% for match in matchs_selectionnes %}
-    <li>{{ match.id }} - {{ match.equipe1 }} vs {{ match.equipe2 }}</li>
-    <!-- Mostrar otros datos del partido según tus necesidades -->
+    <li>{{ match.id }} - {{ match.equipe1 }} vs {{ match.equipe2 }} </li>
     {% endfor %}
   </ul>
+
+
+  <h1 class="text-center mt-5">Realizar apuestas</h1>
+  <form method="POST" action="/ruta-para-procesar-las-apuestas">
+    {% for match in matchs_selectionnes %}
+    <h2>{{ match.equipe1 }} vs {{ match.equipe2 }}</h2>
+    <div class="form-group">
+      <label for="apuesta_equipo1">Apuesta para {{ match.equipe1 }}:</label>
+      <input type="text" class="form-control" id="apuesta_equipo1" name="apuesta_equipo1" required>
+    </div>
+    <div class="form-group">
+      <label for="apuesta_equipo2">Apuesta para {{ match.equipe2 }}:</label>
+      <input type="text" class="form-control" id="apuesta_equipo2" name="apuesta_equipo2" required>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Realizar apuestas</button>
+  </form>
 </div>
 
 {% endblock %}
