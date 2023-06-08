@@ -82,10 +82,9 @@ def parier():
 def miser_sur_la_selection():
     donnees_selectionnees = request.form.get('donnees_selectionnees')
     
-    # Convertir los datos de JSON a objeto Python
+    # JSON a objet Python
     matchs_selectionnes = json.loads(donnees_selectionnees)
     
-    # Renderizar la plantilla "miser_sur_la_selection.html" y pasar los datos seleccionados
     return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes)
 
 

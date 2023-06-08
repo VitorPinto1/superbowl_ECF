@@ -146,7 +146,7 @@
           <td>
             <input type="checkbox" class="checkbox-match" name="match_selectionnee" value="{{ match.id }}">
           </td>
-          <td>{{ match.equipe1 }} vs {{ match.equipe2 }}</td>
+          <td class="equipes">{{ match.equipe1 }} vs {{ match.equipe2 }}</td>
           <td>{{ match.jour }}</td>
           <td>{{ match.debut }}</td>
           <td>{{ match.fin }}</td>
@@ -171,15 +171,34 @@
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked) {
         var ligne = checkboxes[i].parentNode.parentNode; // Obtenir la ligne contenant la case à cocher sélectionnée
-      
+        var score = (ligne.cells[7] && ligne.cells[7].textContent) || "N/A";
+
+        
+        if (score.trim() === "") {
+          score = "null"; 
+        }
+
+        var equipes = ligne.getElementsByClassName('equipes')[0].textContent;
+        var equipe1 = "";
+        var equipe2 = "";
+        if (typeof equipes === "string") {
+          var equipesArray = equipes.split('vs');
+          if (equipesArray.length === 2) {
+            equipe1 = equipesArray[0].trim();
+            equipe2 = equipesArray[1].trim();
+          }
+        }
+        
+
         var match = {
           id: checkboxes[i].value,
-          equipe1: ligne.cells[1].textContent,
-          equipe2: ligne.cells[2].textContent,
+          equipe1: equipe1,
+          equipe2: equipe2,
           jour: ligne.cells[3].textContent,
           debut: ligne.cells[4].textContent,
           fin: ligne.cells[5].textContent,
           statut: ligne.cells[6].textContent,
+          score: score
           
         };
   
