@@ -43,7 +43,7 @@ class Matchs:
 def obtenir_matchs():
      matchs = [
         Matchs('Kansas City Chiefs', 'Dallas Cowboys', '23/05', '09:00', '11:00', 'En cours','4-2', 'soleil','pepe', '500$', '200$' , 'el mejor jugador'),
-        Matchs('New England Patriots', 'Green Bay Packers', '24/05', '08:00', '10:00', 'Termine','0-3', 'pluie', 'batista', '400$','200$', 'que rule'),
+        Matchs('New England Patriots', 'Green Bay Packers', '24/05', '08:00', '10:00', 'Terminé','0-3', 'pluie', 'batista', '400$','200$', 'que rule'),
         Matchs('Pittsburgh Steelers', 'San Francisco 49ers', '29/05', '10:00', '12:00', 'À venir','', 'horage', 'ronaldinho', '2000$','200$', 'El gaucho')
         ]
      return matchs
@@ -94,6 +94,14 @@ def miser_sur_la_selection():
 
    
     return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes, equipe1=equipe1, equipe2=equipe2, cote1=cote1,cote2=cote2)
+
+@app.route('/se_connecter')
+def se_connecter():
+    return render_template('se_connecter.html')
+
+@app.route('/mot_de_passe_oublie')
+def mot_de_passe_oublie():
+    return render_template("mot_de_passe_oublie.html")
 
 
 def create_app():

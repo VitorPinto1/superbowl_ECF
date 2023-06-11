@@ -2,130 +2,6 @@
 
 {% block title %}Parier{% endblock %}
 {% block content %}
-<!-- 
-<div class="container">
-  <h1 class="text-center mt-5">Parier</h1>
-  <table class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th>Sélectionner</th>
-        <th>Matchs</th>
-        <th>Jour</th>
-        <th>Début</th>
-        <th>Fin</th>
-        <th>Statut</th>
-        <th>Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for match in matchs %}
-      <tr>
-        <td>
-          <input type="checkbox" class="checkbox-match" name="match_selectionnee" value="{{ match.id }}">
-        </td>
-        <td>{{ match.equipe1 }} vs {{ match.equipe2 }}</td>
-        <td>{{ match.jour }}</td>
-        <td>{{ match.debut }}</td>
-        <td>{{ match.fin }}</td>
-        <td>{{ match.statut }}</td>
-        <td>{{ match.score }}</td>
-        
-      </tr>
-  
-      {% endfor %}
-    </tbody>
-  </table>
-  <a class="btn btn-primary mx-2" href="{{ url_for('miser_sur_la_selection') }}" id="btn-miser">Miser sur la sélection</a>
-</div>
---> 
-
-<!--
-
-
-
-
-<div class="container">
-  <h1 class="text-center mt-5">Parier</h1>
-  <form method="POST" action="/miser_sur_la_selection">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Sélectionner</th>
-          <th>Matchs</th>
-          <th>Jour</th>
-          <th>Début</th>
-          <th>Fin</th>
-          <th>Statut</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for match in matchs %}
-        <tr>
-          <td>
-            <input type="checkbox" class="checkbox-match" name="match_selectionnee" value="{{ match.id }}">
-          </td>
-          <td>{{ match.equipe1 }} vs {{ match.equipe2 }}</td>
-          <td>{{ match.jour }}</td>
-          <td>{{ match.debut }}</td>
-          <td>{{ match.fin }}</td>
-          <td>{{ match.statut }}</td>
-          <td>{{ match.score }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    <button class="btn btn-primary mx-2" type="submit" id="btn-miser">Miser sur la sélection</button>
-  </form>
-</div>
-
-<script>
-  document.getElementById('btn-miser').addEventListener('click', function() {
-    var checkboxes = document.getElementsByClassName('checkbox-match');
-    var resultatsSelectionnes = [];
-  
-    for (var i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) {
-        var ligne = checkboxes[i].parentNode.parentNode; // Obtenir la ligne contenant la case à cocher sélectionnée
-        var match = {
-          id: checkboxes[i].value,
-          equipe1: ligne.cells[1].textContent,
-          equipe2: ligne.cells[2].textContent,
-          jour: ligne.cells[3].textContent,
-          debut: ligne.cells[4].textContent,
-          fin: ligne.cells[5].textContent,
-          statut: ligne.cells[6].textContent,
-          score: ligne.cells[7].textContent
-        };
-  
-        matchsSelectionnes.push(matchsSelectionnesCheck);
-      }
-    }
-    // Créer un formulaire dynamiquement
-    var formulaire = document.createElement('form');
-    formulaire.method = 'POST';
-    formulaire.action = 'miser_sur_la_selection.html';
-
-    // Créer un champ caché pour envoyer les données des cases à cocher sélectionnées
-    var champDonnees = document.createElement('input');
-    champDonnees.type = 'hidden';
-    champDonnees.name = 'donnees_selectionnees';
-    champDonnees.value = JSON.stringify(matchsSelectionnes);
-
-    // Ajouter le champ caché au formulaire
-    formulaire.appendChild(champDonnees);
-
-    // Ajouter le formulaire au document et l'envoyer
-    document.body.appendChild(formulaire);
-    formulaire.submit();
-
-  });
-  
-</script>
-
--->
-
-
 
 <div class="container">
   <h1 class="text-center mt-5">Parier</h1>
@@ -167,21 +43,31 @@
 </div>
 
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var checkboxes = document.getElementsByClassName('checkbox-match');
+  
+    for (var i = 0; i < checkboxes.length; i++) {
+      var ligne = checkboxes[i].parentNode.parentNode;
+      var statut = ligne.cells[5].textContent.trim();
+  
+      if (statut === "Terminé") {
+        checkboxes[i].disabled = true; 
+      }
+    }
+  });
+  
   document.getElementById('btn-miser').addEventListener('click', function(e) {
     e.preventDefault();
-
+  
     var checkboxes = document.getElementsByClassName('checkbox-match');
     var resultatsSelectionnes = [];
   
     for (var i = 0; i < checkboxes.length; i++) {
-
       if (checkboxes[i].checked) {
-        var ligne = checkboxes[i].parentNode.parentNode; // Obtenir la ligne contenant la case à cocher sélectionnée
-        var statut = ligne.cells[5].textContent.trim(); 
-  
+        var ligne = checkboxes[i].parentNode.parentNode;
         var score = (ligne.cells[6] && ligne.cells[6].textContent) || "N/A";
         if (score.trim() === "") {
-          score = "null"; 
+          score = "null";
         }
         var equipes = ligne.getElementsByClassName('equipes')[0].textContent;
         var equipe1 = "";
@@ -193,35 +79,35 @@
             equipe2 = equipesArray[1].trim();
           }
         }
-
+  
         var match = {
           id: checkboxes[i].value,
           equipe1: equipe1,
           equipe2: equipe2,
           cote1: ligne.getAttribute('data-cote1'),
           cote2: ligne.getAttribute('data-cote2')
-    
         };
-
+  
         resultatsSelectionnes.push(match);
       }
-      
     }
-
+  
     var formulaire = document.createElement('form');
     formulaire.method = 'POST';
     formulaire.action = "{{ url_for('miser_sur_la_selection') }}";
-
+  
     var champDonnees = document.createElement('input');
     champDonnees.type = 'hidden';
     champDonnees.name = 'donnees_selectionnees';
     champDonnees.value = JSON.stringify(resultatsSelectionnes);
-
+  
     formulaire.appendChild(champDonnees);
-
+  
     document.body.appendChild(formulaire);
     formulaire.submit();
   });
+  
+   
 </script>
 
 {% endblock %}

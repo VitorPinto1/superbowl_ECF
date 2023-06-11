@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Se connecter{% endblock %}
+{% block content %}
+
+<div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
+  <div class="col-md-4">
+    <h1 class="text-center">Se connecter</h1>
+    <form style="margin-top: 25px;">
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputEmail" aria-label="Champ adresse e-mail" name="inputEmail" title="E-mail" maxlength="320" type="text" 
+          tabindex="0" class="input-block " placeholder="E-mail" 
+          autocorrect="off" spellcheck="false">
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="password" aria-label="Champ mot de passe, saisir un mot de passe" name="password" 
+          title="Mot de passe" maxlength="128" type="password" tabindex="0" class="input-block " 
+          placeholder="Mot de passe" autocorrect="off" spellcheck="false" 
+          data-password-show-aria="Afficher le mot de passe" data-password-hide-aria="Masquer le mot de passe">
+          <a href="{{ url_for('mot_de_passe_oublie')}}" class="btn btn-link">Mot de passe oublié?</a>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Se connecter</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}
