@@ -77,18 +77,23 @@ def parier():
     matchs = obtenir_matchs()
     return render_template('parier.html', matchs=matchs)
 
-
 @app.route('/miser_sur_la_selection', methods=['POST'])
 def miser_sur_la_selection():
+   
+   
     donnees_selectionnees = request.form.get('donnees_selectionnees')
     
     # JSON a objet Python
     matchs_selectionnes = json.loads(donnees_selectionnees)
-    
-    return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes)
+
+    equipe1 = request.form.get('equipe1')
+    equipe2 = request.form.get('equipe2')
+    cote1 = request.form.get('cote1')
+    cote2 = request.form.get('cote2')
 
 
-
+   
+    return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes, equipe1=equipe1, equipe2=equipe2, cote1=cote1,cote2=cote2)
 
 
 def create_app():
