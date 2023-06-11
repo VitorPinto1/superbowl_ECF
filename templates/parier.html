@@ -125,6 +125,8 @@
 
 -->
 
+
+
 <div class="container">
   <h1 class="text-center mt-5">Parier</h1>
   <form method="POST" action="{{ url_for('miser_sur_la_selection') }}">
@@ -142,7 +144,10 @@
       </thead>
       <tbody>
         {% for match in matchs %}
-        <tr>
+        <tr data-equipo1="{{ match.equipe1 }}" 
+        data-equipo2="{{ match.equipe2 }}" data-jour="{{ match.jour }}" data-debut="{{ match.debut }}" 
+        data-fin="{{ match.fin }}" data-statut="{{ match.statut }}" data-score="{{ match.score }}"
+        data-cote1="{{ match.cote1 }}"  data-cote2="{{ match.cote2 }}">
           <td>
             <input type="checkbox" class="checkbox-match" name="match_selectionnee" value="{{ match.id }}">
           </td>
@@ -169,15 +174,15 @@
     var resultatsSelectionnes = [];
   
     for (var i = 0; i < checkboxes.length; i++) {
+
       if (checkboxes[i].checked) {
         var ligne = checkboxes[i].parentNode.parentNode; // Obtenir la ligne contenant la case à cocher sélectionnée
-        var score = (ligne.cells[7] && ligne.cells[7].textContent) || "N/A";
-
-        
+        var statut = ligne.cells[5].textContent.trim(); 
+  
+        var score = (ligne.cells[6] && ligne.cells[6].textContent) || "N/A";
         if (score.trim() === "") {
           score = "null"; 
         }
-
         var equipes = ligne.getElementsByClassName('equipes')[0].textContent;
         var equipe1 = "";
         var equipe2 = "";
@@ -188,22 +193,19 @@
             equipe2 = equipesArray[1].trim();
           }
         }
-        
 
         var match = {
           id: checkboxes[i].value,
           equipe1: equipe1,
           equipe2: equipe2,
-          jour: ligne.cells[3].textContent,
-          debut: ligne.cells[4].textContent,
-          fin: ligne.cells[5].textContent,
-          statut: ligne.cells[6].textContent,
-          score: score
-          
+          cote1: ligne.getAttribute('data-cote1'),
+          cote2: ligne.getAttribute('data-cote2')
+    
         };
-  
+
         resultatsSelectionnes.push(match);
       }
+      
     }
 
     var formulaire = document.createElement('form');
@@ -223,3 +225,5 @@
 </script>
 
 {% endblock %}
+
+
