@@ -11,10 +11,11 @@
       <div class="mb-3">
         <div class="d-grid">
           <input id="Nom" aria-label="Saisir un nom" name="nom" 
-          title="Nom" maxlength="128" type="text" tabindex="0" class="input-block " 
-          placeholder="Nom" autocorrect="off" spellcheck="false">
+          title="Nom" maxlength="128" type="text" tabindex="0" class="input-block" 
+          placeholder="Nom" autocorrect="off" spellcheck="false" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" required>
         </div>
       </div>
+      
 
       <div class="mb-3">
         <div class="d-grid">
