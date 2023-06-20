@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Creer compte{% endblock %}
+{% block content %}
+
+<div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
+  <div class="col-md-4">
+    <h1 class="text-center">Creer compte</h1>
+    <form action="/creation_compte" method="POST" style="margin-top: 25px;">
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputNom" aria-label="Champ nom" name="inputNom" title="Nom" maxlength="320" type="text" 
+          tabindex="0" class="input-block " placeholder="Nom" 
+          autocorrect="off" spellcheck="false">
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputPrenom" aria-label="Champ prenom" name="inputPrenom" title="Prenom" maxlength="320" type="text" 
+          tabindex="0" class="input-block " placeholder="Prenom" 
+          autocorrect="off" spellcheck="false">
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputEmail" aria-label="Champ adresse e-mail" name="inputEmail" title="E-mail" maxlength="320" type="text" 
+          tabindex="0" class="input-block " placeholder="E-mail" 
+          autocorrect="off" spellcheck="false">
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputPass" aria-label="Champ pass" name="inputPass" title="Pass" maxlength="320" type="password" 
+          tabindex="0" class="input-block " placeholder="Mot de passe" 
+          autocorrect="off" spellcheck="false">
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Creer compte</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}
