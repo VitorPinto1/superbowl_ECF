@@ -140,10 +140,11 @@ def create_app():
 from flask import Flask, render_template, redirect, session, request, url_for
 
 from flask_bootstrap import Bootstrap
-from flaskext.mysql import MySQL
 from datetime import datetime
+from flask_mail import Mail, Message
+import secrets
 import json
-
+from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 import os
 
@@ -151,13 +152,22 @@ app = Flask(__name__)
 app.secret_key = 'Pocholo123456'
 load_dotenv()
 
+app.config['SECRET_KEY'] = 'Pocholo123456'
+app.config['MAIL_SERVER'] = 'localhost'
+app.config['MAIL_PORT'] = 1025
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USERNAME'] = 'staniaprojets@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Stania1234#'
+app.config['MAIL_DEFAULT_SENDER'] = 'staniaprojets@gmail.com'
+
+mail = Mail(app)
+
+mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_USER'] = 'PEPE'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'PEPE'
 app.config['MYSQL_DATABASE_DB'] = 'bdsuperbowl'
-
-mysql = MySQL()
 mysql.init_app(app)
 
 bootstrap = Bootstrap(app)
@@ -278,6 +288,9 @@ def creation_compte_form():
     email = request.form.get('inputEmail')
     mot_de_passe = request.form.get('inputPass')
 
+    # token de validation
+    token = secrets.token_hex(16)
+
     # Guardar los datos en la base de datos
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -294,8 +307,31 @@ def creation_compte_form():
     cursor.close()
     conn.close()
 
+    # Envoi du mail de validation
+    msg = Message('Confirmez votre compte', sender='staniaprojets@gmail.com', recipients=[email])
+    msg.body = f'Bonjour {prenom}, s’il vous plaît cliquez sur le lien pour valider votre compte: {request.url_root}confirmer/{token}'
+    mail.send(msg)
+
     # Redireccionar a otra página o mostrar un mensaje de éxito
     return redirect(url_for('reussite_creation_compte'))
+
+@app.route('/confirmer/<token>')
+def confirmer_compte(token):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    update_query = '''
+        UPDATE users SET confirmed = 1 WHERE token = %s
+    '''
+    cursor.execute(update_query, (token,))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    # Redireccionar a una página de confirmación exitosa o mostrar un mensaje
+    return 'Votre compte a été valide. Bienvenue!'
 
 @app.route('/reussite_creation_compte')
 def reussite_creation_compte():
