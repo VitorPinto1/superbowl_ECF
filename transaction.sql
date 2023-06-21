@@ -28,5 +28,7 @@ CREATE TABLE IF NOT EXISTS users (
   nom VARCHAR(255),
   prenom VARCHAR(255),
   email VARCHAR(255),
-  mot_de_passe VARCHAR(255)
+  mot_de_passe VARCHAR(255),
+  token VARCHAR(255)
+  confirmed BOOLEAN DEFAULT FALSE
 );
