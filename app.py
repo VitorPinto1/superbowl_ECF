@@ -144,6 +144,8 @@ from datetime import datetime
 from flask_mail import Mail, Message
 import secrets
 import json
+import random
+import string
 from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 import os
@@ -188,7 +190,7 @@ class Matchs:
         self.cote2 = cote2
         self.commentaires = commentaires
 
-
+""""
 def insert_matchs(matchs):
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -209,7 +211,7 @@ def insert_matchs(matchs):
 
     cursor.close()
     conn.close()
-
+"""
 
 def obtenir_matchs_from_database():
     conn = mysql.connect()
@@ -228,6 +230,11 @@ def obtenir_matchs_from_database():
     conn.close()
 
     return matchs
+
+def generer_mot_de_passe(longueur):
+    caracteres = string.ascii_letters + string.digits + string.punctuation
+    mot_de_passe = ''.join(random.choice(caracteres) for _ in range(longueur))
+    return mot_de_passe
 
 
 @app.route('/')
@@ -375,11 +382,45 @@ def se_connecter():
 def espace_utilisateur():
     return render_template('espace_utilisateur.html')
 
+@app.route('/mot_de_passe_oublie', methods=['GET', 'POST'])
+def mot_de_passe_oublie_form():
+    if request.method == 'POST':
+        nom = request.form['nom']
+        email = request.form['inputEmail']
 
-@app.route('/mot_de_passe_oublie')
+        # Générer un nouveau mot de passe
+        nouveau_mot_de_passe = generer_mot_de_passe(8) 
+
+
+        # Mettre à jour le mot de passe dans la base de données
+        conn = mysql.connect()
+        cursor = conn.cursor()
+
+        update_query = '''
+            UPDATE users SET mot_de_passe = %s WHERE email = %s
+        '''
+        cursor.execute(update_query, (nouveau_mot_de_passe, email))
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        # Envoyer l'email
+        msg = Message("Récupération de mot de passe",
+                      sender='staniaprojets@gmail.com',
+                      recipients=[email])
+        msg.body = "Bonjour " + nom + ",\n\nVotre nouveau mot de passe est : " + nouveau_mot_de_passe + "\n\nMerci."
+
+        mail.send(msg)
+
+        return "L'email a été envoyé avec succès."
+
+    return render_template('mot_de_passe_oublie.html')
+
+
+@app.route('/mot_de_passe_oublie', methods=['GET'])
 def mot_de_passe_oublie():
     return render_template("mot_de_passe_oublie.html")
-
-
 
 
