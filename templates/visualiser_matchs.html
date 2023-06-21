@@ -130,6 +130,14 @@
           modal.hide();
         });
         
+        if (statut === "Terminé") {
+          document.querySelector('#modal-form button').style.display = 'none';
+        } else {
+          document.querySelector('#modal-form button').style.display = 'block';
+        }
+
+       
+
 
         
         modal.show();

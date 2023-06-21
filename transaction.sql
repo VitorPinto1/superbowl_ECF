@@ -19,9 +19,14 @@ CREATE TABLE IF NOT EXISTS matchs (
 );
 
 INSERT INTO matchs (equipe1, equipe2, jour, debut, fin, statut, score, meteo, joueurs, cote1, cote2, commentaires)
-VALUES ('Kansas City Chiefs', 'Dallas Cowboys', '23/05', '09:00', '11:00', 'En cours', '4-2', 'soleil', 'pepe', '500$', '200$', 'el mejor jugador'),
-       ('New England Patriots', 'Green Bay Packers', '24/05', '08:00', '10:00', 'Terminé', '0-3', 'pluie', 'batista', '400$', '200$', 'que rule'),
-       ('Pittsburgh Steelers', 'San Francisco 49ers', '29/05', '10:00', '12:00', 'À venir', '', 'horage', 'ronaldinho', '2000$', '200$', 'El gaucho');
+SELECT * FROM (VALUES
+    ('Kansas City Chiefs', 'Dallas Cowboys', '23/05', '09:00', '11:00', 'En cours', '4-2', 'soleil', 'pepe', '500$', '200$', 'el mejor jugador'),
+    ('New England Patriots', 'Green Bay Packers', '24/05', '08:00', '10:00', 'Terminé', '0-3', 'pluie', 'batista', '400$', '200$', 'que rule'),
+    ('Pittsburgh Steelers', 'San Francisco 49ers', '29/05', '10:00', '12:00', 'À venir', '', 'horage', 'ronaldinho', '2000$', '200$', 'El gaucho')
+) AS tmp
+WHERE NOT EXISTS (
+    SELECT 1 FROM matchs WHERE equipe1 = tmp.column1 AND equipe2 = tmp.column2
+);
 
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,6 +34,6 @@ CREATE TABLE IF NOT EXISTS users (
   prenom VARCHAR(255),
   email VARCHAR(255),
   mot_de_passe VARCHAR(255),
-  token VARCHAR(255)
+  token VARCHAR(255),
   confirmed BOOLEAN DEFAULT FALSE
 );
