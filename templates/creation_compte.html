@@ -6,6 +6,12 @@
 <div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
   <div class="col-md-4">
     <h1 class="text-center">Creer compte</h1>
+     <!-- Affichage message d'erreur-->
+    {% if erreur %}
+      <div class="alert alert-danger" role="alert">
+        {{ erreur }}
+      </div>
+    {% endif %}
     <form action="/creation_compte" method="POST" style="margin-top: 25px;">
       <div class="mb-3">
         <div class="d-grid">
