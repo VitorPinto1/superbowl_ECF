@@ -1,9 +1,39 @@
 {% extends 'base.html' %}
 
-{% block title %}Reussite creation compte{% endblock %}
+{% block title %}Espace utilisateur{% endblock %}
 {% block content %}
 <div class="container align-items-center justify-content-center" style="margin-top: 50px;">
   <h3>votre compte</h3>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="#dashboard" data-bs-toggle="tab" >Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#informations" data-bs-toggle="tab">Informations</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#historique" data-bs-toggle="tab">Historique des mises</a>
+    </li>
+  </ul>
+
+  <!-- Contenue des onglets-->
+
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="dashboard">
+      <p>pepe</p>
+    </div>
+    <div class="tab-pane fade" id="informations">
+      <h3>Informations</h3>
+      <p>Nom: {{ utilisateur[1] }}</p>
+      <p>Prénom: {{ utilisateur[2] }}</p>
+      <p>Email: {{ utilisateur[3] }}</p>
+    </div>
+    <div class="tab-pane fade" id="historique">
+      <p>hola</p>
+    </div>
+  </div>
 </div>
+
+
 
 {% endblock %}

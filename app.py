@@ -237,6 +237,7 @@ def generer_mot_de_passe(longueur):
     return mot_de_passe
 
 
+
 @app.route('/')
 def index():
     now = datetime.now()
@@ -289,7 +290,7 @@ def miser_sur_la_selection():
 
 @app.route('/creation_compte', methods=['POST'])
 def creation_compte_form():
-    # Obtener los datos del formulario
+    
     nom = request.form.get('inputNom')
     prenom = request.form.get('inputPrenom')
     email = request.form.get('inputEmail')
@@ -298,29 +299,47 @@ def creation_compte_form():
     # token de validation
     token = secrets.token_hex(16)
 
-    # Guardar los datos en la base de datos
+    
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    insert_query = '''
-        INSERT INTO users (nom, prenom, email, mot_de_passe)
-        VALUES (%s, %s, %s, %s)
-    '''
-    data = (nom, prenom, email, mot_de_passe)
-    cursor.execute(insert_query, data)
+    # Vérification pour savoir si email existe déjà dans la base de données
+    check_query = "SELECT * FROM users WHERE email = %s"
+    cursor.execute(check_query, (email,))
+    utilisateur = cursor.fetchone()
 
-    conn.commit()
+    
+    
+    if utilisateur:
+        # Si l'email est déjà utilisé, rediriger ou afficher un message d'erreur
+        erreur = "Email déjà utilisé"
+        return render_template ('creation_compte.html', erreur=erreur)
+    else:
+        # Créer un token de validation
+        token = secrets.token_hex(16)
+
+        # Insérer le nouvel utilisateur dans la base de données
+        insert_query = '''
+            INSERT INTO users (nom, prenom, email, mot_de_passe, token)
+            VALUES (%s, %s, %s, %s, %s)
+        '''
+        data = (nom, prenom, email, mot_de_passe, token)
+        cursor.execute(insert_query, data)
+
+        conn.commit()
+
+        # Envoyer l'email de validation
+        msg = Message('Confirmez votre compte', sender='staniaprojets@gmail.com', recipients=[email])
+        msg.body = f'Bonjour {prenom}, s’il vous plaît cliquez sur le lien pour valider votre compte: {request.url_root}confirmer/{token}'
+        mail.send(msg)
 
     cursor.close()
     conn.close()
 
-    # Envoi du mail de validation
-    msg = Message('Confirmez votre compte', sender='staniaprojets@gmail.com', recipients=[email])
-    msg.body = f'Bonjour {prenom}, s’il vous plaît cliquez sur le lien pour valider votre compte: {request.url_root}confirmer/{token}'
-    mail.send(msg)
-
-    # Redireccionar a otra página o mostrar un mensaje de éxito
+    # Rediriger vers une autre page ou afficher un message de succès
     return redirect(url_for('reussite_creation_compte'))
+
+    
 
 @app.route('/confirmer/<token>')
 def confirmer_compte(token):
@@ -361,26 +380,33 @@ def se_connecter_validation():
     curseur.execute(requete_select, (email, mot_de_passe))
     utilisateur = curseur.fetchone()
 
+  
+
     curseur.close()
     conn.close()
-
+    
     if utilisateur:
-        # Les identifiants sont valides
-        session['utilisateur_id'] = utilisateur[0]  # Sauvegarder l'ID de l'utilisateur en session
-        return redirect(url_for('espace_utilisateur'))
+        if  utilisateur[6] == 1:  # En supposant que 'confirmed' soit la septieme colonne dans la table 'users'
+         
+            # Les identifiants sont corrects
+            session['id_utilisateur'] = utilisateur[0]  # Enregistrer l'ID de l'utilisateur en session
+            return redirect(url_for('espace_utilisateur'))
+        else:
+            # Les identifiants sont corrects, mais l'utilisateur n'a pas encore confirmé son compte.
+            erreur = "Veuillez confirmer votre compte avant de vous connecter."
+            return render_template('se_connecter.html', erreur=erreur)
     else:
-        # Les identifiants sont invalides
-        erreur = 'Adresse e-mail ou mot de passe incorrect'
+        # Les identifiants sont incorrects
+        erreur = "L'adresse e-mail ou le mot de passe est incorrect."
         return render_template('se_connecter.html', erreur=erreur)
+
 
 
 @app.route('/se_connecter')
 def se_connecter():
     return render_template('se_connecter.html')
 
-@app.route('/espace_utilisateur')
-def espace_utilisateur():
-    return render_template('espace_utilisateur.html')
+
 
 @app.route('/mot_de_passe_oublie', methods=['GET', 'POST'])
 def mot_de_passe_oublie_form():
@@ -423,4 +449,23 @@ def mot_de_passe_oublie_form():
 def mot_de_passe_oublie():
     return render_template("mot_de_passe_oublie.html")
 
+@app.route('/espace_utilisateur', methods=['GET'])
+def espace_utilisateur():
+    # Obtenir l'ID de l'utilisateur de la session
+    id_utilisateur = session['id_utilisateur']
+
+    # Connecter à la base de données
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    # Sélectionner l'utilisateur par son ID
+    select_query = "SELECT * FROM users WHERE id = %s"
+    cursor.execute(select_query, (id_utilisateur,))
+    utilisateur = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    # Renvoyer le modèle avec les informations utilisateur
+    return render_template('espace_utilisateur.html', utilisateur = utilisateur)
 
