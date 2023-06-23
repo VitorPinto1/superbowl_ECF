@@ -242,7 +242,12 @@ def generer_mot_de_passe(longueur):
 def index():
     now = datetime.now()
     formatted_date = now.strftime("%d/%m/%Y")
-    return render_template('index.html', current_date=formatted_date)
+
+    # Verification login utilisateur 
+    if 'id_utilisateur' in session:
+        return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False)
+    
+    return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True)
 
 
 @app.route('/visualiser_matchs')
@@ -404,8 +409,10 @@ def se_connecter_validation():
 
 @app.route('/se_connecter')
 def se_connecter():
-    return render_template('se_connecter.html')
-
+    if 'id_utilisateur' in session:
+        return redirect(url_for('espace_utilisateur'))
+    else:
+        return render_template('se_connecter.html')
 
 
 @app.route('/mot_de_passe_oublie', methods=['GET', 'POST'])
@@ -469,3 +476,8 @@ def espace_utilisateur():
     # Renvoyer le modèle avec les informations utilisateur
     return render_template('espace_utilisateur.html', utilisateur = utilisateur)
 
+# déconnexion du compte lors de la fermeture du web
+@app.route('/deconnecter_utilisateur', methods=['POST'])
+def deconnecter_utilisateur():
+    session.pop('id_utilisateur', None)  # Eliminar la clave 'id_utilisateur' de la sesión
+    return '', 204  # Devolver una respuesta vacía con código de estado 204 (sin contenido)

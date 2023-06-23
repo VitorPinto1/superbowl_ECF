@@ -12,3 +12,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
+
+.content-container {
+  margin-bottom: 100px; 
+}
