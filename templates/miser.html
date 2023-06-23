@@ -7,24 +7,26 @@
 <div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
     <div class="col-md-6">
         <h1 class="text-center">Miser</h1>
-        <form method="POST" action="/form">
+        <form method="POST" action="/form_miser">
             <div class="form-group">
                 <div class="row">
                     <label for="equipe1" class="col-sm-4 control-label">{{ equipe1 }}</label>
                     <label for="cote1" class="col-sm-4 control-label">{{ cote1 }}</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="mise1" name="mise1" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication('mise1', 'resultat1', parseFloat('{{ cote1 }}') )" required>
-                        <span id="resultat1"></span>
+                        <span id="resultat1" name="resultat1"></span>
+                        <input type="hidden" id="resultat1_input" name="resultat1" value="">
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <label for="equipe2" class="col-sm-4 control-label">{{ equipe2 }}</label>
-                    <label for="cote2" class="col-sm-4 control-label">{{ cote2 }}</label>
+                    <label for="equipe2" class="col-sm-4 control-label" >{{ equipe2 }}</label>
+                    <label for="cote2" class="col-sm-4 control-label" >{{ cote2 }}</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="mise2" name="mise2" oninput="this.value = this.value.replace(/[^0-9]/g, '') ;calculerMultiplication('mise2', 'resultat2',parseFloat('{{ cote2 }}') )" required>
-                        <span id="resultat2"></span>
+                        <span id="resultat2" name="resultat2"></span>
+                        <input type="hidden" id="resultat2_input" name="resultat2" value="">
                     </div>
                 </div>
             </div>
@@ -43,13 +45,18 @@
     function calculerMultiplication(inputId, resultatId, cote) {
         var input = document.getElementById(inputId);
         var resultat = document.getElementById(resultatId);
+        var resultatInput = document.getElementById(resultatId + "_input"); // Champ caché pour le résultat spécifique
+        var valeur = parseFloat(input.value);
         var valeur = parseFloat(input.value);
 
         if (!isNaN(valeur)) {
             var multiplication = cote * valeur;
             resultat.textContent = 'Résultat : ' + multiplication;
+            resultatInput.value = multiplication; // Affecter le résultat au champ caché spécifique
         } else {
             resultat.textContent = '';
+            resultatInput.value = ''; // Effacer le champ caché s'il n'y a pas de valeur valide
+
         }
     }
 </script>

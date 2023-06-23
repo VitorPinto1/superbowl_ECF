@@ -245,15 +245,19 @@ def index():
 
     # Verification login utilisateur 
     if 'id_utilisateur' in session:
-        return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False)
+        return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True)
     
-    return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True)
+    return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True, voir_bouton_miser=False)
 
 
 @app.route('/visualiser_matchs')
 def visualiser_matchs():
     matchs = obtenir_matchs_from_database()
-    return render_template('visualiser_matchs.html', matchs=matchs)
+
+    if 'id_utilisateur' in session:
+        return render_template('visualiser_matchs.html', voir_bouton_miser=True, matchs=matchs)
+    
+    return render_template('visualiser_matchs.html', voir_bouton_miser=False, matchs=matchs)
 
 
 @app.route('/store_in_session', methods=['POST'])
@@ -262,6 +266,8 @@ def store_in_session():
     session['equipe2'] = request.form.get('equipe2')
     session['cote1'] = request.form.get('cote1')
     session['cote2'] = request.form.get('cote2')
+    session['mise1'] = request.form.get('mise1') 
+    session['mise2'] = request.form.get('mise2')
     return redirect(url_for('miser'))
 
 
@@ -272,6 +278,22 @@ def miser():
     cote1 = session.get('cote1')
     cote2 = session.get('cote2')
     return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
+
+@app.route('/form_miser', methods=['POST'])
+def form_miser():
+    mise1 = request.form.get('mise1')
+    mise2 = request.form.get('mise2')
+    resultat1 = request.form.get('resultat1')
+    resultat2 = request.form.get('resultat2')
+    equipe1 = session.get('equipe1')
+    equipe2 = session.get('equipe2')
+    cote1 = session.get('cote1')
+    cote2 = session.get('cote2')
+    utilisateur = session['id_utilisateur']
+
+    return render_template('espace_utilisateur.html', cote1=cote1, cote2=cote2, equipe1=equipe1, equipe2=equipe2, mise1=mise1, mise2=mise2, resultat1=resultat1, resultat2=resultat2, utilisateur=utilisateur)
+
+
 
 
 @app.route('/parier')
