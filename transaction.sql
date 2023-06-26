@@ -15,18 +15,18 @@ CREATE TABLE IF NOT EXISTS matchs (
     joueurs VARCHAR(100),
     cote1 VARCHAR(20),
     cote2 VARCHAR(20),
-    commentaires VARCHAR(100)
+    commentaires VARCHAR(100),
+    UNIQUE KEY (equipe1, equipe2)
 );
 
-INSERT INTO matchs (equipe1, equipe2, jour, debut, fin, statut, score, meteo, joueurs, cote1, cote2, commentaires)
-SELECT * FROM (VALUES
+TRUNCATE TABLE matchs;
+
+INSERT IGNORE INTO matchs (equipe1, equipe2, jour, debut, fin, statut, score, meteo, joueurs, cote1, cote2, commentaires)
+VALUES
     ('Kansas City Chiefs', 'Dallas Cowboys', '23/05', '09:00', '11:00', 'En cours', '4-2', 'soleil', 'pepe', '500$', '200$', 'el mejor jugador'),
     ('New England Patriots', 'Green Bay Packers', '24/05', '08:00', '10:00', 'Terminé', '0-3', 'pluie', 'batista', '400$', '200$', 'que rule'),
-    ('Pittsburgh Steelers', 'San Francisco 49ers', '29/05', '10:00', '12:00', 'À venir', '', 'horage', 'ronaldinho', '2000$', '200$', 'El gaucho')
-) AS tmp
-WHERE NOT EXISTS (
-    SELECT 1 FROM matchs WHERE equipe1 = tmp.column1 AND equipe2 = tmp.column2
-);
+    ('Pittsburgh Steelers', 'San Francisco 49ers', '29/05', '10:00', '12:00', 'À venir', '', 'horage', 'ronaldinho', '2000$', '200$', 'El gaucho');
+
 
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,4 +36,20 @@ CREATE TABLE IF NOT EXISTS users (
   mot_de_passe VARCHAR(255),
   token VARCHAR(255),
   confirmed BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS mises (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    mise1 DECIMAL(10, 2),
+    mise2 DECIMAL(10, 2),
+    resultat1 VARCHAR(20),
+    resultat2 VARCHAR(20),
+    equipe1 VARCHAR(50),
+    equipe2 VARCHAR(50),
+    cote1 VARCHAR(20),
+    cote2 VARCHAR(20),
+    id_match INT,
+    FOREIGN KEY (id_match) REFERENCES matchs(id),
+    id_utilisateur INT,
+    FOREIGN KEY (id_utilisateur) REFERENCES users(id)
 );

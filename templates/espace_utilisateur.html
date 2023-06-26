@@ -30,14 +30,36 @@
     </div>
     <div class="tab-pane fade" id="historique">
       <h3>Historique des mises</h3>
-      <p>Équipe 1: {{ equipe1 }}</p>
-      <p>Équipe 2: {{ equipe2 }}</p>
-      <p>Cote : {{ cote1 }}</p>
-      <p>Cote : {{ cote2 }}</p>
-      <p>Mise 1: {{ mise1 }}</p>
-      <p>Mise 2: {{ mise2 }}</p>
-      <p>Résultat 1: {{ resultat1 }}</p>
-      <p>Résultat 2: {{ resultat2 }}</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Équipe 1</th>
+            <th>Équipe 2</th>
+            <th>Date</th>
+            <th>Heure de début</th>
+            <th>Heure de fin</th>
+            <th>Mise 1</th>
+            <th>Mise 2</th>
+            <th>Résultat 1</th>
+            <th>Résultat 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for mise in mises %}
+          <tr>
+            <td>{{ mise[1] }}</td>
+            <td>{{ mise[2] }}</td>
+            <td>{{ mise[3] }}</td>
+            <td>{{ mise[4] }}</td>
+            <td>{{ mise[5] }}</td>
+            <td>{{ mise[6] }}</td>
+            <td>{{ mise[7] }}</td>
+            <td>{{ mise[8] }}</td>
+            <td>{{ mise[9] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
