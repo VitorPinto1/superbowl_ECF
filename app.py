@@ -177,6 +177,61 @@ def form_miser():
     """
     return redirect('/espace_utilisateur')
 
+@app.route('/mise/<int:mise_id>/modifier', methods=['GET'])
+def modifier_mise(mise_id):
+    conn = mysql.connect()
+    curseur = conn.cursor()
+
+    requete_select = "SELECT * FROM mises WHERE id = %s"
+    curseur.execute(requete_select, (mise_id,))
+    mise = curseur.fetchone()
+
+    curseur.close()
+    conn.close()
+
+    if mise:
+        return render_template('miser.html', mise=mise)
+    else:
+        # Mise no encontrada
+        return "Mise no encontrada"
+
+@app.route('/mise/<int:mise_id>/supprimer', methods=['GET'])
+def supprimer_mise(mise_id):
+    conn = mysql.connect()
+    curseur = conn.cursor()
+
+    requete_supprimer = "DELETE FROM mises WHERE id = %s"
+    curseur.execute(requete_supprimer, (mise_id,))
+    conn.commit()
+
+    curseur.close()
+    conn.close()
+
+    id_utilisateur = session['id_utilisateur']
+    conn = mysql.connect()
+    curseur = conn.cursor()
+    
+    select_utilisateur_query = "SELECT * FROM users WHERE id = %s"
+    curseur.execute(select_utilisateur_query, (id_utilisateur,))
+    utilisateur = curseur.fetchone()
+
+    # Obtener las apuestas del usuario
+    select_mises_query = '''
+        SELECT mises.id, matchs.equipe1, matchs.equipe2, matchs.jour, matchs.debut, matchs.fin, mises.mise1, mises.mise2, mises.resultat1, mises.resultat2, matchs.statut
+        FROM mises
+        JOIN matchs ON mises.id_match = matchs.id
+        WHERE mises.id_utilisateur = %s
+    '''
+    curseur.execute(select_mises_query, (id_utilisateur,))
+    mises = curseur.fetchall()
+
+    curseur.close()
+    conn.close()
+
+    return render_template('espace_utilisateur.html', utilisateur=utilisateur, mises=mises, active_tab='historique')
+
+
+
 
 
 @app.route('/parier')
@@ -380,7 +435,7 @@ def espace_utilisateur():
 
     # Sélectionner les paris de l'utilisateur
     select_mises_query = '''
-        SELECT mises.id, matchs.equipe1, matchs.equipe2, matchs.jour, matchs.debut, matchs.fin, mises.mise1, mises.mise2, mises.resultat1, mises.resultat2
+        SELECT mises.id, matchs.equipe1, matchs.equipe2, matchs.jour, matchs.debut, matchs.fin, mises.mise1, mises.mise2, mises.resultat1, mises.resultat2, matchs.statut
         FROM mises
         JOIN matchs ON mises.id_match = matchs.id
         WHERE mises.id_utilisateur = %s
