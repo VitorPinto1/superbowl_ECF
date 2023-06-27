@@ -182,18 +182,25 @@ def modifier_mise(mise_id):
     conn = mysql.connect()
     curseur = conn.cursor()
 
-    requete_select = "SELECT * FROM mises WHERE id = %s"
+    requete_select = "SELECT mises.*, matchs.equipe1, matchs.equipe2 FROM mises INNER JOIN matchs ON mises.id_match = matchs.id WHERE mises.id = %s"
     curseur.execute(requete_select, (mise_id,))
     mise = curseur.fetchone()
 
-    curseur.close()
-    conn.close()
-
     if mise:
-        return render_template('miser.html', mise=mise)
+        equipe1 = mise[11]  # Obtener el nombre del equipo 1 de la mise desde la columna 'equipe1' de la tabla 'matchs'
+        equipe2 = mise[12]  # Obtener el nombre del equipo 2 de la mise desde la columna 'equipe2' de la tabla 'matchs'
+
+        curseur.close()
+        conn.close()
+
+        cote1 = mise[7]  # Obtener el valor de cote1 de la mise
+        cote2 = mise[8]  # Obtener el valor de cote2 de la mise
+
+        return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
     else:
         # Mise no encontrada
         return "Mise no encontrada"
+
 
 @app.route('/mise/<int:mise_id>/supprimer', methods=['GET'])
 def supprimer_mise(mise_id):
