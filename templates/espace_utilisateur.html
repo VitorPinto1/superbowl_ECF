@@ -63,19 +63,19 @@
             <td>{{ mise[10] }}</td>
             <td>
               {% if mise[10] == "À venir" %}
-              <a href="/mise/{{ mise[0] }}/modifier" class="btn btn-primary">Modifier</a>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Modifier">Modifier</button>
               {% endif %}
               {% if mise[10] == "À venir" %}
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}">Supprimer</button>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Supprimer">Supprimer</button>
               {% endif %}
             </td>
           </tr>
           <!-- Modal de confirmation de suppression -->
-          <div class="modal fade" id="modal{{ mise[0] }}" tabindex="-1" aria-labelledby="modal{{ mise[0] }}Label" aria-hidden="true">
+          <div class="modal fade" id="modal{{ mise[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ mise[0] }}SupprimerLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="modal{{ mise[0] }}Label">Supprimer la mise</h5>
+                  <h5 class="modal-title" id="modal{{ mise[0] }}SupprimerLabel">Supprimer la mise</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -84,6 +84,25 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
                   <a href="/mise/{{ mise[0] }}/supprimer" class="btn btn-danger">Oui</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal de confirmation de modififacion -->
+          <div class="modal fade" id="modal{{ mise[0] }}Modifier" tabindex="-1" aria-labelledby="modal{{ mise[0] }}ModifierLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modal{{ mise[0] }}ModifierLabel">Modifier la mise</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Êtes-vous sûr de vouloir modifier cette mise ?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                  <a href="/mise/{{ mise[0] }}/modifier" class="btn btn-danger" >Oui</a>
                 </div>
               </div>
             </div>
@@ -113,6 +132,8 @@
     const historiqueContent = document.getElementById('historique');
     historiqueContent.classList.add('show', 'active');
   }
+
+
 
   // Verificar si se realizó una supresión y activar la pestaña correspondiente
   const urlParams = new URLSearchParams(window.location.search);

@@ -196,7 +196,19 @@ def modifier_mise(mise_id):
         cote1 = mise[7]  # Obtener el valor de cote1 de la mise
         cote2 = mise[8]  # Obtener el valor de cote2 de la mise
 
-        return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
+        # Renderizar el template antes de eliminar la apuesta antigua
+        render_avant_supprimer = render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
+        
+        # Agregar lógica para eliminar la apuesta antigua
+        conn = mysql.connect()
+        curseur = conn.cursor()
+        requete_delete = "DELETE FROM mises WHERE id = %s"
+        curseur.execute(requete_delete, (mise_id,))
+        conn.commit()
+        curseur.close()
+        conn.close()
+        
+        return render_avant_supprimer
     else:
         # Mise no encontrada
         return "Mise no encontrada"
