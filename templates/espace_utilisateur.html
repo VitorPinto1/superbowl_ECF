@@ -116,11 +116,16 @@
 
 <div class="container">
   <div class="btn-container-index d-flex justify-content-center align-items-center">
-    <div class="text-center">
+    <div class="col text-center">
       <a class="btn btn-primary mx-2" href="{{ url_for('index') }}">Index</a>
     </div>
+    <div class="col text-center">
+      <form action="{{ url_for('deconnexion_user_bouton') }}" method="POST">
+        <button type="submit" class="btn btn-danger mx-2">Déconnexion</button>
+      </form>
+    </div>
   </div>
-</div>  
+</div>
 
 <script>
 
