@@ -342,7 +342,7 @@ def confirmer_compte(token):
     conn.close()
 
     # Redireccionar a una página de confirmación exitosa o mostrar un mensaje
-    return 'Votre compte a été valide. Bienvenue!'
+    return render_template("se_connecter.html")
 
 @app.route('/reussite_creation_compte')
 def reussite_creation_compte():
@@ -474,3 +474,8 @@ def espace_utilisateur():
 def deconnecter_utilisateur():
     session.pop('id_utilisateur', None)  # Eliminar la clave 'id_utilisateur' de la sesión
     return '', 204  # Devolver una respuesta vacía con código de estado 204 (sin contenido)
+
+@app.route('/deconnexion_user_bouton', methods=['POST'])
+def deconnexion_user_bouton():
+    session.pop('id_utilisateur', None)  # Eliminar la clave 'id_utilisateur' de la sesión
+    return redirect(url_for('index'))
