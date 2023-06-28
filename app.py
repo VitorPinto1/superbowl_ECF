@@ -115,11 +115,24 @@ def index():
 @app.route('/visualiser_matchs')
 def visualiser_matchs():
     matchs = obtenir_matchs_from_database()
+    voir_bouton_miser = False
 
     if 'id_utilisateur' in session:
-        return render_template('visualiser_matchs.html', voir_bouton_miser=True, matchs=matchs)
-    
-    return render_template('visualiser_matchs.html', voir_bouton_miser=False, matchs=matchs)
+        id_utilisateur = session['id_utilisateur']
+        conn = mysql.connect()
+        curseur = conn.cursor()
+
+        select_query = "SELECT role FROM users WHERE id = %s"
+        curseur.execute(select_query, (id_utilisateur,))
+        role = curseur.fetchone()[0]
+        curseur.close()
+        conn.close()
+
+        if role == 'user':
+            voir_bouton_miser = True
+
+    return render_template('visualiser_matchs.html', voir_bouton_miser=voir_bouton_miser, matchs=matchs)
+
 
 
 @app.route('/store_in_session', methods=['POST'])
@@ -352,7 +365,6 @@ def reussite_creation_compte():
 def creation_compte():
     return render_template("creation_compte.html")
 
-
 @app.route('/se_connecter', methods=['POST'])
 def se_connecter_validation():
     email = request.form.get('inputEmail')
@@ -364,9 +376,6 @@ def se_connecter_validation():
     requete_select = "SELECT * FROM users WHERE email = %s AND mot_de_passe = %s"
     curseur.execute(requete_select, (email, mot_de_passe))
     utilisateur = curseur.fetchone()
-
-  
-
     curseur.close()
     conn.close()
     
@@ -375,7 +384,10 @@ def se_connecter_validation():
          
             # Les identifiants sont corrects
             session['id_utilisateur'] = utilisateur[0]  # Enregistrer l'ID de l'utilisateur en session
-            return redirect(url_for('espace_utilisateur'))
+            if utilisateur[7] == 'admin':  # En supposant que 'role' soit la huitième colonne dans la table 'users'
+                return redirect(url_for('espace_administrateur'))
+            else:
+                return redirect(url_for('espace_utilisateur'))
         else:
             # Les identifiants sont corrects, mais l'utilisateur n'a pas encore confirmé son compte.
             erreur = "Veuillez confirmer votre compte avant de vous connecter."
@@ -385,12 +397,23 @@ def se_connecter_validation():
         erreur = "L'adresse e-mail ou le mot de passe est incorrect."
         return render_template('se_connecter.html', erreur=erreur)
 
-
-
 @app.route('/se_connecter')
 def se_connecter():
     if 'id_utilisateur' in session:
-        return redirect(url_for('espace_utilisateur'))
+        id_utilisateur = session['id_utilisateur']
+        conn = mysql.connect()
+        curseur = conn.cursor()
+
+        select_query = "SELECT role FROM users WHERE id = %s"
+        curseur.execute(select_query, (id_utilisateur,))
+        role = curseur.fetchone()[0]
+        curseur.close()
+        conn.close()
+
+        if role == 'admin':
+            return redirect(url_for('espace_administrateur'))
+        else:
+            return redirect(url_for('espace_utilisateur'))
     else:
         return render_template('se_connecter.html')
 
@@ -468,6 +491,10 @@ def espace_utilisateur():
   
     # Renvoyer le modèle avec les informations utilisateur
     return render_template('espace_utilisateur.html', utilisateur = utilisateur, mises=mises)
+
+@app.route('/espace_administrateur')
+def espace_administrateur():
+    return render_template('espace_administrateur.html')
 
 # déconnexion du compte lors de la fermeture du web
 @app.route('/deconnecter_utilisateur', methods=['POST'])
