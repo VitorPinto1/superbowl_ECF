@@ -7,7 +7,7 @@
 <div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
   <div class="col-md-6">
     <h1 class="text-center">Miser sur la sélection</h1>
-    <form method="POST" action="/ruta-para-procesar-las-apuestas">
+    <form method="POST" action="/form_miser_selection">
       {% for match in matchs_selectionnes %}
       <h3>{{ match.equipe1 }} vs {{ match.equipe2 }}</h3>
       <div class="form-group">
@@ -15,8 +15,9 @@
           <label for="mise_equipe1" class="col-sm-4 control-label">{{ match.equipe1 }}:</label>
           <span class="cote-label col-sm-4 control-label">{{ match.cote1 }}</span>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="mise_equipe1" name="mise_equipe1"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication(this.value, '{{ match.cote1 }}', 'resultat1_{{ loop.index }}')" required>
+            <input type="text" class="form-control" id="mise_equipe1" name="mise_equipe1"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication(this.value, '{{ match.cote1 }}', 'resultat1_{{ loop.index }}','resultat1_input_{{ loop.index }}')" required>
             <span id="resultat1_{{ loop.index }}"></span>
+            <input type="hidden" id="resultat1_input_{{ loop.index }}" name="resultat1_{{ loop.index }}" value="">
           </div>
         </div>
       </div>
@@ -25,8 +26,9 @@
           <label for="mise_equipe2" class="col-sm-4 control-label">{{ match.equipe2 }}:</label>
           <span class="cote-label col-sm-4 control-label">{{ match.cote2 }}</span>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="mise_equipe2" name="mise_equipe2"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication(this.value, '{{ match.cote2 }}', 'resultat2_{{ loop.index }}')" required>
+            <input type="text" class="form-control" id="mise_equipe2" name="mise_equipe2"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication(this.value, '{{ match.cote2 }}', 'resultat2_{{ loop.index }}', 'resultat2_input_{{ loop.index }}')" required>
             <span id="resultat2_{{ loop.index }}"></span>
+            <input type="hidden" id="resultat2_input_{{ loop.index }}" name="resultat2_{{ loop.index }}" value="">
           </div>
         </div>
       </div>
@@ -44,16 +46,19 @@
 </div>
 
 <script>
-  function calculerMultiplication(mise, cote, resultatId) {
+  function calculerMultiplication(mise, cote, resultatId, resultatInputId) {
     var resultat = document.getElementById(resultatId);
+    var resultatInput = document.getElementById(resultatInputId);
     var valeurMise = parseFloat(mise);
     var valeurCote = parseFloat(cote);
 
     if (!isNaN(valeurMise) && !isNaN(valeurCote)) {
         var multiplication = valeurMise * valeurCote;
         resultat.textContent = 'Résultat : ' + multiplication;
+        resultatInput.value = multiplication;
     } else {
         resultat.textContent = '';
+        resultatInput.value = '';
     }
 }
 </script>

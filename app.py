@@ -281,9 +281,53 @@ def miser_sur_la_selection():
     equipe2 = request.form.get('equipe2')
     cote1 = request.form.get('cote1')
     cote2 = request.form.get('cote2')
+
+    session['miser_sur_la_selection'] = matchs_selectionnes
+
     return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes, equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
 
+@app.route('/form_miser_selection', methods=['POST'])
+def form_miser_selection():
+    mise1 = request.form.get('mise_equipe1')
+    mise2 = request.form.get('mise_equipe2')
+    """resultat1 = request.form.get('resultat1')
+    resultat2 = request.form.get('resultat2')"""
+    matchs_selectionnes = session.get('miser_sur_la_selection')
 
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    """for match in matchs_selectionnes:"""
+    for index, match in enumerate(matchs_selectionnes):
+        equipe1 = match['equipe1']
+        equipe2 = match['equipe2']
+        cote1 = match['cote1']
+        cote2 = match['cote2']
+        utilisateur = session['id_utilisateur']
+
+        select_match_query = "SELECT id FROM matchs WHERE equipe1 = %s AND equipe2 = %s"
+        cursor.execute(select_match_query, (equipe1, equipe2))
+        match = cursor.fetchone()
+        if match:
+            id_match = match[0]
+
+            resultat1 = request.form.get('resultat1_{}'.format(index + 1))
+            resultat2 = request.form.get('resultat2_{}'.format(index + 1))
+
+
+            insert_query = '''
+                INSERT INTO mises (mise1, mise2, resultat1, resultat2, equipe1, equipe2, cote1, cote2, id_utilisateur, id_match)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            '''
+            data = (Decimal(mise1), Decimal(mise2), resultat1, resultat2, equipe1, equipe2, cote1, cote2, utilisateur, id_match)
+            cursor.execute(insert_query, data)
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return redirect('/espace_utilisateur')
 
 @app.route('/creation_compte', methods=['POST'])
 def creation_compte_form():
