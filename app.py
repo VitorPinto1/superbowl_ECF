@@ -99,17 +99,29 @@ def generer_mot_de_passe(longueur):
     return mot_de_passe
 
 
-
 @app.route('/')
 def index():
-    now = datetime.now()
-    formatted_date = now.strftime("%d/%m/%Y")
+  now = datetime.now()
+  formatted_date = now.strftime("%d/%m/%Y")
 
-    # Verification login utilisateur 
-    if 'id_utilisateur' in session:
-        return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True)
+  if 'id_utilisateur' in session:
+    id_utilisateur = session['id_utilisateur']
+    conn = mysql.connect()
+    curseur = conn.cursor()
+
+    select_query = "SELECT role FROM users WHERE id = %s"
+    curseur.execute(select_query, (id_utilisateur,))
+    role = curseur.fetchone()[0]
+    curseur.close()
+    conn.close()
+
+    if role == 'admin':
+      return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True, user_admin = True)
+    else:
+      return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True, user_admin = False)
     
-    return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True, voir_bouton_miser=False)
+  return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True, voir_bouton_miser=False)
+
 
 
 @app.route('/visualiser_matchs')
@@ -268,8 +280,25 @@ def supprimer_mise(mise_id):
 
 @app.route('/parier')
 def parier():
-    matchs = obtenir_matchs_from_database()
-    return render_template('parier.html', matchs=matchs)
+  matchs = obtenir_matchs_from_database()
+
+  voir_bouton_miser_selection = False
+
+  if 'id_utilisateur' in session:
+    id_utilisateur = session['id_utilisateur']
+    conn = mysql.connect()
+    curseur = conn.cursor()
+
+    select_query = "SELECT role FROM users WHERE id = %s"
+    curseur.execute(select_query, (id_utilisateur,))
+    role = curseur.fetchone()[0]
+    curseur.close()
+    conn.close()
+
+    if role == 'user':
+        voir_bouton_miser_selection = True
+
+  return render_template('parier.html', voir_bouton_miser_selection=voir_bouton_miser_selection, matchs=matchs)
 
 
 @app.route('/miser_sur_la_selection', methods=['POST'])
@@ -290,14 +319,13 @@ def miser_sur_la_selection():
 def form_miser_selection():
     mise1 = request.form.get('mise_equipe1')
     mise2 = request.form.get('mise_equipe2')
-    """resultat1 = request.form.get('resultat1')
-    resultat2 = request.form.get('resultat2')"""
+    
     matchs_selectionnes = session.get('miser_sur_la_selection')
 
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    """for match in matchs_selectionnes:"""
+    
     for index, match in enumerate(matchs_selectionnes):
         equipe1 = match['equipe1']
         equipe2 = match['equipe2']
@@ -399,15 +427,15 @@ def confirmer_compte(token):
     conn.close()
 
     # Redireccionar a una página de confirmación exitosa o mostrar un mensaje
-    return render_template("se_connecter.html")
+    return render_template('se_connecter.html')
 
 @app.route('/reussite_creation_compte')
 def reussite_creation_compte():
-    return render_template("reussite_creation_compte.html")
+    return render_template('reussite_creation_compte.html')
 
 @app.route('/creation_compte')
 def creation_compte():
-    return render_template("creation_compte.html")
+    return render_template('creation_compte.html')
 
 @app.route('/se_connecter', methods=['POST'])
 def se_connecter_validation():
@@ -550,3 +578,11 @@ def deconnecter_utilisateur():
 def deconnexion_user_bouton():
     session.pop('id_utilisateur', None)  # Eliminar la clave 'id_utilisateur' de la sesión
     return redirect(url_for('index'))
+
+@app.route('/creation')
+def creation():
+    return render_template('creation.html')
+
+@app.route('/planification')
+def planification():
+    return render_template('planification.html')

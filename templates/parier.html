@@ -37,7 +37,8 @@
         {% endfor %}
       </tbody>
     </table>
-    <button type="submit" class="btn btn-primary mx-2" id="btn-miser">Miser sur la sélection</button>
+
+    <button type="submit" class="btn btn-primary mx-2" id="btn-miser" {% if not voir_bouton_miser_selection %}disabled{% endif %}>Miser sur la sélection</button>
 
   </form>
 </div>
