@@ -41,9 +41,15 @@
       <a class="btn btn-primary mx-2" href="{{ url_for('parier')}}">Parier</a>
     </div>
     {% if voir_bouton_mon_espace %}
-    <div class="text-center">
-      <a class="btn btn-primary mx-2" href="{{ url_for('espace_utilisateur')}}">Mon Espace</a>
-    </div>
+      {% if user_admin %}
+        <div class="text-center">
+          <a class="btn btn-primary mx-2" href="{{ url_for('espace_administrateur')}}">Mon Espace</a>
+        </div>
+      {% else %}
+        <div class="text-center">
+          <a class="btn btn-primary mx-2" href="{{ url_for('espace_utilisateur')}}">Mon Espace</a>
+        </div>
+      {% endif %}
     {% endif %}
   </div>
 </div>  

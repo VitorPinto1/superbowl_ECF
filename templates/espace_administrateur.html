@@ -3,20 +3,30 @@
 {% block title %}Espace administrateur{% endblock %}
 {% block content %}
 
-
 <div class="container align-items-center justify-content-center" style="margin-top: 50px;">
-  <h3>Espace administrateur</h3>
+  <h1 class="text-center">Espace administrateur</h1>
 </div>
 
 <div class="container">
-  <div class="btn-container-index d-flex justify-content-center align-items-center">
-    <div class="col text-center">
-      <a class="btn btn-primary mx-2" href="{{ url_for('index') }}">Index</a>
+  <div class="d-flex justify-content-center align-items-center my-4">
+    <div class="text-center">
+      <a class="btn btn-primary mx-2" href="{{ url_for('creation') }}">Création</a>
     </div>
-    <div class="col text-center">
-      <form action="{{ url_for('deconnexion_user_bouton') }}" method="POST">
-        <button type="submit" class="btn btn-danger mx-2">Déconnexion</button>
-      </form>
+    <div class="text-center">
+      <a class="btn btn-primary mx-2" href="{{ url_for('planification') }}">Planification</a>
+    </div>
+  </div>
+</div>  
+
+<div class="fixed-bottom">
+  <div class="container">
+    <div class="row justify-content-center align-items-center my-4">
+      <div class="col text-center">
+        <a class="btn btn-primary mx-2" href="{{ url_for('index') }}">Index</a>
+        <form action="{{ url_for('deconnexion_user_bouton') }}" method="POST" class="d-inline">
+          <button type="submit" class="btn btn-danger mx-2">Déconnexion</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
