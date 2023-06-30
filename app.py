@@ -1,5 +1,4 @@
 from flask import Flask, render_template, redirect, session, request, url_for
-
 from flask_bootstrap import Bootstrap
 from datetime import datetime
 from decimal import Decimal
@@ -23,6 +22,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'staniaprojets@gmail.com'
 app.config['MAIL_PASSWORD'] = 'Stania1234#'
 app.config['MAIL_DEFAULT_SENDER'] = 'staniaprojets@gmail.com'
+
 
 mail = Mail(app)
 
