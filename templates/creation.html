@@ -8,4 +8,48 @@
   <h1 class="text-center">Création des équipes et joueurs</h1>
 </div>
 
+<div class="container">
+  <form action="/" method="POST">
+    <div class="form-group">
+      <label for="nom_equipe">Equipe</label>
+      <input type="text" class="form-control" id="nom_equipe" name="nom_equipe">
+    </div>
+    <div class="form-group">
+      <label for="pays_appartenance">Pays d'appartenance</label>
+      <input type="text" class="form-control" id="pays_appartenance" name="pays_appartenance">
+    </div>
+    <span>Joueurs</span>
+    <div class="form-group">
+      <div class="row">
+        {% for i in range(1, 12) %}
+        <div class="col-4 joueur-fields">
+          <label for="nom_joueur{{ i }}">Nom</label>
+          <input type="text" class="form-control" id="nom_joueur{{ i }}" name="nom_joueur">
+        </div>
+        <div class="col-4 joueur-fields">
+          <label for="prenom_joueur{{ i }}">Prénom</label>
+          <input type="text" class="form-control" id="prenom_joueur{{ i }}" name="prenom_joueur">
+        </div>
+        <div class="col-4 joueur-fields">
+          <label for="numero_tshirt{{ i }}">Numéro</label>
+          <input type="number" class="form-control" id="numero_tshirt{{ i }}" name="numero_tshirt">
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Creer equipe</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<style>
+  .joueur-fields input[type="text"],
+  .joueur-fields input[type="number"] {
+    width: 100%;
+  }
+</style>
+
 {% endblock %}
