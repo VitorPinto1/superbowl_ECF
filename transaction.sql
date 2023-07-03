@@ -39,6 +39,23 @@ CREATE TABLE IF NOT EXISTS users (
   role VARCHAR(50) DEFAULT 'user'
 );
 
+CREATE TABLE IF NOT EXISTS joueurs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nom_joueur VARCHAR(255),
+  prenom_joueur VARCHAR(255),
+  numero_tshirt INT CHECK (numero BETWEEN 1 AND 99)
+  equipe_id INT,
+  FOREIGN KEY (equipe_id) REFERENCES equipes(id)
+);
+
+CREATE TABLE IF NOT EXISTS equipes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nom_equipe VARCHAR(255),
+  pays_appartenance VARCHAR(255),
+);
+
+
+
 CREATE TABLE IF NOT EXISTS mises (
     id INT AUTO_INCREMENT PRIMARY KEY,
     mise1 DECIMAL(10, 2),
