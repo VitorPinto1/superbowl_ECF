@@ -583,6 +583,52 @@ def deconnexion_user_bouton():
 def creation():
     return render_template('creation.html')
 
+@app.route('/creation', methods=['POST'])
+def creation_form():
+    nom_equipe = request.form.get('nom_equipe')
+    pays_appartenance = request.form.get('pays_appartenance')
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    # Verificar si el equipo ya existe en la base de datos
+    check_query = "SELECT * FROM equipes WHERE nom_equipe = %s"
+    cursor.execute(check_query, (nom_equipe,))
+    equipe_deja_utilise = cursor.fetchone()
+
+    if equipe_deja_utilise:
+        # Si el equipo ya existe, mostrar un mensaje de error
+        erreur = "Équipe déjà créée"
+        return render_template('creation.html', erreur=erreur)
+    else:
+        # Insertar el equipo en la tabla "equipes"
+        insert_equipe_query = "INSERT INTO equipes (nom_equipe, pays_appartenance) VALUES (%s, %s)"
+        equipe_data = (nom_equipe, pays_appartenance)
+        cursor.execute(insert_equipe_query, equipe_data)
+        equipe_id = cursor.lastrowid
+
+        joueurs = []
+        for i in range(1, 12):
+            nom_joueur = request.form.get(f'nom_joueur_{i}')
+            prenom_joueur = request.form.get(f'prenom_joueur_{i}')
+            numero_tshirt = request.form.get(f'numero_tshirt_{i}')
+            if nom_joueur and prenom_joueur and numero_tshirt:
+                joueur_data = (nom_joueur, prenom_joueur, numero_tshirt, equipe_id)
+                joueurs.append(joueur_data)
+
+        if joueurs:
+            insert_joueur_query = "INSERT INTO joueurs (nom_joueur, prenom_joueur, numero_tshirt, equipe_id) VALUES (%s, %s, %s, %s)"
+            cursor.executemany(insert_joueur_query, joueurs)
+
+        conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    # Redirigir a otra página o mostrar un mensaje de éxito
+    return redirect(url_for('espace_administrateur'))
+
+
 @app.route('/planification')
 def planification():
     return render_template('planification.html')

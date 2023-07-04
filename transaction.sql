@@ -43,15 +43,16 @@ CREATE TABLE IF NOT EXISTS joueurs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nom_joueur VARCHAR(255),
   prenom_joueur VARCHAR(255),
-  numero_tshirt INT CHECK (numero BETWEEN 1 AND 99)
+  numero_tshirt INT,
   equipe_id INT,
-  FOREIGN KEY (equipe_id) REFERENCES equipes(id)
+  FOREIGN KEY (equipe_id) REFERENCES equipes(id),
+  CHECK (numero_tshirt BETWEEN 1 AND 99)
 );
 
 CREATE TABLE IF NOT EXISTS equipes (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nom_equipe VARCHAR(255),
-  pays_appartenance VARCHAR(255),
+  pays_appartenance VARCHAR(255)
 );
 
 
