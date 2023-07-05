@@ -628,6 +628,37 @@ def creation_form():
     # Redirigir a otra página o mostrar un mensaje de éxito
     return redirect(url_for('espace_administrateur'))
 
+@app.route('/planification', methods=['GET', 'POST'])
+def planification_form():
+    if request.method == 'POST':
+        # Obtener los datos del formulario
+        equipe1 = request.form['equipe1']
+        equipe2 = request.form['equipe2']
+        jour = request.form['jour']
+        debut = request.form['debut']
+        cote1 = request.form['cote1']
+        cote2 = request.form['cote2']
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO matchs (equipe1, equipe2, jour, debut,cote1, cote2) VALUES (%s, %s, %s, %s, %s, %s)",
+                       (equipe1, equipe2, jour, debut, cote1, cote2))
+        conn.commit()
+        conn.close()
+
+        return redirect('/planification')
+        # Obtener los equipos existentes de la tabla "equipes"
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT nom_equipe FROM equipes")
+    equipes = [equipe[0] for equipe in cursor.fetchall()]
+    conn.close()
+
+
+
+    return render_template('planification.html', equipes = equipes)
+
+
 
 @app.route('/planification')
 def planification():

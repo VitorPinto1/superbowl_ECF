@@ -7,5 +7,43 @@
 <div class="container align-items-center justify-content-center" style="margin-top: 50px;">
   <h1 class="text-center">Planification des matchs</h1>
 </div>
+<div class="container">
+  <form action="/planification" method="POST">
+    <label for="equipe1">Equipo 1:</label>
+    <select name="equipe1" id="equipe1">
+        {% for equipe in equipes %}
+        <option value="{{ equipe }}">{{ equipe }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="equipe2">Equipo 2:</label>
+    <select name="equipe2" id="equipe2">
+        {% for equipe in equipes %}
+        <option value="{{ equipe }}">{{ equipe }}</option>
+        {% endfor %}
+    </select>
+   
+    <label for="jour">Jour :</label>
+    <input type="text" id="jour" name="jour" required><br><br>
+
+    <label for="debut">Début :</label>
+    <input type="text" id="debut" name="debut" required><br><br>
+
+    
+
+  
+
+    <label for="cote1">Cote Équipe 1 :</label>
+    <input type="text" id="cote1" name="cote1" required><br><br>
+
+    <label for="cote2">Cote Équipe 2 :</label>
+    <input type="text" id="cote2" name="cote2" required><br><br>
+
+
+    <input type="submit" value="Créer le Match">
+  </form>
+</div>
+
+        
 
 {% endblock %}
