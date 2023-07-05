@@ -4,8 +4,8 @@ USE bdsuperbowl;
 
 CREATE TABLE IF NOT EXISTS matchs (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    equipe1 VARCHAR(50),
-    equipe2 VARCHAR(50),
+    equipe1 INT,
+    equipe2 INT,
     jour VARCHAR(10),
     debut VARCHAR(10),
     fin VARCHAR(10) DEFAULT ' - ',
@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS matchs (
     FOREIGN KEY (equipe2) REFERENCES joueurs(id)
 );
 
-TRUNCATE TABLE matchs;
 
 
 CREATE TABLE IF NOT EXISTS users (
@@ -67,3 +66,15 @@ CREATE TABLE IF NOT EXISTS mises (
     id_utilisateur INT,
     FOREIGN KEY (id_utilisateur) REFERENCES users(id)
 );
+
+-- Código del disparador aquí
+DELIMITER //
+
+CREATE TRIGGER actualizacion_fin_match
+BEFORE INSERT ON matchs
+FOR EACH ROW
+BEGIN
+    SET NEW.fin = DATE_FORMAT(DATE_ADD(STR_TO_DATE(NEW.debut, '%H:%i'), INTERVAL 1 HOUR), '%H:%i');
+END //
+
+DELIMITER ;

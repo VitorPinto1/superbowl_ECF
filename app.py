@@ -80,6 +80,7 @@ def obtenir_matchs_from_database():
     cursor = conn.cursor()
 
     select_query = "SELECT equipe1, equipe2, jour, debut, fin, statut, score, meteo, joueurs, cote1, cote2, commentaires FROM matchs"
+    
     cursor.execute(select_query)
     matchs_data = cursor.fetchall()
 
