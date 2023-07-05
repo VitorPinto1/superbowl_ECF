@@ -8,24 +8,19 @@ CREATE TABLE IF NOT EXISTS matchs (
     equipe2 VARCHAR(50),
     jour VARCHAR(10),
     debut VARCHAR(10),
-    fin VARCHAR(10),
-    statut VARCHAR(20),
-    score VARCHAR(10),
-    meteo VARCHAR(20),
-    joueurs VARCHAR(100),
+    fin VARCHAR(10) DEFAULT ' - ',
+    statut VARCHAR(20) DEFAULT ' - ',
+    score VARCHAR(10) DEFAULT '0-0',
+    meteo VARCHAR(20) DEFAULT 'Pas de meteo',
     cote1 VARCHAR(20),
     cote2 VARCHAR(20),
-    commentaires VARCHAR(100),
-    UNIQUE KEY (equipe1, equipe2)
+    commentaires VARCHAR(100) DEFAULT 'Pas de commentaires',
+    UNIQUE KEY (equipe1, equipe2),
+    FOREIGN KEY (equipe1) REFERENCES joueurs(id),
+    FOREIGN KEY (equipe2) REFERENCES joueurs(id)
 );
 
 TRUNCATE TABLE matchs;
-
-INSERT IGNORE INTO matchs (equipe1, equipe2, jour, debut, fin, statut, score, meteo, joueurs, cote1, cote2, commentaires)
-VALUES
-    ('Kansas City Chiefs', 'Dallas Cowboys', '23/05', '09:00', '11:00', 'En cours', '4-2', 'soleil', 'pepe', '500$', '200$', 'el mejor jugador'),
-    ('New England Patriots', 'Green Bay Packers', '24/05', '08:00', '10:00', 'Terminé', '0-3', 'pluie', 'batista', '400$', '200$', 'que rule'),
-    ('Pittsburgh Steelers', 'San Francisco 49ers', '29/05', '10:00', '12:00', 'À venir', '', 'horage', 'ronaldinho', '2000$', '200$', 'El gaucho');
 
 
 CREATE TABLE IF NOT EXISTS users (
