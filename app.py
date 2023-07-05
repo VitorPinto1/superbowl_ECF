@@ -86,6 +86,17 @@ def obtenir_matchs_from_database():
     matchs = []
     for match_data in matchs_data:
         match = Matchs(*match_data)
+        if match.fin is None:
+            match.fin = ' - '
+        if match.statut is None:
+            match.statut = ' - '
+        if match.score is None:
+            match.score = ' - '
+        if match.meteo is None:
+            match.meteo = ' - '
+        if match.commentaires is None:
+            match.commentaires = ' - '
+
         matchs.append(match)
 
     cursor.close()
