@@ -328,16 +328,24 @@ def miser_sur_la_selection():
 
 @app.route('/form_miser_selection', methods=['POST'])
 def form_miser_selection():
-    mise1 = request.form.get('mise_equipe1')
-    mise2 = request.form.get('mise_equipe2')
-    
     matchs_selectionnes = session.get('miser_sur_la_selection')
 
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    
     for index, match in enumerate(matchs_selectionnes):
+        mise1 = request.form.get('mise_equipe1_{}'.format(index + 1))
+        mise2 = request.form.get('mise_equipe2_{}'.format(index + 1))
+
+        if mise1 is None:
+            mise1 = '0'
+        if mise2 is None:
+            mise2 = '0'
+
+        # Convertir los valores en Decimal
+        mise1_decimal = Decimal(mise1)
+        mise2_decimal = Decimal(mise2)
+
         equipe1 = match['equipe1']
         equipe2 = match['equipe2']
         cote1 = match['cote1']
@@ -353,12 +361,11 @@ def form_miser_selection():
             resultat1 = request.form.get('resultat1_{}'.format(index + 1))
             resultat2 = request.form.get('resultat2_{}'.format(index + 1))
 
-
             insert_query = '''
                 INSERT INTO mises (mise1, mise2, resultat1, resultat2, equipe1, equipe2, cote1, cote2, id_utilisateur, id_match)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             '''
-            data = (Decimal(mise1), Decimal(mise2), resultat1, resultat2, equipe1, equipe2, cote1, cote2, utilisateur, id_match)
+            data = (mise1_decimal, mise2_decimal, resultat1, resultat2, equipe1, equipe2, cote1, cote2, utilisateur, id_match)
             cursor.execute(insert_query, data)
 
     conn.commit()
@@ -367,6 +374,7 @@ def form_miser_selection():
     conn.close()
 
     return redirect('/espace_utilisateur')
+
 
 @app.route('/creation_compte', methods=['POST'])
 def creation_compte_form():
