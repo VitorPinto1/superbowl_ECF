@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS matchs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     equipe1 INT,
     equipe2 INT,
-    jour VARCHAR(10),
+    jour DATE,
     debut VARCHAR(10),
     fin VARCHAR(10) DEFAULT ' - ',
     statut VARCHAR(20) DEFAULT ' - ',
