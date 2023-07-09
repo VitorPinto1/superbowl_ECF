@@ -9,23 +9,18 @@
 <div class="container">
   <h4 class="text">Matchs du jour : {{current_date}}</h4>
   <div class="table-responsive">
-    <table class="table table-border-outer ">
-        <thead>
-          <tr>
-            <td>New Orleans vs Atlanta</td>
-            <td>San Francisco vs Chicago</td>      
-          </tr>
-          <tr>               
-            <td>New England vs Miami</td>
-            <td>Baltimore vs New York</td>
-          </tr>
-          <tr>
-            <td>Pittsburgh vs Cincinnati</td>
-            <td>Philadelphia vs Detroit</td>
-          </tr>
-        </thead>
+    <table class="table table-border-outer">
+      <tbody>
+        {% for match in matches %}
+        <tr>
+          <td>{{ match[1] }} vs </td>
+          <td>{{ match[2] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
+  
 </div>
 <div class="container">
   <div class="btn-container-index d-flex justify-content-center align-items-center">

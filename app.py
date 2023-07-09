@@ -115,6 +115,23 @@ def generer_mot_de_passe(longueur):
 def index():
   now = datetime.now()
   formatted_date = now.strftime("%d/%m/%Y")
+  conn = mysql.connect()
+
+    # Crear un cursor para ejecutar consultas
+  cursor = conn.cursor()
+
+  # Obtener la fecha actual
+  cursor.execute("SELECT CURDATE()")
+  current_date = cursor.fetchone()[0]
+
+  # Obtener los partidos de la fecha actual
+  cursor.execute("SELECT * FROM matchs WHERE jour = %s", (current_date,))
+  matches = cursor.fetchall()
+
+  # Cerrar el cursor y la conexión
+  cursor.close()
+  conn.close()
+
 
   if 'id_utilisateur' in session:
     id_utilisateur = session['id_utilisateur']
@@ -132,7 +149,7 @@ def index():
     else:
       return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True, user_admin = False)
     
-  return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True, voir_bouton_miser=False)
+  return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True, voir_bouton_miser=False, matches = matches)
 
 
 
@@ -654,7 +671,7 @@ def planification_form():
         # Obtener los datos del formulario
         equipe1 = request.form['equipe1']
         equipe2 = request.form['equipe2']
-        jour = request.form['jour']
+        jour = datetime.strptime(request.form['jour'], '%Y-%m-%d').date()
         debut = request.form['debut']
         cote1 = request.form['cote1']
         cote2 = request.form['cote2']
