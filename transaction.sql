@@ -3,21 +3,20 @@ CREATE DATABASE IF NOT EXISTS bdsuperbowl;
 USE bdsuperbowl;
 
 CREATE TABLE IF NOT EXISTS matchs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    equipe1 INT,
-    equipe2 INT,
+    id INT AUTO_INCREMENT,
+    equipe1 VARCHAR(50),
+    equipe2 VARCHAR(50),
     jour DATE,
     debut VARCHAR(10),
     fin VARCHAR(10) DEFAULT ' - ',
     statut VARCHAR(20) DEFAULT ' - ',
     score VARCHAR(10) DEFAULT ' - ',
     meteo VARCHAR(20) DEFAULT ' - ',
-    cote1 VARCHAR(20),
-    cote2 VARCHAR(20),
+    cote1 INT,
+    cote2 INT,
     commentaires VARCHAR(100) DEFAULT ' - ',
-    UNIQUE KEY (equipe1, equipe2),
-    FOREIGN KEY (equipe1) REFERENCES joueurs(id),
-    FOREIGN KEY (equipe2) REFERENCES joueurs(id)
+    PRIMARY KEY (id, jour)
+    
 );
 
 
@@ -33,20 +32,20 @@ CREATE TABLE IF NOT EXISTS users (
   role VARCHAR(50) DEFAULT 'user'
 );
 
+CREATE TABLE IF NOT EXISTS equipes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nom_equipe VARCHAR(255),
+  pays_appartenance VARCHAR(255)
+);
+
 CREATE TABLE IF NOT EXISTS joueurs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nom_joueur VARCHAR(255),
   prenom_joueur VARCHAR(255),
   numero_tshirt INT,
-  equipe_id INT,
-  FOREIGN KEY (equipe_id) REFERENCES equipes(id),
+  equipe_id VARCHAR(255),
+  FOREIGN KEY (equipe_id) REFERENCES equipes(nom_equipe),
   CHECK (numero_tshirt BETWEEN 1 AND 99)
-);
-
-CREATE TABLE IF NOT EXISTS equipes (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nom_equipe VARCHAR(255),
-  pays_appartenance VARCHAR(255)
 );
 
 
@@ -55,12 +54,12 @@ CREATE TABLE IF NOT EXISTS mises (
     id INT AUTO_INCREMENT PRIMARY KEY,
     mise1 DECIMAL(10, 2),
     mise2 DECIMAL(10, 2),
-    resultat1 VARCHAR(20),
-    resultat2 VARCHAR(20),
+    resultat1 DECIMAL(10, 2),
+    resultat2 DECIMAL(10, 2),
     equipe1 VARCHAR(50),
     equipe2 VARCHAR(50),
-    cote1 VARCHAR(20),
-    cote2 VARCHAR(20),
+    cote1 INT,
+    cote2 INT,
     id_match INT,
     FOREIGN KEY (id_match) REFERENCES matchs(id),
     id_utilisateur INT,
