@@ -38,7 +38,7 @@ bootstrap = Bootstrap(app)
 
 
 class Matchs:
-    def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, joueurs, cote1, cote2, commentaires):
+    def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires):
         self.equipe1 = equipe1
         self.equipe2 = equipe2
         self.jour = jour
@@ -47,7 +47,6 @@ class Matchs:
         self.statut = statut
         self.score = score
         self.meteo = meteo
-        self.joueurs = joueurs
         self.cote1 = cote1
         self.cote2 = cote2
         self.commentaires = commentaires
@@ -75,11 +74,14 @@ def insert_matchs(matchs):
     conn.close()
 """
 
+
+
+
 def obtenir_matchs_from_database():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    select_query = "SELECT equipe1, equipe2, jour, debut, fin, statut, score, meteo, joueurs, cote1, cote2, commentaires FROM matchs"
+    select_query = "SELECT equipe1, equipe2, jour, debut, fin, statut, score, meteo,  cote1, cote2, commentaires FROM matchs"
     
     cursor.execute(select_query)
     matchs_data = cursor.fetchall()
@@ -676,20 +678,26 @@ def planification_form():
         cote1 = request.form['cote1']
         cote2 = request.form['cote2']
 
+    
+
         conn = mysql.connect()
         cursor = conn.cursor()
+     
+
         cursor.execute("INSERT INTO matchs (equipe1, equipe2, jour, debut,cote1, cote2) VALUES (%s, %s, %s, %s, %s, %s)",
                        (equipe1, equipe2, jour, debut, cote1, cote2))
         conn.commit()
         conn.close()
 
         return redirect('/planification')
-        # Obtener los equipos existentes de la tabla "equipes"
+    
     conn = mysql.connect()
     cursor = conn.cursor()
     cursor.execute("SELECT nom_equipe FROM equipes")
     equipes = [equipe[0] for equipe in cursor.fetchall()]
     conn.close()
+
+
 
 
 
