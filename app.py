@@ -147,9 +147,9 @@ def index():
     conn.close()
 
     if role == 'admin':
-      return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True, user_admin = True)
+      return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True, user_admin = True, matches=matches)
     else:
-      return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True, user_admin = False)
+      return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True, user_admin = False, matches=matches)
     
   return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True, voir_bouton_miser=False, matches = matches)
 
