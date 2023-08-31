@@ -44,6 +44,34 @@
   </form>
 </div>
 
-        
+<div id="errorPopup" class="popup">
+  <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <p id="errorMessage">Mensaje de error aquí.</p>
+  </div>
+</div>
+
+
+  <script>
+    // Función para mostrar el popup
+function showErrorPopup(message) {
+  document.getElementById('errorMessage').textContent = message;
+  document.getElementById('errorPopup').style.display = 'block';
+}
+
+// Función para cerrar el popup
+function closePopup() {
+  document.getElementById('errorPopup').style.display = 'none';
+}
+  </script>
+  
+
+{% if error_message %}
+  <script>
+      showErrorPopup("{{ error_message }}");
+  </script>
+{% endif %}
 
 {% endblock %}
+
+

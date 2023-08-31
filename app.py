@@ -669,8 +669,14 @@ def creation_form():
 
 @app.route('/planification', methods=['GET', 'POST'])
 def planification_form():
+    error_message = None
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT nom_equipe FROM equipes")
+    original_equipes = [equipe[0] for equipe in cursor.fetchall()]
+    conn.close()
     if request.method == 'POST':
-        # Obtener los datos del formulario
+        # Obtenir data form
         equipe1 = request.form['equipe1']
         equipe2 = request.form['equipe2']
         jour = datetime.strptime(request.form['jour'], '%Y-%m-%d').date()
@@ -682,8 +688,18 @@ def planification_form():
 
         conn = mysql.connect()
         cursor = conn.cursor()
-     
 
+        cursor.execute("SELECT * FROM matchs WHERE equipe1 = %s AND equipe2 = %s AND jour = %s",
+                       (equipe1, equipe2, jour))
+        existing_match = cursor.fetchone()
+        conn.close()
+
+        if existing_match:
+            error_message = "Ya existe un partido con los mismos equipos y fecha."
+            return render_template('planification.html', equipes=original_equipes, error_message=error_message)
+        
+        conn = mysql.connect()
+        cursor = conn.cursor()
         cursor.execute("INSERT INTO matchs (equipe1, equipe2, jour, debut,cote1, cote2) VALUES (%s, %s, %s, %s, %s, %s)",
                        (equipe1, equipe2, jour, debut, cote1, cote2))
         conn.commit()
