@@ -2,6 +2,8 @@ CREATE DATABASE IF NOT EXISTS bdsuperbowl;
 
 USE bdsuperbowl;
 
+
+
 CREATE TABLE IF NOT EXISTS matchs (
     id INT AUTO_INCREMENT,
     equipe1 VARCHAR(50),
@@ -15,10 +17,9 @@ CREATE TABLE IF NOT EXISTS matchs (
     cote1 INT,
     cote2 INT,
     commentaires VARCHAR(100) DEFAULT ' - ',
-    PRIMARY KEY (id, jour)
-    
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_match (equipe1, equipe2, jour)
 );
-
 
 
 CREATE TABLE IF NOT EXISTS users (
