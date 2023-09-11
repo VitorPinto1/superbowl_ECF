@@ -52,25 +52,27 @@
 </div>
 
 
-  <script>
-    // Función para mostrar el popup
-function showErrorPopup(message) {
-  document.getElementById('errorMessage').textContent = message;
-  document.getElementById('errorPopup').style.display = 'block';
-}
+<script>
+  // Fonction pour afficher la fenêtre contextuelle d'erreur
+  function showErrorPopup(message) {
+    document.getElementById('errorMessage').textContent = message;
+    document.getElementById('errorPopup').style.display = 'block';
+  }
 
-// Función para cerrar el popup
-function closePopup() {
-  document.getElementById('errorPopup').style.display = 'none';
-}
-  </script>
-  
+  // Fonction pour fermer la fenêtre contextuelle d'erreur
+  function closePopup() {
+    document.getElementById('errorPopup').style.display = 'none';
+  }
 
-{% if error_message %}
-  <script>
-      showErrorPopup("{{ error_message }}");
-  </script>
-{% endif %}
+  // Vérifier s'il y a un message d'erreur et afficher ou masquer la fenêtre contextuelle en conséquence
+  var error_message = "{{ error_message }}"; // Obtenir le message d'erreur de Django
+  if (error_message) {
+    showErrorPopup(error_message); // Afficher la fenêtre contextuelle s'il y a un message d'erreur
+  } else {
+    closePopup(); // Masquer la fenêtre contextuelle s'il n'y a pas de message d'erreur
+  }
+</script>
+
 
 {% endblock %}
 
