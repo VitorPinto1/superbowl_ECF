@@ -186,6 +186,7 @@ def store_in_session():
     session['cote2'] = request.form.get('cote2')
     session['mise1'] = request.form.get('mise1') 
     session['mise2'] = request.form.get('mise2')
+    session['jour'] = request.form.get('jour')
     return redirect(url_for('miser'))
 
 
@@ -195,7 +196,9 @@ def miser():
     equipe2 = session.get('equipe2')
     cote1 = session.get('cote1')
     cote2 = session.get('cote2')
-    return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
+    jour = session.get('jour')
+
+    return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2, jour=jour)
 
 @app.route('/form_miser', methods=['POST'])
 def form_miser():
@@ -208,12 +211,13 @@ def form_miser():
     cote1 = session.get('cote1')
     cote2 = session.get('cote2')
     utilisateur = session['id_utilisateur']
+    jour = session.get('jour') 
 
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    select_match_query = "SELECT id FROM matchs WHERE equipe1 = %s AND equipe2 = %s"
-    cursor.execute(select_match_query, (equipe1, equipe2))
+    select_match_query = "SELECT id FROM matchs WHERE equipe1 = %s AND equipe2 = %s AND jour = %s"
+    cursor.execute(select_match_query, (equipe1, equipe2, jour))
     match = cursor.fetchone()
     id_match = match[0]
 
@@ -232,6 +236,7 @@ def form_miser():
     """return render_template('espace_utilisateur.html', cote1=cote1, cote2=cote2, equipe1=equipe1, equipe2=equipe2, mise1=mise1, mise2=mise2, resultat1=resultat1, resultat2=resultat2, utilisateur=utilisateur)
     """
     return redirect('/espace_utilisateur')
+
 
 @app.route('/mise/<int:mise_id>/modifier', methods=['GET'])
 def modifier_mise(mise_id):
@@ -349,7 +354,7 @@ def miser_sur_la_selection():
 @app.route('/form_miser_selection', methods=['POST'])
 def form_miser_selection():
     matchs_selectionnes = session.get('miser_sur_la_selection')
-
+    
     conn = mysql.connect()
     cursor = conn.cursor()
 
@@ -371,6 +376,7 @@ def form_miser_selection():
         cote1 = match['cote1']
         cote2 = match['cote2']
         utilisateur = session['id_utilisateur']
+        
 
         select_match_query = "SELECT id FROM matchs WHERE equipe1 = %s AND equipe2 = %s"
         cursor.execute(select_match_query, (equipe1, equipe2))
@@ -684,6 +690,8 @@ def planification_form():
         cote1 = request.form['cote1']
         cote2 = request.form['cote2']
 
+        statut = "À venir"
+
     
 
         conn = mysql.connect()
@@ -695,13 +703,13 @@ def planification_form():
         conn.close()
 
         if existing_match:
-            error_message = "Ya existe un partido con los mismos equipos y fecha."
+            error_message = "Il y a déjà un match avec les mêmes équipes et la même date."
             return render_template('planification.html', equipes=original_equipes, error_message=error_message)
         
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO matchs (equipe1, equipe2, jour, debut,cote1, cote2) VALUES (%s, %s, %s, %s, %s, %s)",
-                       (equipe1, equipe2, jour, debut, cote1, cote2))
+        cursor.execute("INSERT INTO matchs (equipe1, equipe2, jour, debut,cote1, cote2, statut) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                       (equipe1, equipe2, jour, debut, cote1, cote2, statut))
         conn.commit()
         conn.close()
 

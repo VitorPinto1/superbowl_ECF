@@ -9,6 +9,10 @@
         <h1 class="text-center">Miser</h1>
         <form method="POST" action="/form_miser">
             <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="jour" class="control-label">Date :</label>
+                    <input type="date" class="form-control" id="jour" name="jour" value="{{ jour }}" readonly>
+                </div>
                 <div class="row">
                     <label for="equipe1" class="col-sm-4 control-label">{{ equipe1 }}</label>
                     <label for="cote1" class="col-sm-4 control-label">{{ cote1 }}</label>
