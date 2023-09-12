@@ -346,10 +346,11 @@ def miser_sur_la_selection():
     equipe2 = request.form.get('equipe2')
     cote1 = request.form.get('cote1')
     cote2 = request.form.get('cote2')
+    jour = request.form.get('jour')
 
     session['miser_sur_la_selection'] = matchs_selectionnes
 
-    return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes, equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
+    return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes, equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2, jour=jour)
 
 @app.route('/form_miser_selection', methods=['POST'])
 def form_miser_selection():
@@ -375,11 +376,13 @@ def form_miser_selection():
         equipe2 = match['equipe2']
         cote1 = match['cote1']
         cote2 = match['cote2']
+        jour = match['jour']
         utilisateur = session['id_utilisateur']
         
+        
 
-        select_match_query = "SELECT id FROM matchs WHERE equipe1 = %s AND equipe2 = %s"
-        cursor.execute(select_match_query, (equipe1, equipe2))
+        select_match_query = "SELECT id FROM matchs WHERE equipe1 = %s AND equipe2 = %s AND jour = %s"
+        cursor.execute(select_match_query, (equipe1, equipe2, jour))
         match = cursor.fetchone()
         if match:
             id_match = match[0]
