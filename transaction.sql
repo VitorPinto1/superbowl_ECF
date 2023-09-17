@@ -17,9 +17,12 @@ CREATE TABLE IF NOT EXISTS matchs (
     cote1 INT,
     cote2 INT,
     commentaires VARCHAR(100) DEFAULT ' - ',
+    but1 INT,
+    but2 INT,
     PRIMARY KEY (id),
     UNIQUE KEY unique_match (equipe1, equipe2, jour)
 );
+
 
 
 CREATE TABLE IF NOT EXISTS users (
@@ -78,3 +81,34 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER maj_score
+BEFORE INSERT ON matchs
+FOR EACH ROW
+BEGIN
+    SET NEW.score = CONCAT(NEW.but1, ' - ', NEW.but2);
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER maj_score_update
+BEFORE UPDATE ON matchs
+FOR EACH ROW
+BEGIN
+    SET NEW.score = CONCAT(NEW.but1, ' - ', NEW.but2);
+END //
+
+DELIMITER ;
+
+
+
+
+
+
+
+
+
