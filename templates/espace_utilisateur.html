@@ -35,30 +35,38 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Équipe 1</th>
-            <th>Équipe 2</th>
+            <th>Equipes</th>
             <th>Date</th>
             <th>Heure de début</th>
             <th>Heure de fin</th>
-            <th>Mise 1</th>
-            <th>Mise 2</th>
-            <th>Résultat 1</th>
-            <th>Résultat 2</th>
+            <th>Mise</th>
+            <th>Résultat </th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {% for mise in mises %}
           <tr>
-            <td>{{ mise[1] }}</td>
-            <td>{{ mise[2] }}</td>
+            <td>{{ mise[1] }} - {{ mise[2] }}</td>
             <td>{{ mise[3] }}</td>
             <td>{{ mise[4] }}</td>
             <td>{{ mise[5] }}</td>
-            <td>{{ mise[6] }}</td>
-            <td>{{ mise[7] }}</td>
-            <td>{{ mise[8] }}</td>
-            <td>{{ mise[9] }}</td>
+            <td>  
+              {% if mise[6] is not none %}
+                {{ mise[1] }} - {{ mise[6] }}
+              {% endif %}
+              {% if mise[7] is not none %}
+                {{ mise[2] }} - {{ mise[7] }}
+              {% endif %}
+            </td>
+            <td>  
+              {% if mise[8] is not none %}
+                {{ mise[8] }}
+              {% endif %}
+              {% if mise[9] is not none %}
+                {{ mise[9] }}
+              {% endif %}
+            </td>
             <td>{{ mise[10] }}</td>
             <td>
               {% if mise[10] == "À venir" %}
@@ -97,7 +105,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  Êtes-vous sûr de vouloir modifier cette mise ?
+                  Êtes-vous sûr de vouloir modifier cette mise ? (Le pari existant sera éliminé)
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>

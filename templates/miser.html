@@ -3,54 +3,79 @@
 {% block title %}Miser{% endblock %}
 {% block content %}
 
-
-<div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
-    <div class="col-md-6">
-        <h1 class="text-center">Miser</h1>
-        <form method="POST" action="/form_miser">
-            <div class="form-group">
-                <div class="col-sm-4">
+<div class="container" style="margin-top: 50px;">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title text-center">Miser</h1>
+            <form method="POST" action="/form_miser">
+                <div class="form-group">
                     <label for="jour" class="control-label">Date :</label>
                     <input type="date" class="form-control" id="jour" name="jour" value="{{ jour }}" readonly>
                 </div>
-                <div class="row">
-                    <label for="equipe1" class="col-sm-4 control-label">{{ equipe1 }}</label>
-                    <label for="cote1" class="col-sm-4 control-label">{{ cote1 }}</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="mise1" name="mise1" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication('mise1', 'resultat1', parseFloat('{{ cote1 }}') )" required>
-                        <span id="resultat1" name="resultat1"></span>
-                        <input type="hidden" id="resultat1_input" name="resultat1" value="">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <label for="equipe1" class="control-label">{{ equipe1 }}</label>
+                                    <label for="cote1" class="control-label">{{ cote1 }}</label>
+                                    <input type="text" class="form-control" id="mise1" name="mise1" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication('mise1', 'resultat1', parseFloat('{{ cote1 }}') )">
+                                    <span id="resultat1" name="resultat1"></span>
+                                    <input type="hidden" id="resultat1_input" name="resultat1" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <label for="equipe2" class="control-label">{{ equipe2 }}</label>
+                                    <label for="cote2" class="control-label">{{ cote2 }}</label>
+                                    <input type="text" class="form-control" id="mise2" name="mise2" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication('mise2', 'resultat2',parseFloat('{{ cote2 }}') )">
+                                    <span id="resultat2" name="resultat2"></span>
+                                    <input type="hidden" id="resultat2_input" name="resultat2" value="">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <label for="equipe2" class="col-sm-4 control-label" >{{ equipe2 }}</label>
-                    <label for="cote2" class="col-sm-4 control-label" >{{ cote2 }}</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="mise2" name="mise2" oninput="this.value = this.value.replace(/[^0-9]/g, '') ;calculerMultiplication('mise2', 'resultat2',parseFloat('{{ cote2 }}') )" required>
-                        <span id="resultat2" name="resultat2"></span>
-                        <input type="hidden" id="resultat2_input" name="resultat2" value="">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <button type="submit" class="btn btn-primary" name="valider" id="miser-button" disabled>Valider</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                        <button type="submit" class="btn btn-primary">Valider</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
+
 <script>
+      // Obtener los elementos de entrada
+      var mise1Input = document.getElementById("mise1");
+      var mise2Input = document.getElementById("mise2");
+  
+      // Obtener el botón de "Valider"
+      var miserButton = document.getElementById("miser-button");
+  
+      // Agregar eventos de escucha a los campos de entrada
+      mise1Input.addEventListener("input", validarBotonMiser);
+      mise2Input.addEventListener("input", validarBotonMiser);
+  
+      // Función para validar el botón "Miser"
+      function validarBotonMiser() {
+          // Verificar si al menos uno de los campos tiene un valor
+          if (mise1Input.value.trim() !== '' || mise2Input.value.trim() !== '') {
+              miserButton.disabled = false; // Habilitar el botón si hay un valor en al menos uno de los campos
+          } else {
+              miserButton.disabled = true; // Deshabilitar el botón si ambos campos están vacíos
+          }
+      }
     function calculerMultiplication(inputId, resultatId, cote) {
         var input = document.getElementById(inputId);
         var resultat = document.getElementById(resultatId);
         var resultatInput = document.getElementById(resultatId + "_input"); // Champ caché pour le résultat spécifique
-        var valeur = parseFloat(input.value);
         var valeur = parseFloat(input.value);
 
         if (!isNaN(valeur)) {
@@ -60,11 +85,8 @@
         } else {
             resultat.textContent = '';
             resultatInput.value = ''; // Effacer le champ caché s'il n'y a pas de valeur valide
-
         }
     }
 </script>
 
-
-   
 {% endblock %}
