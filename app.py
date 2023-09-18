@@ -204,8 +204,6 @@ def miser():
 def form_miser():
     mise1 = request.form.get('mise1')
     mise2 = request.form.get('mise2')
-    resultat1 = request.form.get('resultat1')
-    resultat2 = request.form.get('resultat2')
     equipe1 = session.get('equipe1')
     equipe2 = session.get('equipe2')
     cote1 = session.get('cote1')
@@ -221,20 +219,29 @@ def form_miser():
     match = cursor.fetchone()
     id_match = match[0]
 
-    insert_query = '''
-        INSERT INTO mises (mise1, mise2, resultat1, resultat2, equipe1, equipe2, cote1, cote2, id_utilisateur, id_match)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    '''
-    data = (Decimal(mise1), Decimal(mise2), resultat1, resultat2, equipe1, equipe2, cote1, cote2, utilisateur, id_match)
-    cursor.execute(insert_query, data)
+    if mise1 is not None and mise1.strip() != "":
+        insert_query1 = '''
+            INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        '''
+        resultat1 = Decimal(mise1) * Decimal(cote1)
+        data1 = (Decimal(mise1), resultat1, equipe1, cote1, utilisateur, id_match)
+        cursor.execute(insert_query1, data1)
+
+    if mise2 is not None and mise2.strip() != "":
+        insert_query2 = '''
+            INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        '''
+        resultat2 = Decimal(mise2) * Decimal(cote2)
+        data2 = (Decimal(mise2), resultat2, equipe2, cote2, utilisateur, id_match)
+        cursor.execute(insert_query2, data2)
 
     conn.commit()
 
     cursor.close()
     conn.close()
 
-    """return render_template('espace_utilisateur.html', cote1=cote1, cote2=cote2, equipe1=equipe1, equipe2=equipe2, mise1=mise1, mise2=mise2, resultat1=resultat1, resultat2=resultat2, utilisateur=utilisateur)
-    """
     return redirect('/espace_utilisateur')
 
 
@@ -257,9 +264,8 @@ def modifier_mise(mise_id):
         cote1 = mise[7]  # Obtener el valor de cote1 de la mise
         cote2 = mise[8]  # Obtener el valor de cote2 de la mise
 
-        # Renderizar el template antes de eliminar la apuesta antigua
-        render_avant_supprimer = render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
-        
+       
+
         # Agregar lógica para eliminar la apuesta antigua
         conn = mysql.connect()
         curseur = conn.cursor()
@@ -269,10 +275,12 @@ def modifier_mise(mise_id):
         curseur.close()
         conn.close()
         
-        return render_avant_supprimer
+        # Renderizar el template después de eliminar la apuesta antigua
+        return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
     else:
         # Mise no encontrada
         return "Mise no encontrada"
+
 
 
 @app.route('/mise/<int:mise_id>/supprimer', methods=['GET'])
