@@ -69,6 +69,7 @@
             <input type="hidden" name="cote1" id="form-cote1">
             <input type="hidden" name="cote2" id="form-cote2">
             <input type="hidden" name="jour" id="form-jour">
+            <input type="hidden" name="debut" id="form-debut">
             {% if voir_bouton_miser %}
             <button type="submit" class="btn btn-primary">Miser</button> 
             {% endif %}
@@ -131,6 +132,7 @@
         document.getElementById("form-cote1").value = cote1;
         document.getElementById("form-cote2").value = cote2;
         document.getElementById("form-jour").value = jour;
+        document.getElementById("form-debut").value = debut;
 
         document.querySelector('.btn-close').addEventListener('click', function() {
           modal.hide();

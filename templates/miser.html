@@ -10,7 +10,9 @@
             <form method="POST" action="/form_miser">
                 <div class="form-group">
                     <label for="jour" class="control-label">Date :</label>
-                    <input type="date" class="form-control" id="jour" name="jour" value="{{ jour }}" readonly>
+                    <span id="jour">{{ jour }}</span>
+                    <label for="debut" class="control-label">Heure :</label>
+                    <span id="debut">{{ debut }}</span>
                 </div>
                 <div class="form-group">
                     <div class="row">
