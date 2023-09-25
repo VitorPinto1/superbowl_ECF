@@ -404,12 +404,20 @@ def form_miser_selection():
             resultat1 = request.form.get('resultat1_{}'.format(index + 1))
             resultat2 = request.form.get('resultat2_{}'.format(index + 1))
 
-            insert_query = '''
-                INSERT INTO mises (mise1, mise2, resultat1, resultat2, equipe1, equipe2, cote1, cote2, id_utilisateur, id_match)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            insert_query1 = '''
+                INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match)
+                VALUES (%s, %s, %s, %s, %s, %s)
             '''
-            data = (mise1_decimal, mise2_decimal, resultat1, resultat2, equipe1, equipe2, cote1, cote2, utilisateur, id_match)
-            cursor.execute(insert_query, data)
+            data1 = (mise1_decimal, resultat1, equipe1, cote1, utilisateur, id_match)
+            cursor.execute(insert_query1, data1)
+
+            # Insertar la mise para el equipo 2
+            insert_query2 = '''
+                INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            '''
+            data2 = (mise2_decimal, resultat2, equipe2, cote2, utilisateur, id_match)
+            cursor.execute(insert_query2, data2)
 
     conn.commit()
 
