@@ -250,25 +250,24 @@ def form_miser():
 
     return redirect('/espace_utilisateur')
 
-
 @app.route('/mise/<int:mise_id>/modifier', methods=['GET'])
 def modifier_mise(mise_id):
     conn = mysql.connect()
     curseur = conn.cursor()
 
-    requete_select = "SELECT mises.*, matchs.equipe1, matchs.equipe2 FROM mises INNER JOIN matchs ON mises.id_match = matchs.id WHERE mises.id = %s"
+    requete_select = "SELECT mises.*, matchs.equipe1, matchs.equipe2, matchs.cote1, matchs.cote2 FROM mises INNER JOIN matchs ON mises.id_match = matchs.id WHERE mises.id = %s"
     curseur.execute(requete_select, (mise_id,))
     mise = curseur.fetchone()
 
     if mise:
-        equipe1 = mise[11]  # Obtener el nombre del equipo 1 de la mise desde la columna 'equipe1' de la tabla 'matchs'
-        equipe2 = mise[12]  # Obtener el nombre del equipo 2 de la mise desde la columna 'equipe2' de la tabla 'matchs'
-
+        equipe1 = mise[11]  # Obtener el nombre del equipo 1 de la mise
+        equipe2 = mise[12]  # Obtener el nombre del equipo 2 de la mise
+        cote1 = mise[13]      # Obtener el valor de cote1 de la mise
+        cote2 = mise[14] 
         curseur.close()
         conn.close()
 
-        cote1 = mise[7]  # Obtener el valor de cote1 de la mise
-        cote2 = mise[8]  # Obtener el valor de cote2 de la mise
+        
 
        
 
@@ -286,6 +285,7 @@ def modifier_mise(mise_id):
     else:
         # Mise no encontrada
         return "Mise no encontrada"
+
 
 
 
