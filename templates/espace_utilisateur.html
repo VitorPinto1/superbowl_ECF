@@ -40,8 +40,8 @@
             <th>Heure de début</th>
             <th>Heure de fin</th>
             <th>Mise</th>
-            <th>Résultat </th>
             <th>Status</th>
+            <th>Bénéfices</th>
           </tr>
         </thead>
         <tbody>
@@ -59,15 +59,26 @@
                 {{ mise[2] }} - {{ mise[7] }}
               {% endif %}
             </td>
-            <td>  
-              {% if mise[8] is not none %}
-                {{ mise[8] }}
-              {% endif %}
-              {% if mise[9] is not none %}
-                {{ mise[9] }}
+            <td>{{ mise[10] }}</td>
+            <td>
+              {% if mise[10] == "Terminé" %}
+                {% if mise[12] == mise[11] %}
+                  {{ mise[12] }} - {{ mise[8]}} (Gagné)
+                {% elif mise[13] == mise[11] %}
+                  {{ mise[13] }} - {{ mise[9]}} (Gagné)
+                {% else %}
+                  {% if mise[6] is not none %}
+                    {{ mise[6] }}
+                  {% elif mise[7] is not none %}
+                    {{ mise[7] }}
+                  {% else %}
+                    -
+                  {% endif %}
+                {% endif %}
+              {% else %}
+                -
               {% endif %}
             </td>
-            <td>{{ mise[10] }}</td>
             <td>
               {% if mise[10] == "À venir" %}
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Modifier">Modifier</button>
@@ -76,6 +87,8 @@
               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Supprimer">Supprimer</button>
               {% endif %}
             </td>
+            
+
           </tr>
           <!-- Modal de confirmation de suppression -->
           <div class="modal fade" id="modal{{ mise[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ mise[0] }}SupprimerLabel" aria-hidden="true">

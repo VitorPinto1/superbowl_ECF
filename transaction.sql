@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS matchs (
     commentaires VARCHAR(100) DEFAULT ' - ',
     but1 INT,
     but2 INT,
+    vainqueur VARCHAR(50),
     PRIMARY KEY (id),
     UNIQUE KEY unique_match (equipe1, equipe2, jour)
 );

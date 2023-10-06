@@ -619,7 +619,7 @@ def espace_utilisateur():
 
     # Sélectionner les paris de l'utilisateur
     select_mises_query = '''
-        SELECT mises.id, matchs.equipe1, matchs.equipe2, matchs.jour, matchs.debut, matchs.fin, mises.mise1, mises.mise2, mises.resultat1, mises.resultat2, matchs.statut
+        SELECT mises.id, matchs.equipe1, matchs.equipe2, matchs.jour, matchs.debut, matchs.fin, mises.mise1, mises.mise2, mises.resultat1, mises.resultat2, matchs.statut, matchs.vainqueur, mises.equipe1, mises.equipe2
         FROM mises
         JOIN matchs ON mises.id_match = matchs.id
         WHERE mises.id_utilisateur = %s
