@@ -74,7 +74,7 @@
               miserButton.disabled = true; // Deshabilitar el botón si ambos campos están vacíos
           }
       }
-    function calculerMultiplication(inputId, resultatId, cote) {
+      function calculerMultiplication(inputId, resultatId, cote) {
         var input = document.getElementById(inputId);
         var resultat = document.getElementById(resultatId);
         var resultatInput = document.getElementById(resultatId + "_input"); // Champ caché pour le résultat spécifique
@@ -82,17 +82,13 @@
 
         if (!isNaN(valeur)) {
             var multiplication = cote * valeur;
-            if(Number, isInteger(valeur)) {
-                resultat.textContent = 'Résultat : ' + multiplication.toFixed(0);
-            } else {
-                resultat.textContent = 'Résultat : ' + multiplication.toFixed(2);
-            }
-            
+            resultat.textContent = 'Résultat : ' + multiplication;
             resultatInput.value = multiplication; // Affecter le résultat au champ caché spécifique
         } else {
             resultat.textContent = '';
             resultatInput.value = ''; // Effacer le champ caché s'il n'y a pas de valeur valide
         }
+      
     }
 </script>
 
