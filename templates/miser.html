@@ -82,7 +82,12 @@
 
         if (!isNaN(valeur)) {
             var multiplication = cote * valeur;
-            resultat.textContent = 'Résultat : ' + multiplication;
+            if(Number, isInteger(valeur)) {
+                resultat.textContent = 'Résultat : ' + multiplication.toFixed(0);
+            } else {
+                resultat.textContent = 'Résultat : ' + multiplication.toFixed(2);
+            }
+            
             resultatInput.value = multiplication; // Affecter le résultat au champ caché spécifique
         } else {
             resultat.textContent = '';
