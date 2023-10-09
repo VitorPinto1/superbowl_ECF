@@ -32,109 +32,113 @@
     </div>
     <div class="tab-pane fade {% if active_tab == 'historique' %}show active{% endif %}" id="historique" role="tabpanel" aria-labelledby="historique-tab">
       <h3>Historique des mises</h3>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Equipes</th>
-            <th>Date</th>
-            <th>Heure de début</th>
-            <th>Heure de fin</th>
-            <th>Mise</th>
-            <th>Status</th>
-            <th>Bénéfices</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for mise in mises %}
-          <tr>
-            <td>{{ mise[1] }} - {{ mise[2] }}</td>
-            <td>{{ mise[3] }}</td>
-            <td>{{ mise[4] }}</td>
-            <td>{{ mise[5] }}</td>
-            <td>  
-              {% if mise[6] is not none %}
-                {{ mise[1] }} - {{ mise[6] }}
-              {% endif %}
-              {% if mise[7] is not none %}
-                {{ mise[2] }} - {{ mise[7] }}
-              {% endif %}
-            </td>
-            <td>{{ mise[10] }}</td>
-            <td>
-              {% if mise[10] == "Terminé" %}
-                {% if mise[12] == mise[11] %}
-                  <span class="text-success">{{ mise[8] }}</span>
-                {% elif mise[13] == mise[11] %}
-                  <span class="text-success">{{ mise[9]}}</span>
-                {% else %}
-                  {% if mise[6] is not none %}
-                    <span class="text-danger">{{ mise[6] }}</span>
-                  {% elif mise[7] is not none %}
-                    <span class="text-danger">{{ mise[7] }}</span>
-                  {% else %}
-                    -
-                  {% endif %}
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Equipes</th>
+              <th>Date</th>
+              <th>Heure de début</th>
+              <th>Heure de fin</th>
+              <th>Mise</th>
+              <th>Status</th>
+              <th>Bénéfices</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for mise in mises %}
+            <tr>
+              <td>{{ mise[1] }} - {{ mise[2] }}</td>
+              <td>{{ mise[3] }}</td>
+              <td>{{ mise[4] }}</td>
+              <td>{{ mise[5] }}</td>
+              <td>  
+                {% if mise[6] is not none %}
+                  {{ mise[1] }} - {{ mise[6] }}
                 {% endif %}
-              {% else %}
-                -
-              {% endif %}
-            </td>
-            <td>
-              {% if mise[10] == "À venir" %}
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Modifier">Modifier</button>
-              {% endif %}
-              {% if mise[10] == "À venir" %}
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Supprimer">Supprimer</button>
-              {% endif %}
-            </td>
-            
-
-          </tr>
-          <!-- Modal de confirmation de suppression -->
-          <div class="modal fade" id="modal{{ mise[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ mise[0] }}SupprimerLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="modal{{ mise[0] }}SupprimerLabel">Supprimer la mise</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  Êtes-vous sûr de vouloir supprimer cette mise ?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-                  <a href="/mise/{{ mise[0] }}/supprimer" class="btn btn-danger">Oui</a>
+                {% if mise[7] is not none %}
+                  {{ mise[2] }} - {{ mise[7] }}
+                {% endif %}
+              </td>
+              <td>{{ mise[10] }}</td>
+              <td>
+                {% if mise[10] == "Terminé" %}
+                  {% if mise[12] == mise[11] %}
+                    <span class="text-success">{{ mise[8] }}</span>
+                  {% elif mise[13] == mise[11] %}
+                    <span class="text-success">{{ mise[9]}}</span>
+                  {% else %}
+                    {% if mise[6] is not none %}
+                      <span class="text-danger">{{ mise[6] }}</span>
+                    {% elif mise[7] is not none %}
+                      <span class="text-danger">{{ mise[7] }}</span>
+                    {% else %}
+                      -
+                    {% endif %}
+                  {% endif %}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if mise[10] == "À venir" %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Modifier">Modifier</button>
+                {% endif %}
+                {% if mise[10] == "À venir" %}
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Supprimer">Supprimer</button>
+                {% endif %}
+              </td>
+              
+  
+            </tr>
+            <!-- Modal de confirmation de suppression -->
+            <div class="modal fade" id="modal{{ mise[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ mise[0] }}SupprimerLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modal{{ mise[0] }}SupprimerLabel">Supprimer la mise</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer cette mise ?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                    <a href="/mise/{{ mise[0] }}/supprimer" class="btn btn-danger">Oui</a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <!-- Modal de confirmation de modififacion -->
-          <div class="modal fade" id="modal{{ mise[0] }}Modifier" tabindex="-1" aria-labelledby="modal{{ mise[0] }}ModifierLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="modal{{ mise[0] }}ModifierLabel">Modifier la mise</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  Êtes-vous sûr de vouloir modifier cette mise ? (Le pari existant sera éliminé)
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-                  <a href="/mise/{{ mise[0] }}/modifier" class="btn btn-danger" >Oui</a>
+  
+            <!-- Modal de confirmation de modififacion -->
+            <div class="modal fade" id="modal{{ mise[0] }}Modifier" tabindex="-1" aria-labelledby="modal{{ mise[0] }}ModifierLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modal{{ mise[0] }}ModifierLabel">Modifier la mise</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Êtes-vous sûr de vouloir modifier cette mise ? (Le pari existant sera éliminé)
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                    <a href="/mise/{{ mise[0] }}/modifier" class="btn btn-danger" >Oui</a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {% endfor %}
-        </tbody>
-      </table>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+      
     </div>
   </div>
 </div>
 
-<div class="container">
+<div class="container mt-4">
   <div class="btn-container-index d-flex justify-content-center align-items-center">
     <div class="col text-center">
       <a class="btn btn-primary mx-2" href="{{ url_for('index') }}">Index</a>
@@ -168,7 +172,12 @@
   }
 
 </script>
-
+<style>
+  .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+</style>
 
 
 {% endblock %}
