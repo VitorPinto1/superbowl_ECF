@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, request, url_for
+from flask import Flask, render_template, redirect, session, request, url_for, jsonify
 from flask_bootstrap import Bootstrap
 from datetime import datetime
 from decimal import Decimal
@@ -50,6 +50,7 @@ class Matchs:
         self.cote1 = cote1
         self.cote2 = cote2
         self.commentaires = commentaires
+        
 
 """"
 def insert_matchs(matchs):
@@ -76,13 +77,13 @@ def insert_matchs(matchs):
 
 
 
-
 def obtenir_matchs_from_database():
     conn = mysql.connect()
     cursor = conn.cursor()
 
     select_query = "SELECT equipe1, equipe2, jour, debut, fin, statut, score, meteo,  cote1, cote2, commentaires FROM matchs"
-    
+
+
     cursor.execute(select_query)
     matchs_data = cursor.fetchall()
 
@@ -106,6 +107,10 @@ def obtenir_matchs_from_database():
     conn.close()
 
     return matchs
+
+
+
+
 
 def generer_mot_de_passe(longueur):
     caracteres = string.ascii_letters + string.digits + string.punctuation
@@ -154,7 +159,6 @@ def index():
   return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True, voir_bouton_miser=False, matches = matches)
 
 
-
 @app.route('/visualiser_matchs')
 def visualiser_matchs():
     matchs = obtenir_matchs_from_database()
@@ -175,6 +179,7 @@ def visualiser_matchs():
             voir_bouton_miser = True
 
     return render_template('visualiser_matchs.html', voir_bouton_miser=voir_bouton_miser, matchs=matchs)
+
 
 
 
@@ -200,8 +205,26 @@ def miser():
     cote2 = session.get('cote2')
     jour = session.get('jour')
     debut = session.get('debut')
+    utilisateur = session['id_utilisateur']
 
-    return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2, jour=jour, debut = debut)
+    # Verificar si ya existe una apuesta para este usuario y partido
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    select_existing_bet_query = '''
+        SELECT id FROM mises
+        WHERE id_utilisateur = %s AND id_match IN (
+            SELECT id FROM matchs WHERE equipe1 = %s AND equipe2 = %s AND jour = %s AND debut = %s
+        )
+    '''
+    cursor.execute(select_existing_bet_query, (utilisateur, equipe1, equipe2, jour, debut))
+    existing_bet = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2, jour=jour, debut=debut, existing_bet=existing_bet)
+
 
 @app.route('/form_miser', methods=['POST'])
 def form_miser():
@@ -215,8 +238,6 @@ def form_miser():
     jour = session.get('jour') 
     debut = session.get('debut')
 
-    
-
     conn = mysql.connect()
     cursor = conn.cursor()
 
@@ -224,26 +245,80 @@ def form_miser():
     cursor.execute(select_match_query, (equipe1, equipe2, jour, debut))
     match = cursor.fetchone()
     id_match = match[0]
+    
+    # Verificar si ya existe una apuesta para este usuario y partido
+    select_existing_bet_query = '''
+        SELECT id, equipe1, equipe2 FROM mises
+        WHERE id_utilisateur = %s AND id_match = %s
+    '''
+    cursor.execute(select_existing_bet_query, (utilisateur, id_match))
+    existing_bets = cursor.fetchall()
 
-    if mise1 is not None and mise1.strip() != "":
-        insert_query1 = '''
-            INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        '''
-        resultat1 = Decimal(mise1) * Decimal(cote1)
-        data1 = (Decimal(mise1), resultat1, equipe1, cote1, utilisateur, id_match)
-        cursor.execute(insert_query1, data1)
+    if existing_bets:
+        for existing_bet in existing_bets:
+            # Eliminar la apuesta si el valor es 0 para el equipo 1
+            if mise1 is not None and mise1.strip() == "0" and existing_bet[1] == equipe1:
+                delete_query1 = '''
+                    DELETE FROM mises
+                    WHERE id = %s
+                '''
+                cursor.execute(delete_query1, (existing_bet[0],))
+        
+            # Actualizar la apuesta para el equipo 1
+            elif existing_bet[1] == equipe1 and mise1 is not None and mise1.strip() != "":
+                update_query1 = '''
+                    UPDATE mises
+                    SET mise1 = %s, resultat1 = %s
+                    WHERE id = %s
+                '''
+                resultat1 = Decimal(mise1) * Decimal(cote1)
+                data1 = (Decimal(mise1), resultat1, existing_bet[0])
+                cursor.execute(update_query1, data1)
 
-    if mise2 is not None and mise2.strip() != "":
-        insert_query2 = '''
-            INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        '''
-        resultat2 = Decimal(mise2) * Decimal(cote2)
-        data2 = (Decimal(mise2), resultat2, equipe2, cote2, utilisateur, id_match)
-        cursor.execute(insert_query2, data2)
+            # Eliminar la apuesta si el valor es 0 para el equipo 2
+            if mise2 is not None and mise2.strip() == "0" and existing_bet[2] == equipe2:
+                delete_query2 = '''
+                    DELETE FROM mises
+                    WHERE id = %s
+                '''
+                cursor.execute(delete_query2, (existing_bet[0],))
+        
+            # Actualizar la apuesta para el equipo 2
+            elif existing_bet[2] == equipe2 and mise2 is not None and mise2.strip() != "":
+                update_query2 = '''
+                    UPDATE mises
+                    SET mise2 = %s, resultat2 = %s
+                    WHERE id = %s
+                '''
+                resultat2 = Decimal(mise2) * Decimal(cote2)
+                data2 = (Decimal(mise2), resultat2, existing_bet[0])
+                cursor.execute(update_query2, data2)
 
-    conn.commit()
+        conn.commit()
+
+    
+
+    else:
+        # Si no existe una apuesta, insertar una nueva
+        if mise1 is not None and mise1.strip() != "":
+            insert_query1 = '''
+                INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            '''
+            resultat1 = Decimal(mise1) * Decimal(cote1)
+            data1 = (Decimal(mise1), resultat1, equipe1, cote1, utilisateur, id_match)
+            cursor.execute(insert_query1, data1)
+
+        if mise2 is not None and mise2.strip() != "":
+            insert_query2 = '''
+                INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            '''
+            resultat2 = Decimal(mise2) * Decimal(cote2)
+            data2 = (Decimal(mise2), resultat2, equipe2, cote2, utilisateur, id_match)
+            cursor.execute(insert_query2, data2)
+
+        conn.commit()
 
     cursor.close()
     conn.close()
