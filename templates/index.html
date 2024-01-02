@@ -36,7 +36,8 @@
     </div>
     {% endif %}
     <div class="text-center">
-      <a class="btn btn-primary mx-2" href="{{ url_for('visualiser_matchs') }}">Visualiser tous les matchs</a>
+      <a class="btn btn-primary mx-2" href="{{ url_for('visualiser_matchs' , match_id=match) }}">Visualiser tous les matchs</a>
+
     </div>
     <div class="text-center">
       <a class="btn btn-primary mx-2" href="{{ url_for('parier')}}">Parier</a>
