@@ -11,6 +11,7 @@ from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 import os
 
+
 app = Flask(__name__)
 app.secret_key = 'Pocholo123456'
 load_dotenv()
@@ -704,7 +705,7 @@ def espace_utilisateur():
 
     cursor.close()
     conn.close()
-
+    
   
     # Renvoyer le modèle avec les informations utilisateur
     return render_template('espace_utilisateur.html', utilisateur = utilisateur, mises=mises)
