@@ -23,6 +23,10 @@
   <div class="tab-content">
     <div class="tab-pane fade {% if active_tab == 'dashboard' %}show active{% endif %}" id="dashboard">
       <p>pepe</p>
+      <canvas id="miGrafico"></canvas>
+      
+     
+      
     </div>
     <div class="tab-pane fade {% if active_tab == 'informations' %}show active{% endif %}" id="informations">
       <h3>Informations</h3>
@@ -33,6 +37,7 @@
     <div class="tab-pane fade {% if active_tab == 'historique' %}show active{% endif %}" id="historique" role="tabpanel" aria-labelledby="historique-tab">
       <h3>Historique des mises</h3>
       <div class="table-container">
+        
         <table class="table">
           <thead>
             <tr>
@@ -131,7 +136,7 @@
             {% endfor %}
           </tbody>
         </table>
-
+       
       </div>
       
     </div>
@@ -151,26 +156,73 @@
   </div>
 </div>
 
+
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function activateHistoriqueTab() {
+      const historiqueTab = document.getElementById('historique-tab');
+      historiqueTab.classList.add('active');
+      historiqueTab.setAttribute('aria-selected', 'true');
 
-  function activateHistoriqueTab() {
-    const historiqueTab = document.getElementById('historique-tab');
-    historiqueTab.classList.add('active');
-    historiqueTab.setAttribute('aria-selected', 'true');
-
-    const historiqueContent = document.getElementById('historique');
-    historiqueContent.classList.add('show', 'active');
-  }
+      const historiqueContent = document.getElementById('historique');
+      historiqueContent.classList.add('show', 'active');
+    }
 
 
 
-  // Verificar si se realizó una supresión y activar la pestaña correspondiente
-  const urlParams = new URLSearchParams(window.location.search);
-  const suppressionSuccessful = urlParams.get('suppression');
-  if (suppressionSuccessful === 'true') {
-    activateHistoriqueTab();
-  }
+    // Verificar si se realizó una supresión y activar la pestaña correspondiente
+    const urlParams = new URLSearchParams(window.location.search);
+    const suppressionSuccessful = urlParams.get('suppression');
+    if (suppressionSuccessful === 'true') {
+      activateHistoriqueTab();
+    }
 
+    // Asegúrese de que este código se ejecute después de que la tabla y los datos estén completamente cargados
+    let beneficios = [];
+
+    // Selecciona todas las filas de la tabla
+    document.querySelectorAll('table tbody tr').forEach(row => {
+        // Encuentra el séptimo td en la fila
+        let tdBeneficios = row.cells[6];
+
+        // Verifica si el td contiene un span y extrae el texto
+        let span = tdBeneficios.querySelector('span');
+        if (span) {
+            let valor = parseFloat(span.textContent);
+
+            // Si el span tiene la clase 'text-danger', convierte el valor en negativo
+            if (span.classList.contains('text-danger') && valor > 0) {
+                valor = -valor;
+            }
+
+            beneficios.push(valor);
+        }
+    });
+
+    // Crear el gráfico
+    const ctx = document.getElementById('miGrafico').getContext('2d');
+    const miGrafico = new Chart(ctx, {
+        type: 'line', // O 'bar' para un gráfico de barras
+        data: {
+            labels: beneficios.map((_, index) => `Mise ${index + 1}`),
+            datasets: [{
+                label: 'Beneficios',
+                data: beneficios,
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+  });
+  
 </script>
 <style>
   .table-container {
