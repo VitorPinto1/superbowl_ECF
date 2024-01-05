@@ -8,7 +8,7 @@
   <h3>Mon espace</h3>
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link {% if active_tab == 'dashboard' %}active{% endif %}" href="#dashboard" data-bs-toggle="tab">Dashboard</a>
+      <a class="nav-link {% if active_tab == 'dashboard' %}active{% endif %}" href="#dashboard" data-bs-toggle="tab">Statistiques</a>
     </li>
     <li class="nav-item">
       <a class="nav-link  {% if active_tab == 'informations' %}active{% endif %}" href="#informations" data-bs-toggle="tab">Informations</a>
@@ -22,8 +22,10 @@
 
   <div class="tab-content">
     <div class="tab-pane fade {% if active_tab == 'dashboard' %}show active{% endif %}" id="dashboard">
-      <p>pepe</p>
-      <canvas id="miGrafico"></canvas>
+      <div style="width: 200px; height: 200px">
+        <canvas id="monGraphique"></canvas>
+      </div>
+     
       
      
       
@@ -156,7 +158,6 @@
   </div>
 </div>
 
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     function activateHistoriqueTab() {
@@ -168,67 +169,70 @@
       historiqueContent.classList.add('show', 'active');
     }
 
-
-
-    // Verificar si se realizó una supresión y activar la pestaña correspondiente
     const urlParams = new URLSearchParams(window.location.search);
     const suppressionSuccessful = urlParams.get('suppression');
     if (suppressionSuccessful === 'true') {
       activateHistoriqueTab();
     }
 
-    // Asegúrese de que este código se ejecute después de que la tabla y los datos estén completamente cargados
-    let beneficios = [];
+    let totalBenefices = 0;
+    let totalPertes = 0;
 
-    // Selecciona todas las filas de la tabla
     document.querySelectorAll('table tbody tr').forEach(row => {
-        // Encuentra el séptimo td en la fila
-        let tdBeneficios = row.cells[6];
-
-        // Verifica si el td contiene un span y extrae el texto
-        let span = tdBeneficios.querySelector('span');
-        if (span) {
-            let valor = parseFloat(span.textContent);
-
-            // Si el span tiene la clase 'text-danger', convierte el valor en negativo
-            if (span.classList.contains('text-danger') && valor > 0) {
-                valor = -valor;
-            }
-
-            beneficios.push(valor);
+      let tdBenefices = row.cells[6];
+      let span = tdBenefices.querySelector('span');
+      if (span) {
+        let valeur = parseFloat(span.textContent);
+        if (span.classList.contains('text-danger') && valeur > 0) {
+            valeur = -valeur;
         }
+
+        if (valeur > 0) {
+          totalBenefices += valeur;
+        } else {
+          totalPertes += valeur;
+        }
+      }
     });
 
-    // Crear el gráfico
-    const ctx = document.getElementById('miGrafico').getContext('2d');
-    const miGrafico = new Chart(ctx, {
-        type: 'line', // O 'bar' para un gráfico de barras
-        data: {
-            labels: beneficios.map((_, index) => `Mise ${index + 1}`),
-            datasets: [{
-                label: 'Beneficios',
-                data: beneficios,
-                backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                borderColor: 'rgba(0, 123, 255, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
+    let pourcentageBenefices, pourcentagePertes;
+    if (totalBenefices - totalPertes !== 0) {
+      pourcentageBenefices = (totalBenefices / (totalBenefices - totalPertes)) * 100;
+      pourcentagePertes = (totalPertes / (totalBenefices - totalPertes)) * -100;
+    } else {
+      pourcentageBenefices = 0;
+      pourcentagePertes = 0;
+    }
+
+    const ctx = document.getElementById('monGraphique').getContext('2d');
+    const monGraphique = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Benefices', 'Pertes'],
+        datasets: [{
+          label: 'Pourcentage',
+          data: [pourcentageBenefices, pourcentagePertes],
+          backgroundColor: ['rgba(0, 255, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'],
+          borderColor: ['rgba(0, 255, 0, 1)', 'rgba(255, 0, 0, 1)'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: true
+      }
     });
+
   });
-  
 </script>
+
 <style>
   .table-container {
       max-height: 400px;
       overflow-y: auto;
     }
+
+  
 </style>
 
 
