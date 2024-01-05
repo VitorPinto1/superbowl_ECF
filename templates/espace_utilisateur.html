@@ -71,14 +71,14 @@
               <td>
                 {% if mise[10] == "Terminé" %}
                   {% if mise[12] == mise[11] %}
-                    <span class="text-success">{{ mise[8] }}</span>
+                    <span class="text-success">{{ mise[8] |float|int }}</span>
                   {% elif mise[13] == mise[11] %}
-                    <span class="text-success">{{ mise[9]}}</span>
+                    <span class="text-success">{{ mise[9] |float|int }}</span>
                   {% else %}
                     {% if mise[6] is not none %}
-                      <span class="text-danger">{{ mise[6] }}</span>
+                      <span class="text-danger">{{ mise[6] |float|int }}</span>
                     {% elif mise[7] is not none %}
-                      <span class="text-danger">{{ mise[7] }}</span>
+                      <span class="text-danger">{{ mise[7] |float|int }}</span>
                     {% else %}
                       -
                     {% endif %}
