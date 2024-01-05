@@ -118,6 +118,13 @@ def generer_mot_de_passe(longueur):
     mot_de_passe = ''.join(random.choice(caracteres) for _ in range(longueur))
     return mot_de_passe
 
+def generer_meteo_aleatoire():
+    conditions = ["Ensoleillé", "Nuageux", "Pluvieux", "Venteux", "Neigeux"]
+    temperature = random.randint(-10, 35)  # Température aléatoire entre -10 et 35 degrés
+    condition = random.choice(conditions)
+    meteo = f"{condition}, {temperature}°C"
+    return meteo
+
 
 @app.route('/')
 def index():
@@ -775,6 +782,7 @@ def creation_form():
     return redirect(url_for('espace_administrateur'))
 
 @app.route('/planification', methods=['GET', 'POST'])
+
 def planification_form():
     error_message = None
     conn = mysql.connect()
@@ -792,7 +800,8 @@ def planification_form():
         cote2 = request.form['cote2']
 
         statut = "À venir"
-
+        
+        meteo = generer_meteo_aleatoire()
     
 
         conn = mysql.connect()
@@ -809,8 +818,8 @@ def planification_form():
         
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO matchs (equipe1, equipe2, jour, debut,cote1, cote2, statut) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                       (equipe1, equipe2, jour, debut, cote1, cote2, statut))
+        cursor.execute("INSERT INTO matchs (equipe1, equipe2, jour, debut,cote1, cote2, statut, meteo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                       (equipe1, equipe2, jour, debut, cote1, cote2, statut, meteo))
         conn.commit()
         conn.close()
 
