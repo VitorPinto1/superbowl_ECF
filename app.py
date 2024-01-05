@@ -82,8 +82,16 @@ def obtenir_matchs_from_database():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    select_query = "SELECT equipe1, equipe2, jour, debut, fin, statut, score, meteo,  cote1, cote2, commentaires FROM matchs"
-
+    select_query = '''
+    SELECT equipe1, equipe2, jour, debut, fin, statut, score, meteo,  cote1, cote2, commentaires FROM matchs 
+    ORDER BY 
+        CASE matchs.statut 
+            WHEN 'En cours' THEN 1
+            WHEN 'Terminé' THEN 2
+            WHEN 'À venir' THEN 3
+            ELSE 4
+        END
+    '''
 
     cursor.execute(select_query)
     matchs_data = cursor.fetchall()
@@ -705,7 +713,14 @@ def espace_utilisateur():
         SELECT mises.id, matchs.equipe1, matchs.equipe2, matchs.jour, matchs.debut, matchs.fin, mises.mise1, mises.mise2, mises.resultat1, mises.resultat2, matchs.statut, matchs.vainqueur, mises.equipe1, mises.equipe2
         FROM mises
         JOIN matchs ON mises.id_match = matchs.id
-        WHERE mises.id_utilisateur = %s
+        WHERE mises.id_utilisateur = %s 
+        ORDER BY 
+            CASE matchs.statut 
+                WHEN 'En cours' THEN 1
+                WHEN 'Terminé' THEN 2
+                WHEN 'À venir' THEN 3
+                ELSE 4
+            END
     '''
     cursor.execute(select_mises_query, (id_utilisateur,))
     mises = cursor.fetchall()

@@ -61,10 +61,10 @@
               <td>{{ mise[5] }}</td>
               <td>  
                 {% if mise[6] is not none %}
-                  {{ mise[1] }} - {{ mise[6] }}
+                  {{ mise[1] }} - {{ mise[6] |int }}
                 {% endif %}
                 {% if mise[7] is not none %}
-                  {{ mise[2] }} - {{ mise[7] }}
+                  {{ mise[2] }} - {{ mise[7]|int }}
                 {% endif %}
               </td>
               <td>{{ mise[10] }}</td>
