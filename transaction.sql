@@ -43,6 +43,9 @@ CREATE TABLE IF NOT EXISTS equipes (
   pays_appartenance VARCHAR(255)
 );
 
+
+
+
 CREATE TABLE IF NOT EXISTS joueurs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nom_joueur VARCHAR(255),
@@ -140,3 +143,4 @@ VALUES
   ('Tampa Bay Buccaneers', 'États Unis'),
   ('Tennessee Titans', 'États Unis'),
   ('Washington Commanders', 'États Unis');
+

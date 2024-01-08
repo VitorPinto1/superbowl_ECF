@@ -10,6 +10,7 @@ import string
 from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 import os
+from faker import Faker
 
 
 app = Flask(__name__)
@@ -132,6 +133,49 @@ def generer_meteo_aleatoire():
     condition = random.choice(conditions)
     meteo = f"{condition}, {temperature}°C"
     return meteo
+
+fake = Faker()
+
+def random_prenom(equipe_id, numero_joueurs = 11):
+    joueurs_prenom = []
+    for _ in range(numero_joueurs):
+        nom_complet = fake.name()
+        nom_parts = nom_complet.split(' ')
+        nom_joueur = nom_parts[0]
+        if len(nom_parts) > 1:
+            prenom_joueur = ' '.join(nom_parts[1:])  # Resto del nombre (apellido)
+        else:
+            prenom_joueur = ''
+        numero_tshirt = random.randint(1,99)
+        joueurs_prenom.append((nom_joueur, prenom_joueur, numero_tshirt, equipe_id))
+    return joueurs_prenom
+
+def ajouter_joueurs(joueurs_prenom):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    for joueur_prenom in joueurs_prenom:
+        insert_query = "INSERT INTO joueurs (nom_joueur, prenom_joueur, numero_tshirt, equipe_id) VALUES (%s, %s, %s, %s)"
+        cursor.execute(insert_query, joueur_prenom)
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def verifier_existence_joueurs(equipe_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM joueurs WHERE equipe_id = %s", (equipe_id,))
+    (count,) = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return count > 0
+
+equipes_ids = list(range(1, 33))  # Reemplaza con los IDs reales de tus equipos
+
+for equipe_id in equipes_ids:
+    if not verifier_existence_joueurs(equipe_id):
+        joueurs_prenom = random_prenom(equipe_id)
+        ajouter_joueurs(joueurs_prenom)
 
 
 @app.route('/')
