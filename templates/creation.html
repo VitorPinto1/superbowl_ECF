@@ -134,6 +134,9 @@
       });
     }
 
+    const errorHeader = 'Erreur'
+    const errorMessage = 'Veuillez vous assurer que tous les champs sont complétés correctement.';
+
     // Validation
     document.getElementById('creationForm').addEventListener('submit', function (e) {
         let isValid = true;
@@ -161,7 +164,7 @@
 
         if (!isValid) {
             e.preventDefault(); // Prevoir envoie formulaire si erreur
-            alert('Veuillez vous assurer que tous les champs sont complétés correctement (maximum 50 caractères pour les textes et uniquement des chiffres pour les numéros de maillot).');
+            alert(errorHeader + '\n\n' + errorMessage);
         }
     });
   });
