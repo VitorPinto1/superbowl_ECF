@@ -106,10 +106,37 @@ END //
 DELIMITER ;
 
 
-
-
-
-
-
-
-
+INSERT INTO equipes (nom_equipe, pays_appartenance)
+VALUES
+  ('Arizona Cardinals', 'États Unis'),
+  ('Atlanta Falcons', 'États Unis'),
+  ('Baltimore Ravens', 'États Unis'),
+  ('Buffalo Bills', 'États Unis'),
+  ('Carolina Panthers', 'États Unis'),
+  ('Chicago Bears', 'États Unis'),
+  ('Cincinnati Bengals', 'États Unis'),
+  ('Cleveland Browns', 'États Unis'),
+  ('Dallas Cowboys', 'États Unis'),
+  ('Denver Broncos', 'États Unis'),
+  ('Detroit Lions', 'États Unis'),
+  ('Green Bay Packers', 'États Unis'),
+  ('Houston Texans', 'États Unis'),
+  ('Indianapolis Colts', 'États Unis'),
+  ('Jacksonville Jaguars', 'États Unis'),
+  ('Kansas City Chiefs', 'États Unis'),
+  ('Las Vegas Raiders', 'États Unis'),
+  ('Los Angeles Chargers', 'États Unis'),
+  ('Los Angeles Rams', 'États Unis'),
+  ('Miami Dolphins', 'États Unis'),
+  ('Minnesota Vikings', 'États Unis'),
+  ('New England Patriots', 'États Unis'),
+  ('New Orleans Saints', 'États Unis'),
+  ('New York Giants', 'États Unis'),
+  ('New York Jets', 'États Unis'),
+  ('Philadelphia Eagles', 'États Unis'),
+  ('Pittsburgh Steelers', 'États Unis'),
+  ('San Francisco 49ers', 'États Unis'),
+  ('Seattle Seahawks', 'États Unis'),
+  ('Tampa Bay Buccaneers', 'États Unis'),
+  ('Tennessee Titans', 'États Unis'),
+  ('Washington Commanders', 'États Unis');
