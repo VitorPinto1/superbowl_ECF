@@ -40,7 +40,7 @@ bootstrap = Bootstrap(app)
 
 
 class Matchs:
-    def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires):
+    def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires, joueurs_equipe1, joueurs_equipe2):
         self.equipe1 = equipe1
         self.equipe2 = equipe2
         self.jour = jour
@@ -52,6 +52,8 @@ class Matchs:
         self.cote1 = cote1
         self.cote2 = cote2
         self.commentaires = commentaires
+        self.joueurs_equipe1 = joueurs_equipe1
+        self.joueurs_equipe2 = joueurs_equipe2
         
 
 """"
@@ -84,14 +86,41 @@ def obtenir_matchs_from_database():
     cursor = conn.cursor()
 
     select_query = '''
-    SELECT equipe1, equipe2, jour, debut, fin, statut, score, meteo,  cote1, cote2, commentaires FROM matchs 
+    SELECT 
+        m.equipe1, 
+        m.equipe2, 
+        m.jour, 
+        m.debut, 
+        m.fin, 
+        m.statut, 
+        m.score, 
+        m.meteo,  
+        m.cote1, 
+        m.cote2, 
+        m.commentaires,
+        GROUP_CONCAT(DISTINCT CONCAT(j1.nom_joueur, ' ', j1.prenom_joueur, ' (#', j1.numero_tshirt, ')') ORDER BY j1.nom_joueur SEPARATOR ', ') AS joueurs_equipe1,
+        GROUP_CONCAT(DISTINCT CONCAT(j2.nom_joueur, ' ', j2.prenom_joueur, ' (#', j2.numero_tshirt, ')') ORDER BY j2.nom_joueur SEPARATOR ', ') AS joueurs_equipe2
+    FROM 
+        matchs m
+    LEFT JOIN 
+        equipes e1 ON m.equipe1 = e1.nom_equipe
+    LEFT JOIN 
+        joueurs j1 ON e1.id = j1.equipe_id
+    LEFT JOIN 
+        equipes e2 ON m.equipe2 = e2.nom_equipe
+    LEFT JOIN 
+        joueurs j2 ON e2.id = j2.equipe_id
+    GROUP BY 
+        m.equipe1, m.equipe2, m.jour, m.debut, m.fin, m.statut, m.score, m.meteo, m.cote1, m.cote2, m.commentaires
     ORDER BY 
-        CASE matchs.statut 
+        CASE m.statut 
             WHEN 'En cours' THEN 1
             WHEN 'Terminé' THEN 2
             WHEN 'À venir' THEN 3
             ELSE 4
         END
+
+
     '''
 
     cursor.execute(select_query)

@@ -134,7 +134,6 @@
       });
     }
 
-    const errorHeader = 'Erreur'
     const errorMessage = 'Veuillez vous assurer que tous les champs sont complétés correctement.';
 
     // Validation
@@ -164,7 +163,7 @@
 
         if (!isValid) {
             e.preventDefault(); // Prevoir envoie formulaire si erreur
-            alert(errorHeader + '\n\n' + errorMessage);
+            alert(errorMessage);
         }
     });
   });
