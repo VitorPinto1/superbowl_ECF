@@ -23,7 +23,7 @@
       <tr data-bs-toggle="modal" data-bs-target="#modal" data-equipo1="{{ match.equipe1 }}" 
       data-equipo2="{{ match.equipe2 }}" data-jour="{{ match.jour }}" data-debut="{{ match.debut }}" 
       data-fin="{{ match.fin }}" data-statut="{{ match.statut }}" data-score="{{ match.score }}" data-meteo="{{ match.meteo}}"
-      data-joueurs="{{ match.joueurs }}" data-cote1="{{ match.cote1 }}"  data-cote2="{{ match.cote2 }}" data-commentaires="{{ match.commentaires}}">
+      data-joueurs_equipe1="{{ match.joueurs_equipe1 }}" data-joueurs_equipe2="{{ match.joueurs_equipe2 }}" data-cote1="{{ match.cote1 }}"  data-cote2="{{ match.cote2 }}" data-commentaires="{{ match.commentaires}}">
         <td>{{ match.equipe1 }} vs {{ match.equipe2 }}</td>
         <td>{{ match.jour }}</td>
         <td>{{ match.debut }}</td>
@@ -56,7 +56,8 @@
           <p id="statut"></p>
           <p id="score"></p>
           <p id="meteo"></p>
-          <p id="joueurs"></p>
+          <p id="joueurs_equipe1">Joueurs Équipe 1:</p>
+          <p id="joueurs_equipe2">Joueurs Équipe 2:</p>   
           <p id="cote1"></p>
           <p id="cote2"></p>
           <p id="commentaires"></p>
@@ -107,11 +108,12 @@
         var statut = modalTrigger.dataset.statut;
         var score = modalTrigger.dataset.score;
         var meteo = modalTrigger.dataset.meteo;
-        var joueurs = modalTrigger.dataset.joueurs;
+        var joueurs_equipe1 = modalTrigger.dataset.joueurs_equipe1;
+        var joueurs_equipe2 = modalTrigger.dataset.joueurs_equipe2;
         var cote1 = modalTrigger.dataset.cote1;
         var cote2 = modalTrigger.dataset.cote2;
         var commentaires = modalTrigger.dataset.commentaires;
-        var joueursList = joueurs.split(', ');
+        
         
 
         document.getElementById("equipe1").innerText = equipe1;
@@ -122,7 +124,9 @@
         document.getElementById("statut").innerText = "Statut: " + statut;
         document.getElementById("score").innerText = "Score: " + score;
         document.getElementById("meteo").innerText = "Météo: " + meteo;
-        document.getElementById("joueurs").innerText = "Joueurs: " + joueurs;
+        document.getElementById("joueurs_equipe1").innerText = "Joueurs: " + joueurs_equipe1;
+        document.getElementById("joueurs_equipe2").innerText = "Joueurs: " + joueurs_equipe2;
+
         document.getElementById("cote1").innerText = "Cote 1: " + cote1;
         document.getElementById("cote2").innerText = "Cote 2: " + cote2;
         document.getElementById("commentaires").innerText = "Commentaires: " + commentaires;
