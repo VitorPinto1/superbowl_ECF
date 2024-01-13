@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS mises (
     cote1 INT,
     cote2 INT,
     id_match INT,
+    datemise DATE,
     FOREIGN KEY (id_match) REFERENCES matchs(id),
     id_utilisateur INT,
     FOREIGN KEY (id_utilisateur) REFERENCES users(id)
