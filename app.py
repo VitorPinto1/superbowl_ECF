@@ -326,6 +326,8 @@ def form_miser():
     utilisateur = session['id_utilisateur']
     jour = session.get('jour') 
     debut = session.get('debut')
+    
+    datemise = datetime.now()
 
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -391,20 +393,20 @@ def form_miser():
         # Si no existe una apuesta, insertar una nueva
         if mise1 is not None and mise1.strip() != "":
             insert_query1 = '''
-                INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match, datemise)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
             '''
             resultat1 = Decimal(mise1) * Decimal(cote1)
-            data1 = (Decimal(mise1), resultat1, equipe1, cote1, utilisateur, id_match)
+            data1 = (Decimal(mise1), resultat1, equipe1, cote1, utilisateur, id_match, datemise)
             cursor.execute(insert_query1, data1)
 
         if mise2 is not None and mise2.strip() != "":
             insert_query2 = '''
-                INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match, datemise)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
             '''
             resultat2 = Decimal(mise2) * Decimal(cote2)
-            data2 = (Decimal(mise2), resultat2, equipe2, cote2, utilisateur, id_match)
+            data2 = (Decimal(mise2), resultat2, equipe2, cote2, utilisateur, id_match, datemise)
             cursor.execute(insert_query2, data2)
 
         conn.commit()
@@ -556,7 +558,7 @@ def form_miser_selection():
         cote2 = match['cote2']
         jour = match['jour']
         utilisateur = session['id_utilisateur']
-        
+        datemise = datetime.now()
         
 
         select_match_query = "SELECT id FROM matchs WHERE equipe1 = %s AND equipe2 = %s AND jour = %s"
@@ -569,18 +571,18 @@ def form_miser_selection():
             resultat2 = request.form.get('resultat2_{}'.format(index + 1))
 
             insert_query1 = '''
-                INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match, datemise)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
             '''
-            data1 = (mise1_decimal, resultat1, equipe1, cote1, utilisateur, id_match)
+            data1 = (mise1_decimal, resultat1, equipe1, cote1, utilisateur, id_match, datemise)
             cursor.execute(insert_query1, data1)
 
             # Insertar la mise para el equipo 2
             insert_query2 = '''
-                INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match, datemise)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
             '''
-            data2 = (mise2_decimal, resultat2, equipe2, cote2, utilisateur, id_match)
+            data2 = (mise2_decimal, resultat2, equipe2, cote2, utilisateur, id_match, datemise)
             cursor.execute(insert_query2, data2)
 
     conn.commit()
