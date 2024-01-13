@@ -516,21 +516,65 @@ def parier():
 
   return render_template('parier.html', voir_bouton_miser_selection=voir_bouton_miser_selection, matchs=matchs)
 
-
 @app.route('/miser_sur_la_selection', methods=['POST'])
 def miser_sur_la_selection():
     donnees_selectionnees = request.form.get('donnees_selectionnees')
     # JSON a objeto Python
     matchs_selectionnes = json.loads(donnees_selectionnees)
-    equipe1 = request.form.get('equipe1')
-    equipe2 = request.form.get('equipe2')
-    cote1 = request.form.get('cote1')
-    cote2 = request.form.get('cote2')
-    jour = request.form.get('jour')
+    
+
+    utilisateur = session['id_utilisateur']
+
+    print("donnees_selectionnees:", donnees_selectionnees)
+    print("matchs_selectionnes:", matchs_selectionnes)
+    print("utilisateur:", utilisateur)
 
     session['miser_sur_la_selection'] = matchs_selectionnes
 
-    return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes, equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2, jour=jour)
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    # Preparamos la consulta SQL
+    select_existing_bet_query = '''
+        SELECT id FROM mises
+        WHERE id_utilisateur = %s 
+            AND (
+                (equipe1 = %s AND equipe2 IS NULL) 
+                OR 
+                (equipe2 = %s AND equipe1 IS NULL)
+            )
+        AND (mise1 IS NOT NULL OR mise2 IS NOT NULL)        
+    '''
+
+    # Verificamos cada partido en matchs_selectionnes
+    existing_bets = []
+    for match in matchs_selectionnes:
+        equipe1 = match['equipe1']
+        equipe2 = match['equipe2']
+        
+        
+        cursor.execute(select_existing_bet_query, (utilisateur, equipe1, equipe2))
+        existing_bet = cursor.fetchone()
+        existing_bets.append(existing_bet)
+        print(f"Valor de existing_bet para {equipe1} vs {equipe2}: {existing_bet}")
+        if existing_bet:
+            print(f"Apuesta existente para {equipe1} vs {equipe2} con ID: {existing_bet[0]}")
+            existing_bets.append(True)  # o cualquier otra representación que prefieras
+        else:
+            print(f"No hay apuestas existentes para {equipe1} vs {equipe2}")
+            existing_bets.append(False)
+
+
+    cursor.close()
+    conn.close()
+
+    matchs_et_bets = list(zip(matchs_selectionnes, existing_bets))
+
+    return render_template('miser_sur_la_selection.html', 
+                           matchs_selectionnes=matchs_selectionnes, 
+                           existing_bets=existing_bets, 
+                           utilisateur=utilisateur, matchs_et_bets = matchs_et_bets)
+
 
 @app.route('/form_miser_selection', methods=['POST'])
 def form_miser_selection():
@@ -570,22 +614,46 @@ def form_miser_selection():
             resultat1 = request.form.get('resultat1_{}'.format(index + 1))
             resultat2 = request.form.get('resultat2_{}'.format(index + 1))
 
-            insert_query1 = '''
-                INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match, datemise)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-            '''
-            data1 = (mise1_decimal, resultat1, equipe1, cote1, utilisateur, id_match, datemise)
-            cursor.execute(insert_query1, data1)
+            # Procesar apuestas para el equipo 1
+            select_existing_bet_query = "SELECT id FROM mises WHERE id_utilisateur = %s AND id_match = %s AND equipe1 = %s"
+            cursor.execute(select_existing_bet_query, (utilisateur, id_match, equipe1))
+            existing_bet = cursor.fetchone()
 
-            # Insertar la mise para el equipo 2
-            insert_query2 = '''
-                INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match, datemise)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-            '''
-            data2 = (mise2_decimal, resultat2, equipe2, cote2, utilisateur, id_match, datemise)
-            cursor.execute(insert_query2, data2)
+            if existing_bet:
+                # Actualizar apuesta existente para el equipo 1
+                update_query = "UPDATE mises SET mise1 = %s, resultat1 = %s WHERE id = %s"
+                resultat1 = Decimal(mise1) * Decimal(cote1)
+                cursor.execute(update_query, (Decimal(mise1), resultat1, existing_bet[0]))
+            else:
+                # Insertar nueva apuesta para el equipo 1
+                insert_query = '''
+                    INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match, datemise)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                '''
+                resultat1 = Decimal(mise1) * Decimal(cote1)
+                cursor.execute(insert_query, (Decimal(mise1), resultat1, equipe1, cote1, utilisateur, id_match, datemise))
+
+            # Procesar apuestas para el equipo 2
+            select_existing_bet_query = "SELECT id FROM mises WHERE id_utilisateur = %s AND id_match = %s AND equipe2 = %s"
+            cursor.execute(select_existing_bet_query, (utilisateur, id_match, equipe2))
+            existing_bet = cursor.fetchone()
+
+            if existing_bet:
+                # Actualizar apuesta existente para el equipo 2
+                update_query = "UPDATE mises SET mise2 = %s, resultat2 = %s WHERE id = %s"
+                resultat2 = Decimal(mise2) * Decimal(cote2)
+                cursor.execute(update_query, (Decimal(mise2), resultat2, existing_bet[0]))
+            else:
+                # Insertar nueva apuesta para el equipo 2
+                insert_query = '''
+                    INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match, datemise)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                '''
+                resultat2 = Decimal(mise2) * Decimal(cote2)
+                cursor.execute(insert_query, (Decimal(mise2), resultat2, equipe2, cote2, utilisateur, id_match, datemise))
 
     conn.commit()
+
 
     cursor.close()
     conn.close()
