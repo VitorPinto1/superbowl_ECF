@@ -521,59 +521,15 @@ def miser_sur_la_selection():
     donnees_selectionnees = request.form.get('donnees_selectionnees')
     # JSON a objeto Python
     matchs_selectionnes = json.loads(donnees_selectionnees)
-    
-
-    utilisateur = session['id_utilisateur']
-
-    print("donnees_selectionnees:", donnees_selectionnees)
-    print("matchs_selectionnes:", matchs_selectionnes)
-    print("utilisateur:", utilisateur)
+    equipe1 = request.form.get('equipe1')
+    equipe2 = request.form.get('equipe2')
+    cote1 = request.form.get('cote1')
+    cote2 = request.form.get('cote2')
+    jour = request.form.get('jour')
 
     session['miser_sur_la_selection'] = matchs_selectionnes
 
-    conn = mysql.connect()
-    cursor = conn.cursor()
-
-    # Preparamos la consulta SQL
-    select_existing_bet_query = '''
-        SELECT id FROM mises
-        WHERE id_utilisateur = %s 
-            AND (
-                (equipe1 = %s AND equipe2 IS NULL) 
-                OR 
-                (equipe2 = %s AND equipe1 IS NULL)
-            )
-        AND (mise1 IS NOT NULL OR mise2 IS NOT NULL)        
-    '''
-
-    # Verificamos cada partido en matchs_selectionnes
-    existing_bets = []
-    for match in matchs_selectionnes:
-        equipe1 = match['equipe1']
-        equipe2 = match['equipe2']
-        
-        
-        cursor.execute(select_existing_bet_query, (utilisateur, equipe1, equipe2))
-        existing_bet = cursor.fetchone()
-        existing_bets.append(existing_bet)
-        print(f"Valor de existing_bet para {equipe1} vs {equipe2}: {existing_bet}")
-        if existing_bet:
-            print(f"Apuesta existente para {equipe1} vs {equipe2} con ID: {existing_bet[0]}")
-            existing_bets.append(True)  # o cualquier otra representación que prefieras
-        else:
-            print(f"No hay apuestas existentes para {equipe1} vs {equipe2}")
-            existing_bets.append(False)
-
-
-    cursor.close()
-    conn.close()
-
-    matchs_et_bets = list(zip(matchs_selectionnes, existing_bets))
-
-    return render_template('miser_sur_la_selection.html', 
-                           matchs_selectionnes=matchs_selectionnes, 
-                           existing_bets=existing_bets, 
-                           utilisateur=utilisateur, matchs_et_bets = matchs_et_bets)
+    return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes, equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2, jour=jour)
 
 
 @app.route('/form_miser_selection', methods=['POST'])
