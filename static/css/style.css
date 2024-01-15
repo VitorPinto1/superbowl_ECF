@@ -16,3 +16,31 @@ body {
 .content-container {
   margin-bottom: 100px; 
 }
+
+#custom-cardIndex {
+  margin: auto;
+  max-width: 800px; /* Ajusta esto según tus preferencias */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+#tableindex {
+  border-collapse: collapse;
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+}
+
+#tableIndex th, #tableIndex td {
+  text-align: center;
+  padding: 8px;
+}
+
+#tableIndex tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#tableindex tr:last-child td {
+  border-bottom: none; /* Esto eliminará el borde inferior de las celdas en la última fila */
+}
+#custom-cardIndex {
+  text-align: center;
+}
