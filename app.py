@@ -31,10 +31,13 @@ mail = Mail(app)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_PORT'] = 3306
-app.config['MYSQL_DATABASE_USER'] = 'PEPE'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'PEPE'
+app.config['MYSQL_DATABASE_USER'] = os.environ.get('DB_USER')
+app.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('DB_PASSWORD')
 app.config['MYSQL_DATABASE_DB'] = 'bdsuperbowl'
+
+
 mysql.init_app(app)
+
 
 bootstrap = Bootstrap(app)
 
