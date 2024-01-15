@@ -13,7 +13,7 @@ import os
 from faker import Faker
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'Pocholo123456'
 load_dotenv()
 
@@ -224,10 +224,15 @@ def index():
   current_date = cursor.fetchone()[0]
 
   # Obtener los partidos de la fecha actual
-  cursor.execute("SELECT * FROM matchs WHERE jour = %s", (current_date,))
+  cursor.execute('''
+    SELECT m.*, e1.logo AS logo_equipe1, e2.logo AS logo_equipe2
+    FROM matchs m
+    JOIN equipes e1 ON m.equipe1 = e1.nom_equipe
+    JOIN equipes e2 ON m.equipe2 = e2.nom_equipe
+    WHERE m.jour = %s;
+  ''', (current_date,))
   matches = cursor.fetchall()
-
-  # Cerrar el cursor y la conexión
+  
   cursor.close()
   conn.close()
 

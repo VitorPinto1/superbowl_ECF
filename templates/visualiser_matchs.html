@@ -24,7 +24,17 @@
       data-equipo2="{{ match.equipe2 }}" data-jour="{{ match.jour }}" data-debut="{{ match.debut }}" 
       data-fin="{{ match.fin }}" data-statut="{{ match.statut }}" data-score="{{ match.score }}" data-meteo="{{ match.meteo}}"
       data-joueurs_equipe1="{{ match.joueurs_equipe1 }}" data-joueurs_equipe2="{{ match.joueurs_equipe2 }}" data-cote1="{{ match.cote1 }}"  data-cote2="{{ match.cote2 }}" data-commentaires="{{ match.commentaires}}">
-        <td>{{ match.equipe1 }} vs {{ match.equipe2 }}</td>
+        <td>
+          {% if match[15] %}
+            <img src="{{ url_for('static', filename=match[15]) }}" alt="Logo de {{ match.equipe1 }}" style="width: 50px; height: 50px;">
+          {% endif %}
+          {{ match.equipe1 }}
+          vs
+          {% if match[16] %}
+            <img src="{{ url_for('static', filename=match[16]) }}" alt="Logo de {{ match.equipe2 }}" style="width: 50px; height: 50px;">
+          {% endif %}
+          {{ match.equipe2 }}
+        </td>
         <td>{{ match.jour }}</td>
         <td>{{ match.debut }}</td>
         <td>{{ match.fin }}</td>

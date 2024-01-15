@@ -40,7 +40,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS equipes (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nom_equipe VARCHAR(255),
-  pays_appartenance VARCHAR(255)
+  pays_appartenance VARCHAR(255),
+  logo VARCHAR(255)
 );
 
 
@@ -109,39 +110,41 @@ END //
 
 DELIMITER ;
 
+ALTER TABLE equipes ADD UNIQUE KEY unique_nom_equipe (nom_equipe);
 
-INSERT INTO equipes (nom_equipe, pays_appartenance)
+
+INSERT IGNORE INTO equipes (nom_equipe, pays_appartenance, logo)
 VALUES
-  ('Arizona Cardinals', 'États Unis'),
-  ('Atlanta Falcons', 'États Unis'),
-  ('Baltimore Ravens', 'États Unis'),
-  ('Buffalo Bills', 'États Unis'),
-  ('Carolina Panthers', 'États Unis'),
-  ('Chicago Bears', 'États Unis'),
-  ('Cincinnati Bengals', 'États Unis'),
-  ('Cleveland Browns', 'États Unis'),
-  ('Dallas Cowboys', 'États Unis'),
-  ('Denver Broncos', 'États Unis'),
-  ('Detroit Lions', 'États Unis'),
-  ('Green Bay Packers', 'États Unis'),
-  ('Houston Texans', 'États Unis'),
-  ('Indianapolis Colts', 'États Unis'),
-  ('Jacksonville Jaguars', 'États Unis'),
-  ('Kansas City Chiefs', 'États Unis'),
-  ('Las Vegas Raiders', 'États Unis'),
-  ('Los Angeles Chargers', 'États Unis'),
-  ('Los Angeles Rams', 'États Unis'),
-  ('Miami Dolphins', 'États Unis'),
-  ('Minnesota Vikings', 'États Unis'),
-  ('New England Patriots', 'États Unis'),
-  ('New Orleans Saints', 'États Unis'),
-  ('New York Giants', 'États Unis'),
-  ('New York Jets', 'États Unis'),
-  ('Philadelphia Eagles', 'États Unis'),
-  ('Pittsburgh Steelers', 'États Unis'),
-  ('San Francisco 49ers', 'États Unis'),
-  ('Seattle Seahawks', 'États Unis'),
-  ('Tampa Bay Buccaneers', 'États Unis'),
-  ('Tennessee Titans', 'États Unis'),
-  ('Washington Commanders', 'États Unis');
+  ('Arizona Cardinals', 'États Unis', NULL),
+  ('Atlanta Falcons', 'États Unis', NULL),
+  ('Baltimore Ravens', 'États Unis', NULL),
+  ('Buffalo Bills', 'États Unis', NULL),
+  ('Carolina Panthers', 'États Unis', NULL),
+  ('Chicago Bears', 'États Unis', NULL),
+  ('Cincinnati Bengals', 'États Unis', 'sources/cincinnati_bengals.png'),
+  ('Cleveland Browns', 'États Unis', NULL),
+  ('Dallas Cowboys', 'États Unis', NULL),
+  ('Denver Broncos', 'États Unis', NULL),
+  ('Detroit Lions', 'États Unis', NULL),
+  ('Green Bay Packers', 'États Unis', NULL),
+  ('Houston Texans', 'États Unis', NULL),
+  ('Indianapolis Colts', 'États Unis', NULL),
+  ('Jacksonville Jaguars', 'États Unis', NULL),
+  ('Kansas City Chiefs', 'États Unis', NULL),
+  ('Las Vegas Raiders', 'États Unis', NULL),
+  ('Los Angeles Chargers', 'États Unis', NULL),
+  ('Los Angeles Rams', 'États Unis', NULL),
+  ('Miami Dolphins', 'États Unis', NULL),
+  ('Minnesota Vikings', 'États Unis', NULL),
+  ('New England Patriots', 'États Unis', NULL),
+  ('New Orleans Saints', 'États Unis', NULL),
+  ('New York Giants', 'États Unis', NULL),
+  ('New York Jets', 'États Unis', NULL),
+  ('Philadelphia Eagles', 'États Unis', NULL),
+  ('Pittsburgh Steelers', 'États Unis', NULL),
+  ('San Francisco 49ers', 'États Unis', NULL),
+  ('Seattle Seahawks', 'États Unis', NULL),
+  ('Tampa Bay Buccaneers', 'États Unis', NULL),
+  ('Tennessee Titans', 'États Unis', NULL),
+  ('Washington Commanders', 'États Unis', NULL);
 
