@@ -6,28 +6,28 @@
   <h1 class="text-center mt-5">Paris sportifs Super Bowl</h1>
   <p class="text-center">L'endroit idéal pour gagner de l'argent avec les paris sportifs</p>
 </div>
-<div class="container">
-  <h4 class="text">Matchs du jour : {{current_date}}</h4>
-  <div class="table-responsive">
-    <table class="table table-border-outer">
-      <thead>
-        <tr>
-          <th>Équipe 1</th>
-          <th>Équipe 2</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for match in matches %}
-        <tr>
-          <td>{{ match[1] }}</td>
-          <td>{{ match[2] }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+
+<div class="card custom-card" id="custom-cardIndex">
+  <div class="card-body">
+    <div class="container">
+      <h4 class="text">Matchs du jour : {{current_date}}</h4>
+      <div class="table-responsive">
+        <table class="table custom-table" id="tableindex">
+          <tbody>
+            {% for match in matches %}
+            <tr>
+              <td>{{ match[1] }}</td>
+              <td>VS</td>
+              <td>{{ match[2] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  
 </div>
+
 <div class="container">
   <div class="btn-container-index d-flex justify-content-center align-items-center">
     {% if not voir_bouton_mon_espace %}
