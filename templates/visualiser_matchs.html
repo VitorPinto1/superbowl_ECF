@@ -10,7 +10,7 @@
   <table class="table table-striped table-hover">
     <thead>
       <tr>
-        <th>Matchs</th>
+        <th colspan="3">Matchs</th>
         <th>Jour</th>
         <th>Début</th>
         <th>Fin</th>
@@ -24,17 +24,19 @@
       data-equipo2="{{ match.equipe2 }}" data-jour="{{ match.jour }}" data-debut="{{ match.debut }}" 
       data-fin="{{ match.fin }}" data-statut="{{ match.statut }}" data-score="{{ match.score }}" data-meteo="{{ match.meteo}}"
       data-joueurs_equipe1="{{ match.joueurs_equipe1 }}" data-joueurs_equipe2="{{ match.joueurs_equipe2 }}" data-cote1="{{ match.cote1 }}"  data-cote2="{{ match.cote2 }}" data-commentaires="{{ match.commentaires}}">
-        <td>
-          {% if match[15] %}
-            <img src="{{ url_for('static', filename=match[15]) }}" alt="Logo de {{ match.equipe1 }}" style="width: 50px; height: 50px;">
-          {% endif %}
-          {{ match.equipe1 }}
-          vs
-          {% if match[16] %}
-            <img src="{{ url_for('static', filename=match[16]) }}" alt="Logo de {{ match.equipe2 }}" style="width: 50px; height: 50px;">
-          {% endif %}
-          {{ match.equipe2 }}
-        </td>
+      <td>
+        {% if match.logo_equipe1 %}
+          <img src="{{ url_for('static', filename=match.logo_equipe1) }}" alt="Logo de {{ match.equipe1 }}" style="width: 50px; height: 50px;">
+        {% endif %}
+        {{ match.equipe1 }}
+      </td>
+      <td>vs</td>
+      <td>
+        {{ match.equipe2}}
+        {% if match.logo_equipe2 %} {# Aquí usamos match[16] para verificar el logo del equipo visitante #}
+          <img src="{{ url_for('static', filename=match.logo_equipe2) }}" alt="Logo de {{ match.equipe2 }}" style="width: 50px; height: 50px;">
+        {% endif %}
+      </td>
         <td>{{ match.jour }}</td>
         <td>{{ match.debut }}</td>
         <td>{{ match.fin }}</td>

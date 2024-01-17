@@ -125,7 +125,7 @@ VALUES
   ('Cleveland Browns', 'États Unis', NULL),
   ('Dallas Cowboys', 'États Unis', NULL),
   ('Denver Broncos', 'États Unis', NULL),
-  ('Detroit Lions', 'États Unis', NULL),
+  ('Detroit Lions', 'États Unis', 'sources/detroit_lions.png'),
   ('Green Bay Packers', 'États Unis', NULL),
   ('Houston Texans', 'États Unis', NULL),
   ('Indianapolis Colts', 'États Unis', NULL),

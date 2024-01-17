@@ -43,7 +43,7 @@ bootstrap = Bootstrap(app)
 
 
 class Matchs:
-    def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires, joueurs_equipe1, joueurs_equipe2):
+    def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires, joueurs_equipe1, joueurs_equipe2, logo_equipe1, logo_equipe2 ):
         self.equipe1 = equipe1
         self.equipe2 = equipe2
         self.jour = jour
@@ -57,6 +57,8 @@ class Matchs:
         self.commentaires = commentaires
         self.joueurs_equipe1 = joueurs_equipe1
         self.joueurs_equipe2 = joueurs_equipe2
+        self.logo_equipe1 = logo_equipe1
+        self.logo_equipe2 = logo_equipe2
         
 
 """"
@@ -102,7 +104,9 @@ def obtenir_matchs_from_database():
         m.cote2, 
         m.commentaires,
         GROUP_CONCAT(DISTINCT CONCAT(j1.nom_joueur, ' ', j1.prenom_joueur, ' (#', j1.numero_tshirt, ')') ORDER BY j1.nom_joueur SEPARATOR ', ') AS joueurs_equipe1,
-        GROUP_CONCAT(DISTINCT CONCAT(j2.nom_joueur, ' ', j2.prenom_joueur, ' (#', j2.numero_tshirt, ')') ORDER BY j2.nom_joueur SEPARATOR ', ') AS joueurs_equipe2
+        GROUP_CONCAT(DISTINCT CONCAT(j2.nom_joueur, ' ', j2.prenom_joueur, ' (#', j2.numero_tshirt, ')') ORDER BY j2.nom_joueur SEPARATOR ', ') AS joueurs_equipe2,
+        e1.logo AS logo_equipe1,
+        e2.logo AS logo_equipe2
     FROM 
         matchs m
     LEFT JOIN 
@@ -114,7 +118,7 @@ def obtenir_matchs_from_database():
     LEFT JOIN 
         joueurs j2 ON e2.id = j2.equipe_id
     GROUP BY 
-        m.equipe1, m.equipe2, m.jour, m.debut, m.fin, m.statut, m.score, m.meteo, m.cote1, m.cote2, m.commentaires
+        m.equipe1, m.equipe2, m.jour, m.debut, m.fin, m.statut, m.score, m.meteo, m.cote1, m.cote2, m.commentaires, e1.logo, e2.logo
     ORDER BY 
         CASE m.statut 
             WHEN 'En cours' THEN 1
@@ -260,7 +264,9 @@ def index():
 def visualiser_matchs():
     matchs = obtenir_matchs_from_database()
     voir_bouton_miser = False
-
+  
+        # Imprimir el diccionario de logos
+ 
     if 'id_utilisateur' in session:
         id_utilisateur = session['id_utilisateur']
         conn = mysql.connect()
