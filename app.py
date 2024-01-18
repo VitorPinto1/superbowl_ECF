@@ -125,8 +125,8 @@ def obtenir_matchs_from_database():
             WHEN 'Terminé' THEN 2
             WHEN 'À venir' THEN 3
             ELSE 4
-        END
-
+        END,
+        m.jour
 
     '''
 
