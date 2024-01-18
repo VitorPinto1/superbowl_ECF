@@ -24,7 +24,8 @@
         <tr data-bs-toggle="modal" data-bs-target="#modal" data-equipo1="{{ match.equipe1 }}" 
         data-equipo2="{{ match.equipe2 }}" data-jour="{{ match.jour }}" data-debut="{{ match.debut }}" 
         data-fin="{{ match.fin }}" data-statut="{{ match.statut }}" data-score="{{ match.score }}" data-meteo="{{ match.meteo}}"
-        data-joueurs_equipe1="{{ match.joueurs_equipe1 }}" data-joueurs_equipe2="{{ match.joueurs_equipe2 }}" data-cote1="{{ match.cote1 }}"  data-cote2="{{ match.cote2 }}" data-commentaires="{{ match.commentaires}}">
+        data-joueurs_equipe1="{{ match.joueurs_equipe1 }}" data-joueurs_equipe2="{{ match.joueurs_equipe2 }}" data-cote1="{{ match.cote1 }}"  data-cote2="{{ match.cote2 }}" data-commentaires="{{ match.commentaires}}"
+        data-logo_equipe1="{{ url_for('static', filename=match.logo_equipe1) }}" data-logo_equipe2="{{ url_for('static', filename=match.logo_equipe2) }}">
         <td>
           {% if match.logo_equipe1 %}
             <img src="{{ url_for('static', filename=match.logo_equipe1) }}" alt="Logo de {{ match.equipe1 }}" style="width: 50px; height: 50px;">
@@ -34,7 +35,7 @@
         <td>vs</td>
         <td>
           {{ match.equipe2}}
-          {% if match.logo_equipe2 %} {# Aquí usamos match[16] para verificar el logo del equipo visitante #}
+          {% if match.logo_equipe2 %}
             <img src="{{ url_for('static', filename=match.logo_equipe2) }}" alt="Logo de {{ match.equipe2 }}" style="width: 50px; height: 50px;">
           {% endif %}
         </td>
@@ -63,16 +64,21 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p id="equipe1"></p>
-          <p id="equipe2"></p>
+          <div class="modal-custom-section" style="display: flex; align-items: center; justify-content: center;">
+            <img id="logo_equipe1" src="" alt="Logo Equipe 1" style="width: 50px; height: 50px;">
+            <p id="equipe1" style="margin: 0 10px;"></p>
+            <span style="font-weight: bold; font-size: 20px;">vs</span>
+            <p id="equipe2" style="margin: 0 10px;"></p>
+            <img id="logo_equipe2" src="" alt="Logo Equipe 2" style="width: 50px; height: 50px;">
+          </div>
           <p id="jour"></p>
           <p id="debut"></p>
           <p id="fin"></p>
           <p id="statut"></p>
           <p id="score"></p>
           <p id="meteo"></p>
-          <p id="joueurs_equipe1">Joueurs Équipe 1:</p>
-          <p id="joueurs_equipe2">Joueurs Équipe 2:</p>   
+          <p id="joueurs_equipe1"></p>
+          <p id="joueurs_equipe2"></p>   
           <p id="cote1"></p>
           <p id="cote2"></p>
           <p id="commentaires"></p>
@@ -128,9 +134,12 @@
         var cote1 = modalTrigger.dataset.cote1;
         var cote2 = modalTrigger.dataset.cote2;
         var commentaires = modalTrigger.dataset.commentaires;
+        var logo_equipe1 = modalTrigger.dataset.logo_equipe1;
+        var logo_equipe2 = modalTrigger.dataset.logo_equipe2;
         
         
-
+        document.getElementById("logo_equipe1").src = logo_equipe1;
+        document.getElementById("logo_equipe2").src = logo_equipe2;
         document.getElementById("equipe1").innerText = equipe1;
         document.getElementById("equipe2").innerText = equipe2;
         document.getElementById("jour").innerText = "Jour: " + jour;
