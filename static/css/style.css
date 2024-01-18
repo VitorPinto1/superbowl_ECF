@@ -41,6 +41,12 @@ body {
 #tableindex tr:last-child td {
   border-bottom: none; /* Esto eliminará el borde inferior de las celdas en la última fila */
 }
+
 #custom-cardIndex {
   text-align: center;
+}
+
+#tableVisualiser {
+  max-height: 800px;
+  overflow-y: auto;
 }
