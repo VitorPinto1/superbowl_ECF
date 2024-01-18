@@ -43,10 +43,10 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Equipes</th>
+              <th colspan="2">Matchs</th>
               <th>Date</th>
-              <th>Heure de début</th>
-              <th>Heure de fin</th>
+              <th>Début</th>
+              <th>Fin</th>
               <th>Mise</th>
               <th>Status</th>
               <th>Bénéfices</th>
@@ -55,7 +55,11 @@
           <tbody>
             {% for mise in mises %}
             <tr>
-              <td>{{ mise[1] }} - {{ mise[2] }}</td>
+              <td>
+                <img src="{{ url_for('static', filename= mise[15])}}" alt="{{ mise[1] }} Logo" width="20" height="20">
+                {{ mise[1] }} VS {{ mise[2] }}
+                <img src="{{ url_for('static', filename= mise[16])}}" alt="{{ mise[2] }} Logo" width="20" height="20">
+              </td>
               <td>{{ mise[3] }}</td>
               <td>{{ mise[4] }}</td>
               <td>{{ mise[5] }}</td>
@@ -100,7 +104,7 @@
             </tr>
             <!-- Modal de confirmation de suppression -->
             <div class="modal fade" id="modal{{ mise[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ mise[0] }}SupprimerLabel" aria-hidden="true">
-              <div class="modal-dialog">
+              <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="modal{{ mise[0] }}SupprimerLabel">Supprimer la mise</h5>
@@ -119,7 +123,7 @@
   
             <!-- Modal de confirmation de modififacion -->
             <div class="modal fade" id="modal{{ mise[0] }}Modifier" tabindex="-1" aria-labelledby="modal{{ mise[0] }}ModifierLabel" aria-hidden="true">
-              <div class="modal-dialog">
+              <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="modal{{ mise[0] }}ModifierLabel">Modifier la mise</h5>
