@@ -213,6 +213,25 @@ for equipe_id in equipes_ids:
         joueurs_prenom = random_prenom(equipe_id)
         ajouter_joueurs(joueurs_prenom)
 
+@app.context_processor
+def inject_user_info():
+    user_info = {
+        'user_admin': False
+    }
+
+    if 'id_utilisateur' in session:
+        id_utilisateur = session['id_utilisateur']
+        conn = mysql.connect()
+        cursor = conn.cursor()
+
+        # Obtener el rol del usuario de la base de datos
+        cursor.execute("SELECT role FROM users WHERE id = %s", (id_utilisateur,))
+        role = cursor.fetchone()[0]
+        cursor.close()
+        conn.close()
+        user_info['user_admin'] = role == 'admin'
+
+    return user_info
 
 @app.route('/')
 def index():
@@ -240,24 +259,7 @@ def index():
   cursor.close()
   conn.close()
 
-
-  if 'id_utilisateur' in session:
-    id_utilisateur = session['id_utilisateur']
-    conn = mysql.connect()
-    curseur = conn.cursor()
-
-    select_query = "SELECT role FROM users WHERE id = %s"
-    curseur.execute(select_query, (id_utilisateur,))
-    role = curseur.fetchone()[0]
-    curseur.close()
-    conn.close()
-
-    if role == 'admin':
-      return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True, user_admin = True, matches=matches)
-    else:
-      return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=True, voir_bouton_se_connecter=False, voir_bouton_miser=True, user_admin = False, matches=matches)
-    
-  return render_template('index.html', current_date=formatted_date, voir_bouton_mon_espace=False, voir_bouton_se_connecter=True, voir_bouton_miser=False, matches = matches)
+  return render_template('index.html', current_date=formatted_date, matches = matches)
 
 
 @app.route('/visualiser_matchs')

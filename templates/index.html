@@ -38,32 +38,6 @@
   </div>
 </div>
 
-<div class="container">
-  <div class="btn-container-index d-flex justify-content-center align-items-center">
-    {% if not voir_bouton_mon_espace %}
-    <div class="text-center">
-      <a class="btn btn-primary mx-2" href="{{ url_for('se_connecter') }}">Se connecter</a>
-    </div>
-    {% endif %}
-    <div class="text-center">
-      <a class="btn btn-primary mx-2" href="{{ url_for('visualiser_matchs' , match_id=match) }}">Visualiser tous les matchs</a>
 
-    </div>
-    <div class="text-center">
-      <a class="btn btn-primary mx-2" href="{{ url_for('parier')}}">Parier</a>
-    </div>
-    {% if voir_bouton_mon_espace %}
-      {% if user_admin %}
-        <div class="text-center">
-          <a class="btn btn-primary mx-2" href="{{ url_for('espace_administrateur')}}">Mon Espace</a>
-        </div>
-      {% else %}
-        <div class="text-center">
-          <a class="btn btn-primary mx-2" href="{{ url_for('espace_utilisateur')}}">Mon Espace</a>
-        </div>
-      {% endif %}
-    {% endif %}
-  </div>
-</div>  
 
 {% endblock %}
