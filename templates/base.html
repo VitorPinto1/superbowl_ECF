@@ -20,8 +20,8 @@
 <body>
   <header>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-scroll">
-      <div class="container-fluid">
+    <div class="container-fluid d-flex justify-content-center align-items-center">
+      <nav class="navbar navbar-expand-lg fixed-top navbar-scroll">
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
           data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
           aria-label="Toggle navigation">
@@ -31,14 +31,14 @@
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="{{ url_for('index')}}">
-               <img src="{{ url_for('static', filename='sources/super_bowl_logo.png') }}" alt="Logo" style="height: 80px;">
+              <img src="{{ url_for('static', filename='sources/super_bowl_logo.png') }}" alt="Logo" style="height: 80px;">
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('visualiser_matchs')}}">Matchs</a>
+              <a class="nav-link" href="{{ url_for('visualiser_matchs')}}" style="color: white;">Matchs</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('parier')}}">Parier</a>
+              <a class="nav-link" href="{{ url_for('parier')}}" style="color: white;">Parier</a>
             </li>
           </ul>
           <ul class="navbar-nav">
@@ -57,8 +57,8 @@
                       <form action="{{ url_for('deconnexion_user_bouton') }}" method="POST" style="margin: 0;">
                           <button type="submit" class="dropdown-item btn btn-danger">Déconnexion</button>
                       </form>
-                     </li>
-  
+                    </li>
+
                 {% else %}
                     <li><a class="dropdown-item" href="{{ url_for('se_connecter') }}">Se connecter</a></li>
                 {% endif %}
@@ -66,8 +66,9 @@
             </li>
           </ul>
         </div>
-      </div>
-    </nav>
+      
+      </nav>
+    </div>
     <!-- Navbar -->
   
 
