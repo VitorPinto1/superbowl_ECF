@@ -47,6 +47,6 @@ body {
 }
 
 #tableVisualiser {
-  max-height: 800px;
+  max-height: 600px;
   overflow-y: auto;
 }
