@@ -33,36 +33,49 @@
       </div>
     </div>
     <h3>Vous devez rentrer les 11 joueurs</h3>
-    <div class="container">
-      <div class="row">
-        {% for i in range(1, 12) %}
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <div class="form-group">
-                <label for="nom_joueur_{{ i }}">Nom</label>
-                <input type="text" class="form-control" id="nom_joueur_{{ i }}" name="nom_joueur_{{ i }}" pattern="[A-Za-z\s]+">
-                <div id="message_nom_joueur_{{ i }}" style="display: none; color: red;"></div>
-              </div>
-              <div class="form-group">
-                <label for="prenom_joueur_{{ i }}">Prénom</label>
-                <input type="text" class="form-control" id="prenom_joueur_{{ i }}" name="prenom_joueur_{{ i }}" pattern="[A-Za-z\s]+">
-                <div id="message_prenom_joueur_{{ i }}" style="display: none; color: red;"></div>
-              </div>
-              <div class="form-group">
-                <label for="numero_tshirt_{{ i }}">Numéro</label>
-                <input type="text" class="form-control" id="numero_tshirt_{{ i }}" name="numero_tshirt_{{ i }}" pattern="\d+">
-                <div id="message_numero_tshirt_{{ i }}" style="display: none; color: red;"></div>
-              </div>
+    <div id="carouselFormulaires" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
+
+      
+      <div class="carousel-inner">
+    
+        <div class="carousel-item active">
+          <div class="container">
+            <div class="row">
+              {% for i in range(1, 12) %}
+                <div class="col-md-4 mb-3"  >
+                  <div class="card" id="carte_joueur_{{ i }}">
+                    <div class="card-body">
+                      <!-- Votre code de formulaire ici -->
+                      <div class="form-group">
+                        <label for="nom_joueur_{{ i }}">Nom</label>
+                        <input type="text" class="form-control" id="nom_joueur_{{ i }}" name="nom_joueur_{{ i }}" pattern="[A-Za-z\s]+">
+                        <div id="message_nom_joueur_{{ i }}" style="display: none; color: red;"></div>
+                      </div>
+                      <div class="form-group">
+                        <label for="prenom_joueur_{{ i }}">Prénom</label>
+                        <input type="text" class="form-control" id="prenom_joueur_{{ i }}" name="prenom_joueur_{{ i }}" pattern="[A-Za-z\s]+">
+                        <div id="message_prenom_joueur_{{ i }}" style="display: none; color: red;"></div>
+                      </div>
+                      <div class="form-group">
+                        <label for="numero_tshirt_{{ i }}">Numéro</label>
+                        <input type="text" class="form-control" id="numero_tshirt_{{ i }}" name="numero_tshirt_{{ i }}" pattern="\d+">
+                        <div id="message_numero_tshirt_{{ i }}" style="display: none; color: red;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
             </div>
           </div>
         </div>
-        {% if i % 3 == 0 %}
+    
       </div>
-      <div class="row">
-        {% endif %}
-        {% endfor %}
-      </div>
+      <button class="carousel-control-prev align-self-center" type="button" data-bs-target="#carouselFormulaires" data-bs-slide="prev">
+        <span class="fa-solid fa-chevron-left"></span>
+      </button>
+      <button class="carousel-control-next align-self-center" type="button" data-bs-target="#carouselFormulaires"  data-bs-slide="next">
+        <span class="fa-solid fa-chevron-right"></span>
+      </button>
     </div>
     
     
@@ -71,6 +84,22 @@
       <button type="submit" class="btn btn-primary">Créer équipe</button>
     </div>
   </form>
+</div>
+
+<div class="modal fade" id="erreurModal" tabindex="-1" role="dialog" aria-labelledby="erreurModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="erreurModalLabel">Erreur</h5>
+        <button  id="buttonErreurCreation" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="fa-solid fa-xmark" aria-hidden="true" ></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="erreur-modal-message"></p>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -134,8 +163,9 @@
       });
     }
 
-    const errorMessage = 'Veuillez vous assurer que tous les champs sont complétés correctement.';
-
+    
+    const erreurMessage = 'Veuillez vous assurer que tous les champs sont complétés correctement.';
+    
     // Validation
     document.getElementById('creationForm').addEventListener('submit', function (e) {
         let isValid = true;
@@ -163,9 +193,66 @@
 
         if (!isValid) {
             e.preventDefault(); // Prevoir envoie formulaire si erreur
-            alert(errorMessage);
+            document.getElementById('erreur-modal-message').innerText = erreurMessage;
+            $('#erreurModal').modal('show');
+            document.getElementById('buttonErreurCreation').addEventListener('click', function() {
+              $('#erreurModal').modal('hide');
+            });
         }
     });
+
+
+    var myCarousel = document.querySelector('#carouselFormulaires')
+    var carousel = new bootstrap.Carousel(myCarousel, { interval: false })
+    let etape = 0;
+
+    function actualiserVisibiliteFormulaires() {
+      for (let i = 1; i <= 11; i++) {
+        let carte = document.getElementById('carte_joueur_' + i);
+        if (etape === 0 && i <= 6) {
+          // Mostrar los primeros 6 formularios en la primera etapa
+          carte.style.display = '';
+        } else if (etape === 1 && i > 6) {
+          // Mostrar los siguientes 5 formularios en la segunda etapa
+          carte.style.display = '';
+        } else {
+          // Ocultar los demás formularios
+          carte.style.display = 'none';
+        }
+      }
+    }
+
+    document.querySelector('.carousel-control-prev').addEventListener('click', function () {
+      etape = 0;
+      actualiserVisibiliteFormulaires();
+    });
+  
+    // Evento para botón de deslizamiento a la derecha (siguiente)
+    document.querySelector('.carousel-control-next').addEventListener('click', function () {
+      etape = 1;
+      actualiserVisibiliteFormulaires();
+    });
+  
+    actualiserVisibiliteFormulaires();
+
+
+
+  
+
+    $('#carouselFormulaires').on('slide.bs.carousel', function (e) {
+      console.log('Carrusel deslizado a', e.direction); 
+      if (e.direction === 'left') {
+        // Mostrar los 6 formularios anteriores
+        etape = 1;
+      } else if (e.direction === 'right') {
+        // Mostrar los siguientes 5 formularios
+        etape = 0;
+      }
+    
+      actualiserVisibiliteFormulaires();
+    });
+      
+
   });
 </script>
 
