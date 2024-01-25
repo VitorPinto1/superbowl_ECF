@@ -9,7 +9,7 @@
     <h1 class="text-center">Miser sur la sélection</h1>
     <form method="POST" id="formParier" action="/form_miser_selection">
       {% for match in matchs_selectionnes %}
-      <h3>{{ match.equipe1 }} vs {{ match.equipe2 }}</h3>
+      <h3>{{ match.equipe1 }} - {{ match.equipe2 }}</h3>
       <div class="form-group">
         <div class="row">
           <label for="mise_equipe1_{{ loop.index }}" class="col-sm-4 control-label">{{ match.equipe1 }}:</label>

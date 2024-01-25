@@ -24,6 +24,19 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
+#custom-cardVisualiser {
+  position: relative;
+  margin: auto;
+  max-width: 1200px; /* Ajusta esto según tus preferencias */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+#custom-cardParier {
+  position: relative;
+  margin: auto;
+  max-width: 1200px; /* Ajusta esto según tus preferencias */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
 #tableindex {
   border-collapse: collapse;
   width: 100%;
@@ -43,7 +56,12 @@ body {
 }
 
 
-
+#modalVisualiser .modal-custom-section {
+  margin-bottom: 20px;
+}
+#modalVisualiser .modal-body p {
+  margin-bottom: 10px;
+}
 #tableVisualiser {
   max-height: 600px;
   overflow-y: auto;
@@ -70,14 +88,24 @@ body {
   right: -80px; 
 }
 
-#buttonErreurCreation {
+#buttonErreurCreation, #buttonCloseVisualiser {
   background: none;
   border: none;
 }
 
-#buttonErreurCreation .fa-xmark {
+#buttonErreurCreation, #buttonCloseVisualiser .fa-xmark {
   font-size: 2em; 
   color: red; 
+}
+button:focus {
+  outline: none;
+}
+#navBase {
+  position: absolute; 
+  top: 1%; 
+  left: 50%; 
+  padding-left: 115px; 
+  transform: translateX(-50%);
 }
 
 @media (max-width: 768px) {

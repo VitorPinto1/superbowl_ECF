@@ -18,15 +18,15 @@
             <tr>
               <td style="text-align: left;">
                 {% if match[15] %}
-                  <img src="{{ url_for('static', filename=match[15]) }}" alt="Logo de {{ match.equipe1 }}" style="width: 50px; height: 50px;">
+                  <img src="{{ url_for('static', filename=match[15]) }}" alt="Logo de {{ match.equipe1 }}" style="width: 50px; height: 50px; margin-right: 10px;">
                 {% endif %}
                 {{ match[1] }}
               </td>
-              <td style="text-align: center; vertical-align: middle; padding-right: 60px;">vs</td>
+              <td style="text-align: center; vertical-align: middle; padding-right: 60px;">-</td>
               <td style="text-align: right;">
                 {{ match[2] }}
                 {% if match[16] %} {# Aquí usamos match[16] para verificar el logo del equipo visitante #}
-                  <img src="{{ url_for('static', filename=match[16]) }}" alt="Logo de {{ match.equipe2 }}" style="width: 50px; height: 50px;">
+                  <img src="{{ url_for('static', filename=match[16]) }}" alt="Logo de {{ match.equipe2 }}" style="width: 50px; height: 50px; margin-left: 10px;">
                 {% endif %}
               </td>
             </tr>
