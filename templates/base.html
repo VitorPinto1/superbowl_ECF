@@ -24,7 +24,7 @@
   <header>
     <!-- Navbar -->
     <div class="container-fluid d-flex justify-content-center align-items-center">
-      <nav class="navbar navbar-expand-lg fixed-tip navbar-scroll" style="position: absolute; top: 1%; left: 50%; padding-left: 115px; transform: translateX(-50%);">
+      <nav class="navbar navbar-expand-lg fixed-tip navbar-scroll" id="navBase" >
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
           data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
           aria-label="Toggle navigation">
@@ -46,7 +46,7 @@
             </li>
             <li class="nav-item dropdown" >
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="{{ url_for('static', filename='sources/user_icon.png') }}" alt="User" style="height: 40px;">
+                  <i class="fa-solid fa-user" style="color: white;  font-size: 24px;"></i>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% if 'id_utilisateur' in session %}
