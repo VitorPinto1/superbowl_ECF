@@ -58,57 +58,57 @@
       
     </div>
   </div>
-</div>
 
-<!-- Modal -->
-<div class="container">
-  <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel">Détail d’un match</h5>
-          <button type="button" id="buttonCloseVisualiser" class="close" data-bs-dismiss="modal" aria-label="Close">
-            <i class="fa-solid fa-xmark" aria-hidden="true" ></i>
-          </button>
-        </div>
-        <div class="modal-body" id="modalVisualiser">
-          <div class="modal-custom-section" style="display: flex; align-items: center; justify-content: center;">
-            <img id="logo_equipe1" src="" alt="Logo Equipe 1" style="width: 50px; height: 50px; margin-right: 10px;">
-            <p id="equipe1" style="margin: 0 10px;"></p>
-            <span style="font-size: 20px;">-</span>
-            <p id="equipe2" style="margin: 0 10px;"></p>
-            <img id="logo_equipe2" src="" alt="Logo Equipe 2" style="width: 50px; height: 50px; margin-left: 10px;">
+
+  <!-- Modal -->
+  <div class="container">
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="display: flex;  justify-content: flex-end; align-items: center;">
+            <div class="modal-custom-section" style="display: flex; align-items: center; justify-content: center; flex-grow: 1;">
+              <img id="logo_equipe1" src="" alt="Logo Equipe 1" style="width: 50px; height: 50px; margin-right: 10px;">
+              <p id="equipe1" style="margin: 0 10px;"></p>
+              <span style="font-size: 20px;">-</span>
+              <p id="equipe2" style="margin: 0 10px;"></p>
+              <img id="logo_equipe2" src="" alt="Logo Equipe 2" style="width: 50px; height: 50px; margin-left: 10px;">
+            </div>
+            <button type="button" id="buttonCloseVisualiser" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <i class="fa-solid fa-xmark" aria-hidden="true" style="margin-left: 20px;" ></i>
+            </button>
           </div>
-          <p id="jour"></p>
-          <p id="debut"></p>
-          <p id="fin"></p>
-          <p id="statut"></p>
-          <p id="score"></p>
-          <p id="meteo"></p>
-          <p id="joueurs_equipe1"></p>
-          <p id="joueurs_equipe2"></p>   
-          <p id="cote1"></p>
-          <p id="cote2"></p>
-          <p id="commentaires"></p>
-         
-        </div>
-        <div class="modal-footer">
-          <form id="modal-form" method="POST" action="{{ url_for('store_in_session') }}">
-            <input type="hidden" name="equipe1" id="form-equipe1">
-            <input type="hidden" name="equipe2" id="form-equipe2">
-            <input type="hidden" name="cote1" id="form-cote1">
-            <input type="hidden" name="cote2" id="form-cote2">
-            <input type="hidden" name="jour" id="form-jour">
-            <input type="hidden" name="debut" id="form-debut">
-            {% if voir_bouton_miser %}
-            <button type="submit" class="btn btn-primary">Miser</button> 
-            {% endif %}
-          </form>
+          <div class="modal-body" id="modalVisualiser">
+           
+            <p id="jour"></p>
+            <p id="debut"></p>
+            <p id="fin"></p>
+            <p id="statut"></p>
+            <p id="score"></p>
+            <p id="meteo"></p>
+            <p id="joueurs_equipe1"></p>
+            <p id="joueurs_equipe2"></p>   
+            <p id="cote1"></p>
+            <p id="cote2"></p>
+            <p id="commentaires"></p>
+          
+          </div>
+          <div class="modal-footer">
+            <form id="modal-form" method="POST" action="{{ url_for('store_in_session') }}">
+              <input type="hidden" name="equipe1" id="form-equipe1">
+              <input type="hidden" name="equipe2" id="form-equipe2">
+              <input type="hidden" name="cote1" id="form-cote1">
+              <input type="hidden" name="cote2" id="form-cote2">
+              <input type="hidden" name="jour" id="form-jour">
+              <input type="hidden" name="debut" id="form-debut">
+              {% if voir_bouton_miser %}
+              <button type="submit" class="btn btn-primary">Miser</button> 
+              {% endif %}
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 
 
@@ -124,6 +124,14 @@
     var modalTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="modal"]'));
     var modalList = modalTriggerList.map(function(modalTrigger) {
       return new bootstrap.Modal(modalTrigger.dataset.bsTarget);
+    });
+    var closeButtons = document.querySelectorAll('.close');
+    closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            modalList.forEach(function(modal) {
+                modal.hide();
+            });
+        });
     });
 
     modalTriggerList.forEach(function(modalTrigger, index) {
@@ -150,9 +158,8 @@
         document.getElementById("logo_equipe2").src = logo_equipe2;
         document.getElementById("equipe1").innerText = equipe1;
         document.getElementById("equipe2").innerText = equipe2;
-        document.getElementById("jour").innerText = "Jour: " + jour;
-        document.getElementById("debut").innerText = "Début: " + debut;
-        document.getElementById("fin").innerText = "Fin: " + fin;
+        document.getElementById("jour").innerText = "Date: " + jour;
+        document.getElementById("debut", "fin").innerText = "Horaires: " + debut + " - " + fin;
         document.getElementById("statut").innerText = "Statut: " + statut;
         document.getElementById("score").innerText = "Score: " + score;
         document.getElementById("meteo").innerText = "Météo: " + meteo;
@@ -185,7 +192,9 @@
         modal.show();
       });
     });
+    
   });
+
 </script>
 
 
