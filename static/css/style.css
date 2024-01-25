@@ -24,17 +24,23 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
+#custom-cardEspaceUtilisateur {
+  position: relative;
+  margin: auto;
+  max-width: 1400px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
 #custom-cardVisualiser {
   position: relative;
   margin: auto;
-  max-width: 1200px; /* Ajusta esto según tus preferencias */
+  max-width: 1200px; 
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 #custom-cardParier {
   position: relative;
   margin: auto;
-  max-width: 1200px; /* Ajusta esto según tus preferencias */
+  max-width: 1200px; 
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 #tableindex {
