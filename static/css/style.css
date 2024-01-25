@@ -1,7 +1,7 @@
 body {
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url('/static/sources/background1.jpeg');
+  background-image: url('/static/sources/background2.jpg');
   background-position: center;
   height: 100vh;
 }
@@ -31,7 +31,6 @@ body {
 }
 
 #tableIndex th, #tableIndex td {
-  text-align: center;
   padding: 8px;
 }
 
@@ -43,9 +42,7 @@ body {
   border-bottom: none; /* Esto eliminará el borde inferior de las celdas en la última fila */
 }
 
-#custom-cardIndex {
-  text-align: center;
-}
+
 
 #tableVisualiser {
   max-height: 600px;

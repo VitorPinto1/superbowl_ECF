@@ -10,20 +10,20 @@
 <div class="card custom-card" id="custom-cardIndex">
   <div class="card-body">
     <div class="container">
-      <h4 class="text">Matchs du jour : {{current_date}}</h4>
+      <h4 class="text" style="text-align: center;">Matchs du jour : {{current_date}}</h4>
       <div class="table-responsive">
-        <table class="table custom-table" id="tableindex">
+        <table class="table custom-table scrollable-table" id="tableindex">
           <tbody>
             {% for match in matches %}
             <tr>
-              <td>
+              <td style="text-align: left;">
                 {% if match[15] %}
                   <img src="{{ url_for('static', filename=match[15]) }}" alt="Logo de {{ match.equipe1 }}" style="width: 50px; height: 50px;">
                 {% endif %}
                 {{ match[1] }}
               </td>
-              <td>vs</td>
-              <td>
+              <td style="text-align: center; vertical-align: middle; padding-right: 60px;">vs</td>
+              <td style="text-align: right;">
                 {{ match[2] }}
                 {% if match[16] %} {# Aquí usamos match[16] para verificar el logo del equipo visitante #}
                   <img src="{{ url_for('static', filename=match[16]) }}" alt="Logo de {{ match.equipe2 }}" style="width: 50px; height: 50px;">
