@@ -22,8 +22,8 @@
                 {% endif %}
                 {{ match[1] }}
               </td>
-              <td style="text-align: center; vertical-align: middle; padding-right: 60px;">-</td>
-              <td style="text-align: right;">
+              <td style="text-align: right; vertical-align: middle; padding-right: 0px;">-</td>
+              <td style="text-align: right; padding: 0px;">
                 {{ match[2] }}
                 {% if match[16] %} {# Aquí usamos match[16] para verificar el logo del equipo visitante #}
                   <img src="{{ url_for('static', filename=match[16]) }}" alt="Logo de {{ match.equipe2 }}" style="width: 50px; height: 50px; margin-left: 10px;">

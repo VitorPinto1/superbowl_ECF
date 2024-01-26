@@ -92,9 +92,9 @@
                   </td>
                   <td>
                     {% if mise[10] == "À venir" %}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Modifier" style="margin-bottom: 10px; width: 100px">Modifier</button>
+                    <button type="button" class="btn neon-btn-modifier" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Modifier" style="margin-bottom: 10px; width: 115px">Modifier</button>
                     <br>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Supprimer">Supprimer</button>
+                    <button type="button" class="btn neon-btn-supprimer" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Supprimer">Supprimer</button>
                     {% endif %}
                   </td>
                   
@@ -112,8 +112,8 @@
                         Êtes-vous sûr de vouloir supprimer cette mise ?
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-                        <a href="/mise/{{ mise[0] }}/supprimer" class="btn btn-danger">Oui</a>
+                        <button type="button" class="btn neon-btn-non" data-bs-dismiss="modal">Non</button>
+                        <a href="/mise/{{ mise[0] }}/supprimer" class="btn neon-btn-oui">Oui</a>
                       </div>
                     </div>
                   </div>
