@@ -980,7 +980,3 @@ def planification_form():
 @app.route('/planification')
 def planification():
     return render_template('planification.html')
-
-@app.route('/buttontest')
-def buttontest():
-    return render_template('buttontest.html')
