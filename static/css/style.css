@@ -116,6 +116,31 @@ button:focus {
 
 
 
+.neon-btn {
+  background: rgb(215,23,219);
+  background: linear-gradient(167deg, rgba(215,23,219,1) 53%, rgba(151,0,255,1) 100%);
+
+  color: #fff; 
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px #000000, 0 0 15px #3b3939, 0 0 20px #ffffff,  0 0 10px #4c4747, 0 0 98px #ffffff;
+  
+
+}
+
+.neon-btn:hover {
+  box-shadow: 0 0 10px #6f42c1, 0 0 20px #6f42c1, 0 0 30px #6f42c1;
+  
+}
+
+
 @media only screen and (max-width: 600px) {
   .table-container {
       overflow-x: auto;
