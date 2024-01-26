@@ -5,7 +5,7 @@
 
 <div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
   <div class="col-md-4">
-    <h1 class="text-center">Mot de passe oublié</h1>
+    <h1 class="text-center" style="color: white">Mot de passe oublié</h1>
     <form method="POST" style="margin-top: 25px;">
      
       <div class="mb-3">
@@ -33,6 +33,41 @@
     </form>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+
+      // Function to validate email
+      function validateEmail(email) {
+          const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+          return re.test(String(email).toLowerCase());
+      }
+
+      // Handle form submission
+      document.querySelector('form').addEventListener('submit', function(e) {
+          let hasError = false;
+
+          // Validate Name
+          const nameInput = document.getElementById('Nom');
+          if (nameInput.value.trim() === '') {
+              alert("Le champ Nom ne peut pas être vide");
+              hasError = true;
+          }
+
+          // Validate Email
+          const emailInput = document.getElementById('inputEmail');
+          if (emailInput.value.trim() === '' || !validateEmail(emailInput.value)) {
+              alert("Veuillez entrer une adresse e-mail valide");
+              hasError = true;
+          }
+
+          // Prevent form submission if there is an error
+          if (hasError) {
+              e.preventDefault();
+          }
+      });
+  });
+</script>
 
 
 {% endblock %}
