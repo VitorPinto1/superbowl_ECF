@@ -39,7 +39,7 @@
         <div class="tab-pane fade {% if active_tab == 'historique' %}show active{% endif %}" id="historique" role="tabpanel" aria-labelledby="historique-tab">
           <div class="table-container">
             
-            <table class="table">
+            <table class="table" style="width: 1200px;">
               <thead>
                 <tr>
                   <th>Matchs</th>
@@ -92,9 +92,8 @@
                   </td>
                   <td>
                     {% if mise[10] == "À venir" %}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Modifier">Modifier</button>
-                    {% endif %}
-                    {% if mise[10] == "À venir" %}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Modifier" style="margin-bottom: 10px; width: 100px">Modifier</button>
+                    <br>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ mise[0] }}Supprimer">Supprimer</button>
                     {% endif %}
                   </td>
