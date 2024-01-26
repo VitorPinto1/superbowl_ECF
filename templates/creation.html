@@ -10,29 +10,30 @@
 {% block content %}
 
 <div class="container align-items-center justify-content-center" style="margin-top: 50px;">
-  <h1 class="text-center">Création des équipes et joueurs</h1>
+  <h1 class="text-center" style="color: white">Création des équipes et joueurs</h1>
 </div>
 
 <div class="container">
   <form action="/creation" method="POST" id="creationForm">
     <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="nom_equipe">Equipe</label>
-          <input type="text" class="form-control form-control-sm" id="nom_equipe" name="nom_equipe" pattern="[A-Za-z\s]+" style="width: 150px;">
+      <div class="col-md-12">
+        <div class="form-group d-inline-block" style="width: 25%;">
+          <label for="nom_equipe" style="color: white">Equipe</label>
+          <input type="text" class="form-control form-control-sm" id="nom_equipe" name="nom_equipe" pattern="[A-Za-z\s]+" style="width: 250px;">
           <div id="message_nom_equipe" style="display: none; color: red;"></div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="pays_appartenance">Pays d'appartenance</label>
-          <input type="text" class="form-control form-control-sm" id="pays_appartenance" name="pays_appartenance" pattern="[A-Za-z\s]+" style="width: 150px;">
+      
+      
+        <div class="form-group d-inline-block" style="width: 25%;">
+          <label for="pays_appartenance" style="color: white">Pays d'appartenance</label>
+          <input type="text" class="form-control form-control-sm" id="pays_appartenance" name="pays_appartenance" pattern="[A-Za-z\s]+" style="width: 250px;">
           <div id="message_pays_appartenance" style="display: none; color: red;"></div>
 
         </div>
       </div>
+      
     </div>
-    <h3>Vous devez rentrer les 11 joueurs</h3>
+    <h3 style="color: white">Vous devez rentrer les 11 joueurs</h3>
     <div id="carouselFormulaires" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
 
       
