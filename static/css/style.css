@@ -237,6 +237,8 @@ button:focus {
   box-shadow: 0 0 10px #ff0505, 0 0 20px #f04040, 0 0 30px #ff1919;
   color: #fff;
 }
+
+
 @media only screen and (max-width: 600px) {
   .table-container {
       overflow-x: auto;
