@@ -5,42 +5,45 @@
 
 
 <div class="container align-items-center justify-content-center" style="margin-top: 50px;">
-  <h1 class="text-center">Planification des matchs</h1>
+  <h1 class="text-center" style="color: white">Planification des matchs</h1>
 </div>
 <div class="container">
   <form id="form-planification" action="/planification" method="POST">
-    <label for="equipe1">Equipo 1:</label>
+    <label for="equipe1" style="color: white">Equipe visiteur:</label>
     <select name="equipe1" id="equipe1">
         {% for equipe in equipes %}
         <option value="{{ equipe }}">{{ equipe }}</option>
         {% endfor %}
     </select>
     <br>
-    <label for="equipe2">Equipo 2:</label>
+    <br>
+    <label for="equipe2" style="color: white">Equipe domicile:</label>
     <select name="equipe2" id="equipe2">
         {% for equipe in equipes %}
         <option value="{{ equipe }}">{{ equipe }}</option>
         {% endfor %}
     </select>
+    <br>
+    <br>
    
-    <label for="jour">Jour :</label>
+    <label for="jour" style="color: white">Jour :</label>
     <input type="date" id="jour" name="jour"  required><br><br>
 
-    <label for="debut">Début :</label>
+    <label for="debut" style="color: white">Début :</label>
     <input type="time" id="debut" name="debut" required><br><br>
 
     
 
   
 
-    <label for="cote1">Cote Équipe 1 :</label>
+    <label for="cote1" style="color: white">Cote Équipe visiteur :</label>
     <input type="text" id="cote1" name="cote1" min="1" max="10" step="1" required><br><br>
 
-    <label for="cote2">Cote Équipe 2 :</label>
+    <label for="cote2" style="color: white">Cote Équipe domicile :</label>
     <input type="text" id="cote2" name="cote2" min="1" max="10" step="1" required><br><br>
 
 
-    <input type="submit" value="Créer le Match">
+    <input type="submit" class="btn btn-primary" value="Créer le Match">
   </form>
 </div>
 
@@ -74,6 +77,10 @@ window.onload = function() {
   document.addEventListener("DOMContentLoaded", function() {
     var cote1 = document.getElementById("cote1");
     var cote2 = document.getElementById("cote2");
+
+    var aujourdhui = new Date().toISOString().split('T')[0];
+    document.getElementById("jour").setAttribute('min', aujourdhui);
+  
 
     cote1.addEventListener("keypress", validateNumberInput);
     cote2.addEventListener("keypress", validateNumberInput);
