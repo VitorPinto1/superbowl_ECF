@@ -110,7 +110,7 @@ button:focus {
   position: absolute; 
   top: 1%; 
   left: 50%; 
-  padding-left: 115px; 
+  padding-left: 85px; 
   transform: translateX(-50%);
 }
 
@@ -137,10 +137,106 @@ button:focus {
 
 .neon-btn:hover {
   box-shadow: 0 0 10px #6f42c1, 0 0 20px #6f42c1, 0 0 30px #6f42c1;
+  color: #fff;
+}
+
+.neon-btn-modifier {
+  background: rgb(25, 80, 244);
+  background: linear-gradient(167deg, rgb(0 222 255) 53%, rgb(0 250 255) 100%);
+
+  color: #fff; 
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px #00000000, 0 0 15px #3b393900, 0 0 20px #ffffff,  0 0 10px #4c4747, 0 0 98px #ffffff;
   
+
+}
+
+.neon-btn-modifier:hover {
+  box-shadow: 0 0 10px #07ebe1, 0 0 20px #04dbf0, 0 0 30px #04d1ff;
+  color: #fff;
+}
+
+.neon-btn-supprimer {
+  background: rgb(255 0 0);
+  background: linear-gradient(167deg, rgb(255 0 0) 53%, rgb(255 0 0) 100%);
+
+  color: #fff; 
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px #00000000, 0 0 15px #3b393900, 0 0 20px #ffffff,  0 0 10px #4c474742, 0 0 98px #ffffff;
+  
+
+}
+
+.neon-btn-supprimer:hover {
+  box-shadow: 0 0 10px #ff0505, 0 0 20px #f04040, 0 0 30px #ff1919;
+  color: #fff;
 }
 
 
+.neon-btn-oui {
+  background: rgb(25 244 102);
+  background: linear-gradient(167deg, rgb(0 255 84) 53%, rgb(0 255 57) 100%);
+
+  color: #fff; 
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px #00000000, 0 0 15px #3b393900, 0 0 20px #ffffff,  0 0 10px #4c4747ba, 0 0 98px #ffffff;
+  
+
+}
+
+.neon-btn-oui:hover {
+  box-shadow: 0 0 10px #39ff00, 0 0 20px #13ff64, 0 0 30px #18ff3e;
+  color: #fff;
+}
+
+
+.neon-btn-non {
+  background: rgb(255 0 0);
+  background: linear-gradient(167deg, rgb(255 0 0) 53%, rgb(255 0 0) 100%);
+
+  color: #fff; 
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px #00000000, 0 0 15px #3b393900, 0 0 20px #ffffff,  0 0 10px #4c474742, 0 0 98px #ffffff;
+  
+
+}
+
+.neon-btn-non:hover {
+  box-shadow: 0 0 10px #ff0505, 0 0 20px #f04040, 0 0 30px #ff1919;
+  color: #fff;
+}
 @media only screen and (max-width: 600px) {
   .table-container {
       overflow-x: auto;
