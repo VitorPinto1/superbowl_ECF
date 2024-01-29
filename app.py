@@ -980,3 +980,7 @@ def planification_form():
 @app.route('/planification')
 def planification():
     return render_template('planification.html')
+
+@app.route('/creation2')
+def creation2():
+    return render_template('creation2.html')
