@@ -14,77 +14,71 @@
 </div>
 
 <div class="container">
-  <form action="/creation" method="POST" id="creationForm">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group d-inline-block" style="width: 25%;">
-          <label for="nom_equipe" style="color: white">Equipe</label>
-          <input type="text" class="form-control form-control-sm" id="nom_equipe" name="nom_equipe" pattern="[A-Za-z\s]+" style="width: 250px;">
-          <div id="message_nom_equipe" style="display: none; color: red;"></div>
-        </div>
-      
-      
-        <div class="form-group d-inline-block" style="width: 25%;">
-          <label for="pays_appartenance" style="color: white">Pays d'appartenance</label>
-          <input type="text" class="form-control form-control-sm" id="pays_appartenance" name="pays_appartenance" pattern="[A-Za-z\s]+" style="width: 250px;">
-          <div id="message_pays_appartenance" style="display: none; color: red;"></div>
-
-        </div>
-      </div>
-      
-    </div>
-    <h3 style="color: white">Vous devez rentrer les 11 joueurs</h3>
-    <div id="carouselFormulaires" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
-
-      
-      <div class="carousel-inner">
-    
-        <div class="carousel-item active">
-          <div class="container">
-            <div class="row">
-              {% for i in range(1, 12) %}
-                <div class="col-md-4 mb-3"  >
-                  <div class="card" id="carte_joueur_{{ i }}">
-                    <div class="card-body">
-                      <!-- Votre code de formulaire ici -->
-                      <div class="form-group">
-                        <label for="nom_joueur_{{ i }}">Nom</label>
-                        <input type="text" class="form-control" id="nom_joueur_{{ i }}" name="nom_joueur_{{ i }}" pattern="[A-Za-z\s]+">
-                        <div id="message_nom_joueur_{{ i }}" style="display: none; color: red;"></div>
-                      </div>
-                      <div class="form-group">
-                        <label for="prenom_joueur_{{ i }}">Prénom</label>
-                        <input type="text" class="form-control" id="prenom_joueur_{{ i }}" name="prenom_joueur_{{ i }}" pattern="[A-Za-z\s]+">
-                        <div id="message_prenom_joueur_{{ i }}" style="display: none; color: red;"></div>
-                      </div>
-                      <div class="form-group">
-                        <label for="numero_tshirt_{{ i }}">Numéro</label>
-                        <input type="text" class="form-control" id="numero_tshirt_{{ i }}" name="numero_tshirt_{{ i }}" pattern="\d+">
-                        <div id="message_numero_tshirt_{{ i }}" style="display: none; color: red;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              {% endfor %}
+  <div class="card" id="card-creation">
+    <div class="card-body">
+      <form action="/creation" method="POST" id="creationForm">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="form-group d-inline-block" style="width: 25%;">
+              
+                <label for="nom_equipe" style="display: flex; align-items: center;" >Equipe</label>
+              
+              
+              <input type="text" class="form-control form-control-sm" id="nom_equipe" name="nom_equipe" pattern="[A-Za-z\s]+" style="width: 250px;">
+              <div id="message_nom_equipe" style="display: none; color: red;"></div>
+            </div> 
+            <div class="form-group d-inline-block" style="width: 25%;">
+              
+                <label for="pays_appartenance" style="display: flex; align-items: center;" >Pays d'appartenance</label>
+              
+              
+              <input type="text" class="form-control form-control-sm" id="pays_appartenance" name="pays_appartenance" pattern="[A-Za-z\s]+" style="width: 250px;">
+              <div id="message_pays_appartenance" style="display: none; color: red;"></div>
             </div>
           </div>
+          
         </div>
-    
-      </div>
-      <button class="carousel-control-prev align-self-center" type="button" data-bs-target="#carouselFormulaires" data-bs-slide="prev">
-        <span class="fa-solid fa-chevron-left"></span>
-      </button>
-      <button class="carousel-control-next align-self-center" type="button" data-bs-target="#carouselFormulaires"  data-bs-slide="next">
-        <span class="fa-solid fa-chevron-right"></span>
-      </button>
+
+        <div class="container align-items-center justify-content-center">
+          <h4 >Vous devez rentrer les onze joueurs</h4>
+        </div>
+
+        
+              <div class="container" style="max-height: 470px; overflow-y: auto;">
+                <div class="row">
+                  {% for i in range(1, 12) %}
+                    <div class="col-md-4 mb-3"  >
+                      <div class="card card-tshirt" id="carte_joueur_{{ i }}">
+                        <div class="card-body">
+                          <!-- Votre code de formulaire ici -->
+                          <div class="form-group">
+                            <label for="nom_joueur_{{ i }}">Nom</label>
+                            <input type="text" class="form-control" id="nom_joueur_{{ i }}" name="nom_joueur_{{ i }}" pattern="[A-Za-z\s]+">
+                            <div id="message_nom_joueur_{{ i }}" style="display: none; color: red;"></div>
+                          </div>
+                          <div class="form-group">
+                            <label for="prenom_joueur_{{ i }}">Prénom</label>
+                            <input type="text" class="form-control" id="prenom_joueur_{{ i }}" name="prenom_joueur_{{ i }}" pattern="[A-Za-z\s]+">
+                            <div id="message_prenom_joueur_{{ i }}" style="display: none; color: red;"></div>
+                          </div>
+                          <div class="form-group">
+                            <label for="numero_tshirt_{{ i }}">Numéro</label>
+                            <input type="text" class="form-control" id="numero_tshirt_{{ i }}" name="numero_tshirt_{{ i }}" pattern="\d+">
+                            <div id="message_numero_tshirt_{{ i }}" style="display: none; color: red;"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>  
+
+        <div class="text-center mt-3">
+          <button type="submit" class="btn neon-btn">Créer équipe</button>
+        </div>
+      </form>
     </div>
-    
-    
-    
-    <div class="text-center mt-3">
-      <button type="submit" class="btn neon-btn">Créer équipe</button>
-    </div>
-  </form>
+  </div>
 </div>
 
 <div class="modal fade" id="erreurModal" tabindex="-1" role="dialog" aria-labelledby="erreurModalLabel" aria-hidden="true">
@@ -102,6 +96,7 @@
     </div>
   </div>
 </div>
+
 
 
 <script>
@@ -251,9 +246,18 @@
       }
     
       actualiserVisibiliteFormulaires();
-    });
-      
 
+      let indicators = document.querySelectorAll('.carousel-indicators li');
+      indicators.forEach((indicator, index) => {
+        if (index === e.to) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
+      });
+      actualiserVisibiliteFormulaires();
+    });
+    actualiserVisibiliteFormulaires();
   });
 </script>
 
