@@ -251,6 +251,13 @@ button:focus {
   
 }
 
+.nav-link-custom {
+  color: rgb(215,23,219); /* Color Morado */
+}
+
+.nav-link-custom.active {
+  color: black; /* Color Negro */
+}
 
 @media only screen and (max-width: 600px) {
   .table-container {

@@ -9,13 +9,13 @@
     <div class="container align-items-center justify-content-center" style="margin-top: 50px;">
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link {% if active_tab == 'dashboard' %}active{% endif %}" href="#dashboard" data-bs-toggle="tab">Statistiques</a>
+          <a class="nav-link nav-link-custom {% if active_tab == 'dashboard' %}active{% endif %}" href="#dashboard" data-bs-toggle="tab">Statistiques</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  {% if active_tab == 'informations' %}active{% endif %}" href="#informations" data-bs-toggle="tab">Informations</a>
+          <a class="nav-link nav-link-custom {% if active_tab == 'informations' %}active{% endif %}" href="#informations" data-bs-toggle="tab">Informations</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  {% if active_tab == 'historique' %}active{% endif %}" href="#historique" data-bs-toggle="tab" id="historique-tab">Historique des mises</a>
+          <a class="nav-link nav-link-custom  {% if active_tab == 'historique' %}active{% endif %}" href="#historique" data-bs-toggle="tab" id="historique-tab">Historique des mises</a>
         </li>
       </ul>
 
@@ -31,7 +31,7 @@
         
           
         </div>
-        <div class="tab-pane fade {% if active_tab == 'informations' %}show active{% endif %}" id="informations">
+        <div class="tab-pane fade {% if active_tab == 'informations' %}show active{% endif %}" style="margin-top: 20px;" id="informations">
           <p>Nom: {{ utilisateur[1] }}</p>
           <p>Prénom: {{ utilisateur[2] }}</p>
           <p>Email: {{ utilisateur[3] }}</p>
@@ -39,14 +39,14 @@
         <div class="tab-pane fade {% if active_tab == 'historique' %}show active{% endif %}" id="historique" role="tabpanel" aria-labelledby="historique-tab">
           <div class="table-container">
             
-            <table class="table" style="width: 1200px;">
+            <table class="table" style="width: 1300px;">
               <thead>
                 <tr>
                   <th>Matchs</th>
                   <th>Date</th>
                   <th>Début</th>
                   <th>Fin</th>
-                  <th>Mise</th>
+                  <th style="width: 180px;">Mise</th>
                   <th>Status</th>
                   <th>Bénéfices</th>
                 </tr>
@@ -64,10 +64,10 @@
                   <td>{{ mise[5] }}</td>
                   <td>  
                     {% if mise[6] is not none %}
-                      {{ mise[1] }} - {{ mise[6] |int }} {{ mise[14] }}
+                      {{ mise[1] }} - {{ mise[6] |int }} <br> {{ mise[14] }}
                     {% endif %}
                     {% if mise[7] is not none %}
-                      {{ mise[2] }} - {{ mise[7]|int }} {{ mise[14] }}
+                      {{ mise[2] }} - {{ mise[7]|int }} <br> {{ mise[14] }}
                     {% endif %}
                   </td>
                   <td>{{ mise[10] }}</td>

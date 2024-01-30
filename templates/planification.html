@@ -7,6 +7,8 @@
 <div class="container align-items-center justify-content-center" style="margin-top: 50px;">
   <h1 class="text-center" style="color: white">Planification des matchs</h1>
 </div>
+
+
 <div class="center-container" id="containerPlanification">
   <form id="form-planification" action="/planification" method="POST">
     <label for="equipe1" style="color: white">Equipe visiteur:</label>
@@ -25,17 +27,12 @@
     </select>
     <br>
     <br>
-   
+  
     <label for="jour" style="color: white">Jour :</label>
     <input type="date" id="jour" name="jour"  required><br><br>
 
     <label for="debut" style="color: white">Début :</label>
     <input type="time" id="debut" name="debut" required><br><br>
-
-    
-
-  
-
     <label for="cote1" style="color: white">Cote Équipe visiteur :</label>
     <input type="text" id="cote1" name="cote1" min="1" max="10" step="1" required><br><br>
 
@@ -46,7 +43,7 @@
     <input type="submit" class="btn neon-btn" value="Créer le Match">
   </form>
 </div>
-
+ 
 <div id="errorModal" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
   <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 30%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
       <div style="display: flex; justify-content: space-between; align-items: center;">
