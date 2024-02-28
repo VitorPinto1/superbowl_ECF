@@ -1,8 +1,10 @@
-from flask import Flask, render_template, redirect, session, request, url_for, jsonify
+from flask import Flask, render_template, redirect, session, request, url_for, jsonify, flash
 from flask_bootstrap import Bootstrap
 from datetime import datetime
 from decimal import Decimal
 from flask_mail import Mail, Message
+from werkzeug.security import generate_password_hash, check_password_hash
+
 import secrets
 import json
 import random
@@ -632,7 +634,6 @@ def form_miser_selection():
 
     return redirect('/espace_utilisateur')
 
-
 @app.route('/creation_compte', methods=['POST'])
 def creation_compte_form():
     
@@ -641,35 +642,31 @@ def creation_compte_form():
     email = request.form.get('inputEmail')
     mot_de_passe = request.form.get('inputPass')
 
+    # Hashear la contraseña
+    mot_de_passe_hashe = generate_password_hash(mot_de_passe)
+
     # token de validation
     token = secrets.token_hex(16)
-
     
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    
     # Vérification pour savoir si email existe déjà dans la base de données
     check_query = "SELECT * FROM users WHERE email = %s"
     cursor.execute(check_query, (email,))
     utilisateur = cursor.fetchone()
-
-    
     
     if utilisateur:
         # Si l'email est déjà utilisé, rediriger ou afficher un message d'erreur
         erreur = "Email déjà utilisé"
-        return render_template ('creation_compte.html', erreur=erreur)
+        return render_template('creation_compte.html', erreur=erreur)
     else:
-        # Créer un token de validation
-        token = secrets.token_hex(16)
-
         # Insérer le nouvel utilisateur dans la base de données
         insert_query = '''
             INSERT INTO users (nom, prenom, email, mot_de_passe, token)
             VALUES (%s, %s, %s, %s, %s)
         '''
-        data = (nom, prenom, email, mot_de_passe, token)
+        data = (nom, prenom, email, mot_de_passe_hashe, token)
         cursor.execute(insert_query, data)
 
         conn.commit()
@@ -684,6 +681,7 @@ def creation_compte_form():
 
     # Rediriger vers une autre page ou afficher un message de succès
     return redirect(url_for('reussite_creation_compte'))
+
 
     
 
@@ -721,29 +719,34 @@ def se_connecter_validation():
     conn = mysql.connect()
     curseur = conn.cursor()
 
-    requete_select = "SELECT * FROM users WHERE email = %s AND mot_de_passe = %s"
-    curseur.execute(requete_select, (email, mot_de_passe))
+    # Selecciona al usuario solo por email
+    requete_select = "SELECT * FROM users WHERE email = %s"
+    curseur.execute(requete_select, (email,))
     utilisateur = curseur.fetchone()
     curseur.close()
     conn.close()
     
+    # Verifica si el usuario existe y luego compara la contraseña hasheada
     if utilisateur:
-        if  utilisateur[6] == 1:  # En supposant que 'confirmed' soit la septieme colonne dans la table 'users'
-         
-            # Les identifiants sont corrects
-            session['id_utilisateur'] = utilisateur[0]  # Enregistrer l'ID de l'utilisateur en session
-            if utilisateur[7] == 'admin':  # En supposant que 'role' soit la huitième colonne dans la table 'users'
-                return redirect(url_for('espace_administrateur'))
+        mot_de_passe_hashe = utilisateur[4] # Asumiendo que la contraseña hasheada está en la 5ta posición
+        if check_password_hash(mot_de_passe_hashe, mot_de_passe):
+            # Verifica si el usuario ha confirmado su cuenta
+            if utilisateur[6] == 1:  # Asumiendo que 'confirmed' es la séptima columna
+                session['id_utilisateur'] = utilisateur[0]  # Guarda el ID del usuario en la sesión
+                if utilisateur[7] == 'admin':  # Asumiendo que 'role' es la octava columna
+                    return redirect(url_for('espace_administrateur'))
+                else:
+                    return redirect(url_for('espace_utilisateur'))
             else:
-                return redirect(url_for('espace_utilisateur'))
+                erreur = "Veuillez confirmer votre compte avant de vous connecter."
+                return render_template('se_connecter.html', erreur=erreur)
         else:
-            # Les identifiants sont corrects, mais l'utilisateur n'a pas encore confirmé son compte.
-            erreur = "Veuillez confirmer votre compte avant de vous connecter."
+            erreur = "L'adresse e-mail ou le mot de passe est incorrect."
             return render_template('se_connecter.html', erreur=erreur)
     else:
-        # Les identifiants sont incorrects
         erreur = "L'adresse e-mail ou le mot de passe est incorrect."
         return render_template('se_connecter.html', erreur=erreur)
+
 
 @app.route('/se_connecter')
 def se_connecter():
@@ -774,6 +777,8 @@ def mot_de_passe_oublie_form():
 
         # Générer un nouveau mot de passe
         nouveau_mot_de_passe = generer_mot_de_passe(8) 
+        mot_de_passe_hashe = generate_password_hash(nouveau_mot_de_passe)
+
 
 
         # Mettre à jour le mot de passe dans la base de données
@@ -783,7 +788,7 @@ def mot_de_passe_oublie_form():
         update_query = '''
             UPDATE users SET mot_de_passe = %s WHERE email = %s
         '''
-        cursor.execute(update_query, (nouveau_mot_de_passe, email))
+        cursor.execute(update_query, (mot_de_passe_hashe, email))
 
         conn.commit()
 
@@ -806,6 +811,33 @@ def mot_de_passe_oublie_form():
 @app.route('/mot_de_passe_oublie', methods=['GET'])
 def mot_de_passe_oublie():
     return render_template("mot_de_passe_oublie.html")
+
+
+@app.route('/changer_mot_de_passe', methods=['GET', 'POST'])
+def changer_mot_de_passe():
+    if 'id_utilisateur' not in session:
+        # Si el usuario no está logueado, redirigir a la página de login
+        return redirect(url_for('se_connecter'))
+
+    if request.method == 'POST':
+        nouveau_mot_de_passe = request.form.get('inputModificationMdp')
+        id_utilisateur = session['id_utilisateur']
+
+        # Conectarse a la base de datos y actualizar la contraseña
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        hashed_password = generate_password_hash(nouveau_mot_de_passe)
+        update_query = "UPDATE users SET mot_de_passe = %s WHERE id = %s"
+        cursor.execute(update_query, (hashed_password, id_utilisateur))
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        flash('Votre mot de passe a été changé avec succès.', 'success')
+        return redirect(url_for('espace_utilisateur'))
+
+    # Si el método es GET o cualquier otro, simplemente mostrar el formulario de cambio de contraseña
+    return render_template('changer_mot_de_passe.html')
 
 @app.route('/espace_utilisateur', methods=['GET'])
 def espace_utilisateur():

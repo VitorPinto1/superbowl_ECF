@@ -62,9 +62,11 @@
                         <li><a class="dropdown-item" href="{{ url_for('espace_utilisateur') }}">Espace utilisateur</a></li>
                     {% endif %}
                     <li>
+                      <a class="dropdown-item" href="{{ url_for('changer_mot_de_passe') }}">Changer mot de passe</a>
                       <form action="{{ url_for('deconnexion_user_bouton') }}" method="POST" style="margin: 0;">
                           <button type="submit" class="dropdown-item btn btn-danger">Déconnexion</button>
                       </form>
+                      
                     </li>
   
                 {% else %}
