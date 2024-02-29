@@ -50,7 +50,6 @@
                     <div class="col-md-4 mb-3"  >
                       <div class="card card-tshirt" id="carte_joueur_{{ i }}">
                         <div class="card-body">
-                          <!-- Votre code de formulaire ici -->
                           <div class="form-group">
                             <label for="nom_joueur_{{ i }}">Nom</label>
                             <input type="text" class="form-control" id="nom_joueur_{{ i }}" name="nom_joueur_{{ i }}" pattern="[A-Za-z\s]+">
@@ -195,69 +194,7 @@
               $('#erreurModal').modal('hide');
             });
         }
-    });
-
-
-    var myCarousel = document.querySelector('#carouselFormulaires')
-    var carousel = new bootstrap.Carousel(myCarousel, { interval: false })
-    let etape = 0;
-
-    function actualiserVisibiliteFormulaires() {
-      for (let i = 1; i <= 11; i++) {
-        let carte = document.getElementById('carte_joueur_' + i);
-        if (etape === 0 && i <= 6) {
-          // Mostrar los primeros 6 formularios en la primera etapa
-          carte.style.display = '';
-        } else if (etape === 1 && i > 6) {
-          // Mostrar los siguientes 5 formularios en la segunda etapa
-          carte.style.display = '';
-        } else {
-          // Ocultar los demás formularios
-          carte.style.display = 'none';
-        }
-      }
-    }
-
-    document.querySelector('.carousel-control-prev').addEventListener('click', function () {
-      etape = 0;
-      actualiserVisibiliteFormulaires();
-    });
-  
-    // Evento para botón de deslizamiento a la derecha (siguiente)
-    document.querySelector('.carousel-control-next').addEventListener('click', function () {
-      etape = 1;
-      actualiserVisibiliteFormulaires();
-    });
-  
-    actualiserVisibiliteFormulaires();
-
-
-
-  
-
-    $('#carouselFormulaires').on('slide.bs.carousel', function (e) {
-      console.log('Carrusel deslizado a', e.direction); 
-      if (e.direction === 'left') {
-        // Mostrar los 6 formularios anteriores
-        etape = 1;
-      } else if (e.direction === 'right') {
-        // Mostrar los siguientes 5 formularios
-        etape = 0;
-      }
-    
-      actualiserVisibiliteFormulaires();
-
-      let indicators = document.querySelectorAll('.carousel-indicators li');
-      indicators.forEach((indicator, index) => {
-        if (index === e.to) {
-          indicator.classList.add('active');
-        } else {
-          indicator.classList.remove('active');
-        }
-      });
-      actualiserVisibiliteFormulaires();
-    });
-    actualiserVisibiliteFormulaires();
+    });      
   });
 </script>
 
