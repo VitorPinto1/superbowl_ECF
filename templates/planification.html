@@ -84,11 +84,11 @@ window.onload = function() {
 
     function validateNumberInput(event) {
       var charCode = event.charCode;
-      if (charCode < 48 || charCode > 57) { // Solo permite dígitos numéricos
+      if (charCode < 48 || charCode > 57) { //  Vérification chiffre numérique.
         event.preventDefault();
       }
 
-      // Limita la longitud para evitar más de dos dígitos
+      
       if (this.value.length > 1) {
         event.preventDefault();
       }
@@ -111,13 +111,13 @@ window.onload = function() {
       var equipe2 = document.getElementById("equipe2").value;
      
 
-      // Validar si los equipos son iguales
+      
       if (equipe1 === equipe2) {
         showError("Les équipes sélectionnées ne peuvent pas être les mêmes.");
         event.preventDefault();
         return;
       }
-    // Aquí iría la validación de partidos existentes
+    
     });
   });
   

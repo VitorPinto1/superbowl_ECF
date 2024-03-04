@@ -61,24 +61,24 @@
 </div>
 
 <script>
-    // Obtener los elementos de entrada
+    // Obtenir les éléments d'entrée
     var mise1Input = document.getElementById("mise1");
     var mise2Input = document.getElementById("mise2");
 
-    // Obtener el botón de "Valider"
+    // Obtenir le bouton 'Valider'
     var miserButton = document.getElementById("miser-button");
 
-    // Agregar eventos de escucha a los campos de entrada
+   
     mise1Input.addEventListener("input", validationBotonMiser);
     mise2Input.addEventListener("input", validationBotonMiser);
 
-    // Función para validar el botón "Miser"
+  
     function validationBotonMiser() {
-        // Verificar si al menos uno de los campos tiene un valor
+        // Vérifier si au moins l'un des champs a une valeur
         if (mise1Input.value.trim() !== '' || mise2Input.value.trim() !== '') {
-            miserButton.disabled = false; // Habilitar el botón si hay un valor en al menos uno de los campos
+            miserButton.disabled = false; 
         } else {
-            miserButton.disabled = true; // Deshabilitar el botón si ambos campos están vacíos
+            miserButton.disabled = true; 
         }
     }
 
@@ -86,19 +86,19 @@
     function calculerMultiplication(inputId, resultatId, cote) {
         var input = document.getElementById(inputId);
         var resultat = document.getElementById(resultatId);
-        var resultatInput = document.getElementById(resultatId + "_input"); // Champ caché pour le résultat spécifique
+        var resultatInput = document.getElementById(resultatId + "_input"); 
         var valeur = parseFloat(input.value);
     
         if (!isNaN(valeur)) {
             var multiplication = cote * valeur;
             resultat.textContent = 'Résultat : ' + multiplication;
-            resultatInput.value = multiplication; // Affecter le résultat au champ caché spécifique
+            resultatInput.value = multiplication; 
         } else {
             resultat.textContent = '';
-            resultatInput.value = ''; // Effacer le champ caché s'il n'y a pas de valeur valide
+            resultatInput.value = ''; 
         }
     
-        // Llamar a la función de validación después de calcular la multiplicación
+        
         validationBotonMiser();
     }
     
