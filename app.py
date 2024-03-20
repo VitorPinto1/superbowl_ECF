@@ -4,7 +4,6 @@ from datetime import datetime
 from decimal import Decimal
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
-
 import secrets
 import json
 import random
@@ -62,36 +61,9 @@ class Matchs:
         self.logo_equipe1 = logo_equipe1
         self.logo_equipe2 = logo_equipe2
         
-
-""""
-def insert_matchs(matchs):
-    conn = mysql.connect()
-    cursor = conn.cursor()
-
-    insert_query = '''
-        INSERT INTO matchs (equipe1, equipe2, jour, debut, fin, statut, score, meteo, joueurs, cote1, cote2, commentaires)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    '''
-    for match in matchs:
-        data = (
-            match.equipe1, match.equipe2, match.jour, match.debut, match.fin,
-            match.statut, match.score, match.meteo, match.joueurs, match.cote1,
-            match.cote2, match.commentaires
-        )
-        cursor.execute(insert_query, data)
-
-    conn.commit()
-
-    cursor.close()
-    conn.close()
-"""
-
-
-
 def obtenir_matchs_from_database():
     conn = mysql.connect()
     cursor = conn.cursor()
-
     select_query = '''
     SELECT 
         m.equipe1, 
@@ -153,12 +125,7 @@ def obtenir_matchs_from_database():
 
     cursor.close()
     conn.close()
-
     return matchs
-
-
-
-
 
 def generer_mot_de_passe(longueur):
     caracteres = string.ascii_letters + string.digits + string.punctuation
@@ -181,7 +148,7 @@ def random_prenom(equipe_id, numero_joueurs = 11):
         nom_parts = nom_complet.split(' ')
         nom_joueur = nom_parts[0]
         if len(nom_parts) > 1:
-            prenom_joueur = ' '.join(nom_parts[1:])  # Resto del nombre (apellido)
+            prenom_joueur = ' '.join(nom_parts[1:])  
         else:
             prenom_joueur = ''
         numero_tshirt = random.randint(1,99)
@@ -208,7 +175,7 @@ def verifier_existence_joueurs(equipe_id):
     conn.close()
     return count > 0
 
-equipes_ids = list(range(1, 33))  # Reemplaza con los IDs reales de tus equipos
+equipes_ids = list(range(1, 33))  
 
 for equipe_id in equipes_ids:
     if not verifier_existence_joueurs(equipe_id):
@@ -226,7 +193,7 @@ def inject_user_info():
         conn = mysql.connect()
         cursor = conn.cursor()
 
-        # Obtener el rol del usuario de la base de datos
+        # Obtenir le rôle de l'utilisateur de la base de données
         cursor.execute("SELECT role FROM users WHERE id = %s", (id_utilisateur,))
         role = cursor.fetchone()[0]
         cursor.close()
@@ -239,16 +206,12 @@ def inject_user_info():
 def index():
   now = datetime.now()
   formatted_date = now.strftime("%d/%m/%Y")
-  conn = mysql.connect()
-
-    # Crear un cursor para ejecutar consultas
+  conn = mysql.connect()  
   cursor = conn.cursor()
-
-  # Obtener la fecha actual
   cursor.execute("SELECT CURDATE()")
   current_date = cursor.fetchone()[0]
 
-  # Obtener los partidos de la fecha actual
+  # Obtenir les matchs de la date actuelle
   cursor.execute('''
     SELECT m.*, e1.logo AS logo_equipe1, e2.logo AS logo_equipe2
     FROM matchs m
@@ -263,14 +226,11 @@ def index():
 
   return render_template('index.html', current_date=formatted_date, matches = matches)
 
-
 @app.route('/visualiser_matchs')
 def visualiser_matchs():
     matchs = obtenir_matchs_from_database()
     voir_bouton_miser = False
-  
-        # Imprimir el diccionario de logos
- 
+
     if 'id_utilisateur' in session:
         id_utilisateur = session['id_utilisateur']
         conn = mysql.connect()
@@ -287,9 +247,6 @@ def visualiser_matchs():
 
     return render_template('visualiser_matchs.html', voir_bouton_miser=voir_bouton_miser, matchs=matchs)
 
-
-
-
 @app.route('/store_in_session', methods=['POST'])
 def store_in_session():
     session['equipe1'] = request.form.get('equipe1')
@@ -300,9 +257,7 @@ def store_in_session():
     session['mise2'] = request.form.get('mise2')
     session['jour'] = request.form.get('jour')
     session['debut'] = request.form.get('debut')
-
     return redirect(url_for('miser'))
-
 
 @app.route('/miser')
 def miser():
@@ -314,10 +269,10 @@ def miser():
     debut = session.get('debut')
     utilisateur = session['id_utilisateur']
 
-    # Verificar si ya existe una apuesta para este usuario y partido
+   
     conn = mysql.connect()
     cursor = conn.cursor()
-
+    # Vérifier si un pari existe déjà pour cet utilisateur
     select_existing_bet_query = '''
         SELECT id FROM mises
         WHERE id_utilisateur = %s AND id_match IN (
@@ -355,7 +310,6 @@ def form_miser():
     match = cursor.fetchone()
     id_match = match[0]
     
-    # Verificar si ya existe una apuesta para este usuario y partido
     select_existing_bet_query = '''
         SELECT id, equipe1, equipe2 FROM mises
         WHERE id_utilisateur = %s AND id_match = %s
@@ -365,7 +319,7 @@ def form_miser():
 
     if existing_bets:
         for existing_bet in existing_bets:
-            # Eliminar la apuesta si el valor es 0 para el equipo 1
+            # Eliminez le pari si la valeur est 0 pour l'équipe 1.
             if mise1 is not None and mise1.strip() == "0" and existing_bet[1] == equipe1:
                 delete_query1 = '''
                     DELETE FROM mises
@@ -373,7 +327,7 @@ def form_miser():
                 '''
                 cursor.execute(delete_query1, (existing_bet[0],))
         
-            # Actualizar la apuesta para el equipo 1
+            # Mise à jour mise pour l'équipe 1
             elif existing_bet[1] == equipe1 and mise1 is not None and mise1.strip() != "":
                 update_query1 = '''
                     UPDATE mises
@@ -384,7 +338,6 @@ def form_miser():
                 data1 = (Decimal(mise1), resultat1, existing_bet[0])
                 cursor.execute(update_query1, data1)
 
-            # Eliminar la apuesta si el valor es 0 para el equipo 2
             if mise2 is not None and mise2.strip() == "0" and existing_bet[2] == equipe2:
                 delete_query2 = '''
                     DELETE FROM mises
@@ -392,7 +345,6 @@ def form_miser():
                 '''
                 cursor.execute(delete_query2, (existing_bet[0],))
         
-            # Actualizar la apuesta para el equipo 2
             elif existing_bet[2] == equipe2 and mise2 is not None and mise2.strip() != "":
                 update_query2 = '''
                     UPDATE mises
@@ -405,10 +357,8 @@ def form_miser():
 
         conn.commit()
 
-    
-
     else:
-        # Si no existe una apuesta, insertar una nueva
+        # Si une mise n'existe pas, insérer une nouvelle mise
         if mise1 is not None and mise1.strip() != "":
             insert_query1 = '''
                 INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match, datemise)
@@ -444,18 +394,13 @@ def modifier_mise(mise_id):
     mise = curseur.fetchone()
 
     if mise:
-        equipe1 = mise[11]  # Obtener el nombre del equipo 1 de la mise
-        equipe2 = mise[12]  # Obtener el nombre del equipo 2 de la mise
-        cote1 = mise[13]      # Obtener el valor de cote1 de la mise
+        equipe1 = mise[11]  # Obtenir le nom de l'équipe 1 à partir de la mise
+        equipe2 = mise[12] 
+        cote1 = mise[13]    # Obtenir la valeur de cote1 de la mise
         cote2 = mise[14] 
         curseur.close()
         conn.close()
 
-        
-
-       
-
-        # Agregar lógica para eliminar la apuesta antigua
         conn = mysql.connect()
         curseur = conn.cursor()
         requete_delete = "DELETE FROM mises WHERE id = %s"
@@ -463,15 +408,11 @@ def modifier_mise(mise_id):
         conn.commit()
         curseur.close()
         conn.close()
-        
-        # Renderizar el template después de eliminar la apuesta antigua
+       
         return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
     else:
-        # Mise no encontrada
+    
         return "Mise no encontrada"
-
-
-
 
 @app.route('/mise/<int:mise_id>/supprimer', methods=['GET'])
 def supprimer_mise(mise_id):
@@ -481,7 +422,6 @@ def supprimer_mise(mise_id):
     requete_supprimer = "DELETE FROM mises WHERE id = %s"
     curseur.execute(requete_supprimer, (mise_id,))
     conn.commit()
-
     curseur.close()
     conn.close()
 
@@ -493,7 +433,6 @@ def supprimer_mise(mise_id):
     curseur.execute(select_utilisateur_query, (id_utilisateur,))
     utilisateur = curseur.fetchone()
 
-    # Obtener las apuestas del usuario
     select_mises_query = '''
         SELECT mises.id, matchs.equipe1, matchs.equipe2, matchs.jour, matchs.debut, matchs.fin, mises.mise1, mises.mise2, mises.resultat1, mises.resultat2, matchs.statut
         FROM mises
@@ -502,20 +441,14 @@ def supprimer_mise(mise_id):
     '''
     curseur.execute(select_mises_query, (id_utilisateur,))
     mises = curseur.fetchall()
-
     curseur.close()
     conn.close()
 
     return render_template('espace_utilisateur.html', utilisateur=utilisateur, mises=mises, active_tab='historique')
 
-
-
-
-
 @app.route('/parier')
 def parier():
   matchs = obtenir_matchs_from_database()
-
   voir_bouton_miser_selection = False
 
   if 'id_utilisateur' in session:
@@ -537,7 +470,7 @@ def parier():
 @app.route('/miser_sur_la_selection', methods=['POST'])
 def miser_sur_la_selection():
     donnees_selectionnees = request.form.get('donnees_selectionnees')
-    # JSON a objeto Python
+    # JSON Python
     matchs_selectionnes = json.loads(donnees_selectionnees)
     equipe1 = request.form.get('equipe1')
     equipe2 = request.form.get('equipe2')
@@ -549,24 +482,20 @@ def miser_sur_la_selection():
 
     return render_template('miser_sur_la_selection.html', matchs_selectionnes=matchs_selectionnes, equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2, jour=jour)
 
-
 @app.route('/form_miser_selection', methods=['POST'])
 def form_miser_selection():
     matchs_selectionnes = session.get('miser_sur_la_selection')
-    
     conn = mysql.connect()
     cursor = conn.cursor()
 
     for index, match in enumerate(matchs_selectionnes):
         mise1 = request.form.get('mise_equipe1_{}'.format(index + 1))
         mise2 = request.form.get('mise_equipe2_{}'.format(index + 1))
-
         if mise1 is None:
             mise1 = '0'
         if mise2 is None:
             mise2 = '0'
 
-        # Convertir los valores en Decimal
         mise1_decimal = Decimal(mise1)
         mise2_decimal = Decimal(mise2)
 
@@ -576,30 +505,26 @@ def form_miser_selection():
         cote2 = match['cote2']
         jour = match['jour']
         utilisateur = session['id_utilisateur']
-        datemise = datetime.now()
-        
+        datemise = datetime.now()     
 
         select_match_query = "SELECT id FROM matchs WHERE equipe1 = %s AND equipe2 = %s AND jour = %s"
         cursor.execute(select_match_query, (equipe1, equipe2, jour))
         match = cursor.fetchone()
         if match:
             id_match = match[0]
-
             resultat1 = request.form.get('resultat1_{}'.format(index + 1))
             resultat2 = request.form.get('resultat2_{}'.format(index + 1))
 
-            # Procesar apuestas para el equipo 1
+            # Processus de paris pour l'équipe 1
             select_existing_bet_query = "SELECT id FROM mises WHERE id_utilisateur = %s AND id_match = %s AND equipe1 = %s"
             cursor.execute(select_existing_bet_query, (utilisateur, id_match, equipe1))
             existing_bet = cursor.fetchone()
 
             if existing_bet:
-                # Actualizar apuesta existente para el equipo 1
                 update_query = "UPDATE mises SET mise1 = %s, resultat1 = %s WHERE id = %s"
                 resultat1 = Decimal(mise1) * Decimal(cote1)
                 cursor.execute(update_query, (Decimal(mise1), resultat1, existing_bet[0]))
             else:
-                # Insertar nueva apuesta para el equipo 1
                 insert_query = '''
                     INSERT INTO mises (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match, datemise)
                     VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -607,18 +532,15 @@ def form_miser_selection():
                 resultat1 = Decimal(mise1) * Decimal(cote1)
                 cursor.execute(insert_query, (Decimal(mise1), resultat1, equipe1, cote1, utilisateur, id_match, datemise))
 
-            # Procesar apuestas para el equipo 2
             select_existing_bet_query = "SELECT id FROM mises WHERE id_utilisateur = %s AND id_match = %s AND equipe2 = %s"
             cursor.execute(select_existing_bet_query, (utilisateur, id_match, equipe2))
             existing_bet = cursor.fetchone()
 
             if existing_bet:
-                # Actualizar apuesta existente para el equipo 2
                 update_query = "UPDATE mises SET mise2 = %s, resultat2 = %s WHERE id = %s"
                 resultat2 = Decimal(mise2) * Decimal(cote2)
                 cursor.execute(update_query, (Decimal(mise2), resultat2, existing_bet[0]))
             else:
-                # Insertar nueva apuesta para el equipo 2
                 insert_query = '''
                     INSERT INTO mises (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match, datemise)
                     VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -627,30 +549,22 @@ def form_miser_selection():
                 cursor.execute(insert_query, (Decimal(mise2), resultat2, equipe2, cote2, utilisateur, id_match, datemise))
 
     conn.commit()
-
-
     cursor.close()
     conn.close()
-
     return redirect('/espace_utilisateur')
 
 @app.route('/creation_compte', methods=['POST'])
 def creation_compte_form():
-    
     nom = request.form.get('inputNom')
     prenom = request.form.get('inputPrenom')
     email = request.form.get('inputEmail')
     mot_de_passe = request.form.get('inputPass')
-
-    # Hashear la contraseña
+    # Hash password
     mot_de_passe_hashe = generate_password_hash(mot_de_passe)
-
-    # token de validation
+    # token 
     token = secrets.token_hex(16)
-    
     conn = mysql.connect()
     cursor = conn.cursor()
-
     # Vérification pour savoir si email existe déjà dans la base de données
     check_query = "SELECT * FROM users WHERE email = %s"
     cursor.execute(check_query, (email,))
@@ -668,7 +582,6 @@ def creation_compte_form():
         '''
         data = (nom, prenom, email, mot_de_passe_hashe, token)
         cursor.execute(insert_query, data)
-
         conn.commit()
 
         # Envoyer l'email de validation
@@ -682,25 +595,17 @@ def creation_compte_form():
     # Rediriger vers une autre page ou afficher un message de succès
     return redirect(url_for('reussite_creation_compte'))
 
-
-    
-
 @app.route('/confirmer/<token>')
 def confirmer_compte(token):
     conn = mysql.connect()
     cursor = conn.cursor()
-
     update_query = '''
         UPDATE users SET confirmed = 1 WHERE token = %s
     '''
     cursor.execute(update_query, (token,))
-
     conn.commit()
-
     cursor.close()
     conn.close()
-
-    # Redireccionar a una página de confirmación exitosa o mostrar un mensaje
     return render_template('se_connecter.html')
 
 @app.route('/reussite_creation_compte')
@@ -715,25 +620,22 @@ def creation_compte():
 def se_connecter_validation():
     email = request.form.get('inputEmail')
     mot_de_passe = request.form.get('inputPass')
-
     conn = mysql.connect()
     curseur = conn.cursor()
-
-    # Selecciona al usuario solo por email
     requete_select = "SELECT * FROM users WHERE email = %s"
     curseur.execute(requete_select, (email,))
     utilisateur = curseur.fetchone()
     curseur.close()
     conn.close()
-    
-    # Verifica si el usuario existe y luego compara la contraseña hasheada
+
+    # Vérifier si l'utilisateur existe et comparer le mot de passe haché
     if utilisateur:
-        mot_de_passe_hashe = utilisateur[4] # Asumiendo que la contraseña hasheada está en la 5ta posición
+        mot_de_passe_hashe = utilisateur[4] 
         if check_password_hash(mot_de_passe_hashe, mot_de_passe):
-            # Verifica si el usuario ha confirmado su cuenta
-            if utilisateur[6] == 1:  # Asumiendo que 'confirmed' es la séptima columna
-                session['id_utilisateur'] = utilisateur[0]  # Guarda el ID del usuario en la sesión
-                if utilisateur[7] == 'admin':  # Asumiendo que 'role' es la octava columna
+            # Vérifier si l'utilisateur a confirmé son compte
+            if utilisateur[6] == 1:  
+                session['id_utilisateur'] = utilisateur[0]  # Enregistre l'identifiant de l'utilisateur dans la session
+                if utilisateur[7] == 'admin': 
                     return redirect(url_for('espace_administrateur'))
                 else:
                     return redirect(url_for('espace_utilisateur'))
@@ -746,7 +648,6 @@ def se_connecter_validation():
     else:
         erreur = "L'adresse e-mail ou le mot de passe est incorrect."
         return render_template('se_connecter.html', erreur=erreur)
-
 
 @app.route('/se_connecter')
 def se_connecter():
@@ -774,13 +675,9 @@ def mot_de_passe_oublie_form():
     if request.method == 'POST':
         nom = request.form['nom']
         email = request.form['inputEmail']
-
         # Générer un nouveau mot de passe
         nouveau_mot_de_passe = generer_mot_de_passe(8) 
         mot_de_passe_hashe = generate_password_hash(nouveau_mot_de_passe)
-
-
-
         # Mettre à jour le mot de passe dans la base de données
         conn = mysql.connect()
         cursor = conn.cursor()
@@ -789,9 +686,7 @@ def mot_de_passe_oublie_form():
             UPDATE users SET mot_de_passe = %s WHERE email = %s
         '''
         cursor.execute(update_query, (mot_de_passe_hashe, email))
-
         conn.commit()
-
         cursor.close()
         conn.close()
 
@@ -812,18 +707,17 @@ def mot_de_passe_oublie_form():
 def mot_de_passe_oublie():
     return render_template("mot_de_passe_oublie.html")
 
-
 @app.route('/changer_mot_de_passe', methods=['GET', 'POST'])
 def changer_mot_de_passe():
     if 'id_utilisateur' not in session:
-        # Si el usuario no está logueado, redirigir a la página de login
+        # Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
         return redirect(url_for('se_connecter'))
 
     if request.method == 'POST':
         nouveau_mot_de_passe = request.form.get('inputModificationMdp')
         id_utilisateur = session['id_utilisateur']
 
-        # Conectarse a la base de datos y actualizar la contraseña
+        # Se connecter à la base de données et mettre à jour le mot de passe
         conn = mysql.connect()
         cursor = conn.cursor()
         hashed_password = generate_password_hash(nouveau_mot_de_passe)
@@ -836,25 +730,18 @@ def changer_mot_de_passe():
         flash('Votre mot de passe a été changé avec succès.', 'success')
         return redirect(url_for('espace_utilisateur'))
 
-    # Si el método es GET o cualquier otro, simplemente mostrar el formulario de cambio de contraseña
     return render_template('changer_mot_de_passe.html')
 
 @app.route('/espace_utilisateur', methods=['GET'])
 def espace_utilisateur():
-    # Obtenir l'ID de l'utilisateur de la session
     id_utilisateur = session['id_utilisateur']
-    
-
     # Connecter à la base de données
     conn = mysql.connect()
     cursor = conn.cursor()
-
     # Sélectionner l'utilisateur par son ID
     select_query = "SELECT * FROM users WHERE id = %s"
     cursor.execute(select_query, (id_utilisateur,))
     utilisateur = cursor.fetchone()
-
-
     # Sélectionner les paris de l'utilisateur
     select_mises_query = '''
         SELECT 
@@ -879,11 +766,8 @@ def espace_utilisateur():
     '''
     cursor.execute(select_mises_query, (id_utilisateur,))
     mises = cursor.fetchall()
-
     cursor.close()
     conn.close()
-    
-  
     # Renvoyer le modèle avec les informations utilisateur
     return render_template('espace_utilisateur.html', utilisateur = utilisateur, mises=mises)
 
@@ -894,12 +778,12 @@ def espace_administrateur():
 # déconnexion du compte lors de la fermeture du web
 @app.route('/deconnecter_utilisateur', methods=['POST'])
 def deconnecter_utilisateur():
-    session.pop('id_utilisateur', None)  # Eliminar la clave 'id_utilisateur' de la sesión
-    return '', 204  # Devolver una respuesta vacía con código de estado 204 (sin contenido)
+    session.pop('id_utilisateur', None)  # Supprimer la clé 'id_utilisateur' de la session
+    return '', 204  # Renvoyer une réponse vide avec le code 204 (pas de contenu)
 
 @app.route('/deconnexion_user_bouton', methods=['POST'])
 def deconnexion_user_bouton():
-    session.pop('id_utilisateur', None)  # Eliminar la clave 'id_utilisateur' de la sesión
+    session.pop('id_utilisateur', None)  
     return redirect(url_for('index'))
 
 @app.route('/creation')
@@ -914,21 +798,19 @@ def creation_form():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    # Verificar si el equipo ya existe en la base de datos
+    # Vérifier si l'équipe existe déjà dans la base de données
     check_query = "SELECT * FROM equipes WHERE nom_equipe = %s"
     cursor.execute(check_query, (nom_equipe,))
     equipe_deja_utilise = cursor.fetchone()
 
     if equipe_deja_utilise:
-        # Si el equipo ya existe, mostrar un mensaje de error
         erreur = "Équipe déjà créée"
         return render_template('creation.html', erreur=erreur)
     else:
-        # Insertar el equipo en la tabla "equipes"
         insert_equipe_query = "INSERT INTO equipes (nom_equipe, pays_appartenance) VALUES (%s, %s)"
         equipe_data = (nom_equipe, pays_appartenance)
         cursor.execute(insert_equipe_query, equipe_data)
-        equipe_id = cursor.lastrowid
+        equipe_id = cursor.lastrowid # renvoie la valeur de l'ID de la dernière ligne
 
         joueurs = []
         for i in range(1, 12):
@@ -948,7 +830,6 @@ def creation_form():
     cursor.close()
     conn.close()
 
-    # Redirigir a otra página o mostrar un mensaje de éxito
     return redirect(url_for('espace_administrateur'))
 
 @app.route('/planification', methods=['GET', 'POST'])
@@ -968,12 +849,8 @@ def planification_form():
         debut = request.form['debut']
         cote1 = request.form['cote1']
         cote2 = request.form['cote2']
-
         statut = "À venir"
-        
         meteo = generer_meteo_aleatoire()
-    
-
         conn = mysql.connect()
         cursor = conn.cursor()
 
@@ -992,7 +869,6 @@ def planification_form():
                        (equipe1, equipe2, jour, debut, cote1, cote2, statut, meteo))
         conn.commit()
         conn.close()
-
         return redirect('/planification')
     
     conn = mysql.connect()
@@ -1000,14 +876,7 @@ def planification_form():
     cursor.execute("SELECT nom_equipe FROM equipes")
     equipes = [equipe[0] for equipe in cursor.fetchall()]
     conn.close()
-
-
-
-
-
     return render_template('planification.html', equipes = equipes)
-
-
 
 @app.route('/planification')
 def planification():
