@@ -127,7 +127,7 @@ button:focus {
   background: rgb(215,23,219);
   background: linear-gradient(167deg, rgba(215,23,219,1) 53%, rgba(151,0,255,1) 100%);
 
-  color: #fff; 
+  color: rgba(255, 255, 255, 1); 
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
