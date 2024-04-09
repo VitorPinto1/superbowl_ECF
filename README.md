@@ -13,15 +13,15 @@ Prérequis
 
 Lancez VSCode et installez l’extension « Python » publiée par Microsoft. Après avoir créé le dossier. Ouvrez un terminal intégré dans VS Code pour faire le clonage du dépôt et exécuter les commandes suivantes :
 
-« git clone https://github.com/VitorPinto1/superbowl_ECF.git »
-« cd superbowl_ECF »
+	« git clone https://github.com/VitorPinto1/superbowl_ECF.git »
+	« cd superbowl_ECF »
 
 2. 	Configuration de l'environnement
 
 Activez l'environnement virtuel Python dans le terminal :
 
-« source env/bin/activate »  # Sur Unix ou MacOS
-« env\Scripts\activate »    # Sur Windows
+	« source env/bin/activate »  # Sur Unix ou MacOS
+	« env\Scripts\activate »    # Sur Windows
 
 3. 	Lancement de l’application
 
@@ -30,23 +30,24 @@ Exécutez l’application avec Flask dans le teminal :
 	« python app.py »
 	« flask run »
 
-4.  	Accéder à l’application
+4. 	Accéder à l’application
 
 Ouvrez le navigateur et allez à :
-http://127.0.0.1:5000/
+	
+ 	http://127.0.0.1:5000/
 
 Service de mail local
 
 1. 	Démarrer MailHog
 Dans un nouveau terminal, lancez MailHog :
-
-« mailhog »
+	
+ 	« mailhog »
 
 2. Tester les services de mail
 
 Pour visualiser les emails, ouvrez un navigateur et allez à :
 
--	http://localhost:8025/
+	http://localhost:8025/
 
 Conclusion
 
