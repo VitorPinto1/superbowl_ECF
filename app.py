@@ -25,7 +25,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'staniaprojets@gmail.com'
 app.config['MAIL_PASSWORD'] = 'Stania1234#'
 app.config['MAIL_DEFAULT_SENDER'] = 'staniaprojets@gmail.com'
-
+app.config['TESTING'] = True
 
 mail = Mail(app)
 
