@@ -29,4 +29,13 @@ def client(app):
     """A test client for the app."""
     return app.test_client()
 
+@pytest.fixture
+def authenticated_client(client, test_user):
+    with client:
+        client.post('/se_connecter', data={
+            'inputEmail': test_user.email,
+            'inputPass': test_user.password
+        })
+        yield client
+
 # Aquí podrías definir tus funciones de test usando el cliente de pruebas.
