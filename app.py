@@ -15,15 +15,15 @@ from faker import Faker
 
 
 app = Flask(__name__, static_url_path='/static')
-app.secret_key = 'Pocholo123456'
+
 load_dotenv()
 
-app.config['SECRET_KEY'] = 'Pocholo123456'
+app.config['SECRET_KEY'] = os.environ.get('DB_SECRETKEY')
 app.config['MAIL_SERVER'] = 'localhost'
 app.config['MAIL_PORT'] = 1025
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'staniaprojets@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Stania1234#'
+app.config['MAIL_PASSWORD'] = os.environ.get('DB_PASSWORDEMAIL')
 app.config['MAIL_DEFAULT_SENDER'] = 'staniaprojets@gmail.com'
 app.config['TESTING'] = True
 
