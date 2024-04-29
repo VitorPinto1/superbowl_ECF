@@ -50,7 +50,7 @@ services:
       MAIL_SERVER: 'live.smtp.mailtrap.io'
       MAIL_PORT: 587
       MAIL_USERNAME: api
-      MAIL_PASSWORD: 66a65a694e4263d27327241ec656f6ad
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
   
     ports:
       - 587
