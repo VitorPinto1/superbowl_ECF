@@ -1,0 +1,63 @@
+
+services:
+  db:
+    image: mysql:8.0.33
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=bdsuperbowl
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - /Users/vitorpinto/Documents/ECF/website/mysql_data:/var/lib/mysql 
+      - /Users/vitorpinto/Documents/ECF/website/transactiondocker.sql:/docker-entrypoint-initdb.d/transactiondocker.sql 
+
+  
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - backend
+
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "dockerize -wait tcp://db:3306 -timeout 60s &&
+        flask run --host=0.0.0.0"
+    volumes:
+      - .:/code
+    ports:
+      - "5001:5000"
+    environment:
+      - FLASK_APP=${FLASK_APP}
+      - FLASK_ENV=${FLASK_ENV}
+      - FLASK_DEBUG=${FLASK_DEBUG}
+      - DB_SECRETKEY=${DB_SECRETKEY}
+      - DB_PASSWORDEMAIL=${DB_PASSWORDEMAIL}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      
+    networks:
+      - backend
+
+  mail:
+    image: bytemark/smtp
+    environment:
+      MAIL_SERVER: 'live.smtp.mailtrap.io'
+      MAIL_PORT: 587
+      MAIL_USERNAME: api
+      MAIL_PASSWORD: 66a65a694e4263d27327241ec656f6ad
+  
+    ports:
+      - 587
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+

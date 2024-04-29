@@ -64,7 +64,7 @@
       var ligne = checkboxes[i].parentNode.parentNode;
       var statut = ligne.cells[5].textContent.trim();
   
-      if (statut === "Terminé") {
+      if (statut === "Terminé" || statut === "En cours") {
         checkboxes[i].disabled = true; 
       }
       
