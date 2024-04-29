@@ -19,18 +19,18 @@ app = Flask(__name__, static_url_path='/static')
 load_dotenv()
 
 app.config['SECRET_KEY'] = os.environ.get('DB_SECRETKEY')
-app.config['MAIL_SERVER'] = 'localhost'
-app.config['MAIL_PORT'] = 1025
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USERNAME'] = 'staniaprojets@gmail.com'
-app.config['MAIL_PASSWORD'] = os.environ.get('DB_PASSWORDEMAIL')
-app.config['MAIL_DEFAULT_SENDER'] = 'staniaprojets@gmail.com'
-app.config['TESTING'] = True
+
+app.config['MAIL_SERVER']='live.smtp.mailtrap.io'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'api'
+app.config['MAIL_PASSWORD'] = '66a65a694e4263d27327241ec656f6ad'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 
 mail = Mail(app)
 
 mysql = MySQL()
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = 'db'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_USER'] = os.environ.get('DB_USER')
 app.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('DB_PASSWORD')
@@ -195,10 +195,16 @@ def inject_user_info():
 
         # Obtenir le rôle de l'utilisateur de la base de données
         cursor.execute("SELECT role FROM users WHERE id = %s", (id_utilisateur,))
-        role = cursor.fetchone()[0]
+        result = cursor.fetchone()
+        
+        if result is not None:
+            # Si se encontraron resultados, establecer el valor de 'user_admin' en función del rol del usuario
+            role = result[0]
+            user_info['user_admin'] = role == 'admin'
+
         cursor.close()
         conn.close()
-        user_info['user_admin'] = role == 'admin'
+        
 
     return user_info
 
@@ -585,7 +591,7 @@ def creation_compte_form():
         conn.commit()
 
         # Envoyer l'email de validation
-        msg = Message('Confirmez votre compte', sender='staniaprojets@gmail.com', recipients=[email])
+        msg = Message('Confirmez votre compte', sender='mailtrap@demomailtrap.com', recipients=[email])
         msg.body = f'Bonjour {prenom}, s’il vous plaît cliquez sur le lien pour valider votre compte: {request.url_root}confirmer/{token}'
         mail.send(msg)
 
@@ -692,7 +698,7 @@ def mot_de_passe_oublie_form():
 
         # Envoyer l'email
         msg = Message("Récupération de mot de passe",
-                      sender='staniaprojets@gmail.com',
+                      sender='mailtrap@demomailtrap.com',
                       recipients=[email])
         msg.body = "Bonjour " + nom + ",\n\nVotre nouveau mot de passe est : " + nouveau_mot_de_passe + "\n\nMerci."
 
