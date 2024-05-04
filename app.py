@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, session, request, url_for, jsonify, flash
 from flask_bootstrap import Bootstrap
 from datetime import datetime
+from functools import wraps
 from decimal import Decimal
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,9 +13,14 @@ from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 import os
 from faker import Faker
+ 
+
+os.environ['FLASK_DEBUG'] = '0'
 
 
 app = Flask(__name__, static_url_path='/static')
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5001)
 
 load_dotenv()
 
@@ -30,7 +36,7 @@ app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
 
 mysql = MySQL()
-app.config['MYSQL_DATABASE_HOST'] = 'db'
+app.config['MYSQL_DATABASE_HOST'] = '66.241.124.202'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_USER'] = os.environ.get('DB_USER')
 app.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('DB_PASSWORD')
@@ -777,7 +783,31 @@ def espace_utilisateur():
     # Renvoyer le modèle avec les informations utilisateur
     return render_template('espace_utilisateur.html', utilisateur = utilisateur, mises=mises)
 
+def admin_required(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if 'id_utilisateur' in session:
+            id_utilisateur = session['id_utilisateur']
+            conn = mysql.connect()
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT role FROM users WHERE id = %s", (id_utilisateur,))
+            result = cursor.fetchone()
+
+            if result is not None:
+                role = result[0]
+                if role == 'admin':
+                    return func(*args, **kwargs)
+
+            cursor.close()
+            conn.close()
+
+        return redirect(url_for('index'))
+
+    return decorated_function
+
 @app.route('/espace_administrateur')
+@admin_required
 def espace_administrateur():
     return render_template('espace_administrateur.html')
 
@@ -792,11 +822,14 @@ def deconnexion_user_bouton():
     session.pop('id_utilisateur', None)  
     return redirect(url_for('index'))
 
+
 @app.route('/creation')
+@admin_required
 def creation():
     return render_template('creation.html')
 
 @app.route('/creation', methods=['POST'])
+@admin_required
 def creation_form():
     nom_equipe = request.form.get('nom_equipe')
     pays_appartenance = request.form.get('pays_appartenance')
@@ -839,6 +872,8 @@ def creation_form():
     return redirect(url_for('espace_administrateur'))
 
 @app.route('/planification', methods=['GET', 'POST'])
+
+@admin_required
 
 def planification_form():
     error_message = None
@@ -885,6 +920,7 @@ def planification_form():
     return render_template('planification.html', equipes = equipes)
 
 @app.route('/planification')
+@admin_required
 def planification():
     return render_template('planification.html')
 

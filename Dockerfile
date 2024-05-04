@@ -1,32 +1,37 @@
-# Usar una imagen base de Python
 FROM python:3.9
 
-# Define el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Instalar las herramientas necesarias para compilar dependencias de Python que requieren compilación y 'dockerize'
 RUN apt-get update && apt-get install -y \
     gcc \
     libc6-dev \
     wget \
+    default-mysql-client \
     && wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz \
     && rm dockerize-linux-amd64-v0.6.1.tar.gz \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+    
 
-# Copia el archivo de requisitos y los archivos del proyecto
 COPY . .
 
-# Instalar dependencias de Python
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt 
 
-# Expone el puerto que Flask utilizará
-EXPOSE 5000
+EXPOSE 5001
 
-# Define environment variable
 ENV NAME World
+ENV FLASK_APP ${FLASK_APP}
+ENV FLASK_ENV ${FLASK_ENV}
+ENV FLASK_DEBUG ${FLASK_DEBUG}
+ENV DB_SECRETKEY ${DB_SECRETKEY}
+ENV DB_PASSWORDEMAIL ${DB_PASSWORDEMAIL}
+ENV DB_USER ${DB_USER}
+ENV DB_PASSWORD ${DB_PASSWORD}
+ENV MAIL_PASSWORD ${MAIL_PASSWORD}
+ENV MYSQL_ROOT_PASSWORD ${MYSQL_ROOT_PASSWORD}
+ENV MYSQL_DATABASE_HOST ${MYSQL_DATABASE_HOST}
 
-# Define el comando que se ejecutará al iniciar el contenedor, utilizando 'dockerize' para esperar a MySQL
-ENTRYPOINT ["dockerize", "-wait", "tcp://db:3306", "-timeout", "20s"]
-CMD ["python", "app.py"]
+ENTRYPOINT ["dockerize", "-wait", "tcp://66.241.124.202:3306", "-timeout", "20s"]
+CMD ["python", "/app/app.py"]
+

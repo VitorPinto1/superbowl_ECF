@@ -11,6 +11,9 @@ services:
       - /Users/vitorpinto/Documents/ECF/website/mysql_data:/var/lib/mysql 
       - /Users/vitorpinto/Documents/ECF/website/transactiondocker.sql:/docker-entrypoint-initdb.d/transactiondocker.sql 
 
+    ports:
+      - "0.0.0.0:3306:3306"
+
   
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
@@ -53,7 +56,7 @@ services:
       MAIL_PASSWORD: ${MAIL_PASSWORD}
   
     ports:
-      - 587
+      - "0.0.0.0:587:587"
     networks:
       - backend
 
