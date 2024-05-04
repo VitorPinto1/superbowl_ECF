@@ -1,19 +1,58 @@
-# Configuración básica de la aplicación en Fly.io
-app = app
+# fly.toml app configuration file generated for superbowlstania on 2024-04-29T15:38:37+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-# Definición del servicio Docker
+app = 'superbowlstania'
+primary_region = 'cdg'
+
+[build]
+
+[http_service]
+  internal_port = 5001
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
 [[services]]
-  internal_port = 5000 # Puerto interno en el que Flask escucha las conexiones
-  protocol = "tcp" # Protocolo que tu aplicación utiliza (en este caso, TCP para Flask)
+  protocol = 'tcp'
+  internal_port = 3306
 
-  # Configuración del contenedor Docker
+  [[services.ports]]
+    port = 3306
+
   [services.concurrency]
-    hard_limit = 25 # Límite máximo de instancias de tu aplicación Docker
-    soft_limit = 20 # Límite suave de instancias de tu aplicación Docker
+    hard_limit = 25
+    soft_limit = 20
 
-  # Configuración específica para contenedores Docker
-  [services.docker]
-    # Define la imagen Docker que utilizará tu servicio
-    image = app
+[[services]]
+  protocol = 'tcp'
+  internal_port = 5001
 
-# Más configuraciones pueden seguir aquí
+  [[services.ports]]
+    port = 5000
+
+  [[services.ports]]
+    port = 5001
+
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+
+[[services]]
+  protocol = 'tcp'
+  internal_port = 587
+
+  [[services.ports]]
+    port = 587
+
+[[vm]]
+  memory = '2gb'
+  cpu_kind = 'shared'
+  cpus = 1
+  
+[mounts]
+  source = "mysqldata"
+  destination = "/data"
