@@ -32,6 +32,6 @@ ENV MAIL_PASSWORD ${MAIL_PASSWORD}
 ENV MYSQL_ROOT_PASSWORD ${MYSQL_ROOT_PASSWORD}
 ENV MYSQL_DATABASE_HOST ${MYSQL_DATABASE_HOST}
 
-ENTRYPOINT ["dockerize", "-wait", "tcp://66.241.124.202:3306", "-timeout", "20s"]
+ENTRYPOINT ["dockerize", "-wait", "tcp://db:3306", "-timeout", "60s"]
 CMD ["python", "/app/app.py"]
 

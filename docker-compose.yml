@@ -5,8 +5,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=bdsuperbowl
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
       - /Users/vitorpinto/Documents/ECF/website/mysql_data:/var/lib/mysql 
       - /Users/vitorpinto/Documents/ECF/website/transactiondocker.sql:/docker-entrypoint-initdb.d/transactiondocker.sql 

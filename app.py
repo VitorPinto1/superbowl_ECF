@@ -10,6 +10,7 @@ import json
 import random
 import string
 from flaskext.mysql import MySQL
+
 from dotenv import load_dotenv
 import os
 from faker import Faker
@@ -19,8 +20,8 @@ os.environ['FLASK_DEBUG'] = '0'
 
 
 app = Flask(__name__, static_url_path='/static')
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+
+
 
 load_dotenv()
 
@@ -36,18 +37,20 @@ app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
 
 mysql = MySQL()
-app.config['MYSQL_DATABASE_HOST'] = '66.241.124.202'
+app.config['MYSQL_DATABASE_HOST'] = 'db'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_USER'] = os.environ.get('DB_USER')
 app.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('DB_PASSWORD')
 app.config['MYSQL_DATABASE_DB'] = 'bdsuperbowl'
 
+app.config
 
 mysql.init_app(app)
 
-
 bootstrap = Bootstrap(app)
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5001)
 
 class Matchs:
     def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires, joueurs_equipe1, joueurs_equipe2, logo_equipe1, logo_equipe2 ):
