@@ -7,7 +7,7 @@ Prérequis
 -	Git
 -	Python 3.9
 -	Flask
--	MailHog (pour tester les emails localement)
+-	Mailtrap (pour tester les emails)
 
 1.	Installation et déploiement
 
@@ -38,16 +38,10 @@ Ouvrez le navigateur et allez à :
 
 Service de mail local
 
-1. 	Démarrer MailHog
-Dans un nouveau terminal, lancez MailHog :
-	
- 	« mailhog »
+Pour visualiser les emails en local, ouvrez un navigateur et allez à :
 
-2. Tester les services de mail
+-	https://mailtrap.io/home
 
-Pour visualiser les emails, ouvrez un navigateur et allez à :
-
-	http://localhost:8025/
 
 Conclusion
 
