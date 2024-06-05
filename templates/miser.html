@@ -81,7 +81,6 @@
             miserButton.disabled = true; 
         }
     }
-
     
     function calculerMultiplication(inputId, resultatId, cote) {
         var input = document.getElementById(inputId);
@@ -89,7 +88,7 @@
         var resultatInput = document.getElementById(resultatId + "_input"); 
         var valeur = parseFloat(input.value);
     
-        if (!isNaN(valeur)) {
+        if (!isNaN(valeur))  {
             var multiplication = cote * valeur;
             resultat.textContent = 'Résultat : ' + multiplication;
             resultatInput.value = multiplication; 
@@ -101,6 +100,10 @@
         
         validationBotonMiser();
     }
+    
+    
+
+  
     
 </script>
 
