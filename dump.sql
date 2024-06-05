@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for macos13 (arm64)
+-- MySQL dump 10.13  Distrib 8.3.0, for macos14.2 (arm64)
 --
--- Host: localhost    Database: bdsuperbowl
+-- Host: mysql-1afb9ef7-staniaprojets-ffa9.j.aivencloud.com    Database: defaultdb
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,14 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'c06e9e25-233d-11ef-8163-9e8cb7b515f2:1-104';
 
 --
 -- Table structure for table `equipes`
@@ -27,8 +35,7 @@ CREATE TABLE `equipes` (
   `nom_equipe` varchar(255) DEFAULT NULL,
   `pays_appartenance` varchar(255) DEFAULT NULL,
   `logo` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_nom_equipe` (`nom_equipe`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -83,7 +90,7 @@ CREATE TABLE `matchs` (
   `id` int NOT NULL AUTO_INCREMENT,
   `equipe1` varchar(50) DEFAULT NULL,
   `equipe2` varchar(50) DEFAULT NULL,
-  `jour` date NOT NULL,
+  `jour` date DEFAULT NULL,
   `debut` varchar(10) DEFAULT NULL,
   `fin` varchar(10) DEFAULT ' - ',
   `statut` varchar(20) DEFAULT ' - ',
@@ -94,8 +101,9 @@ CREATE TABLE `matchs` (
   `commentaires` varchar(100) DEFAULT ' - ',
   `but1` int DEFAULT NULL,
   `but2` int DEFAULT NULL,
-  `vainqueur` varchar(50) DEFAULT '-',
-  PRIMARY KEY (`id`,`jour`)
+  `vainqueur` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_match` (`equipe1`,`equipe2`,`jour`)
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -115,9 +123,9 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,ONLY_FULL_GROUP_BY,ANSI,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`PEPE`@`localhost`*/ /*!50003 TRIGGER `actualizacion_fin_match` BEFORE INSERT ON `matchs` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`avnadmin`@`%`*/ /*!50003 TRIGGER `actualizacion_fin_match` BEFORE INSERT ON `matchs` FOR EACH ROW BEGIN
     SET NEW.fin = DATE_FORMAT(DATE_ADD(STR_TO_DATE(NEW.debut, '%H:%i'), INTERVAL 1 HOUR), '%H:%i');
 END */;;
 DELIMITER ;
@@ -132,9 +140,9 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,ONLY_FULL_GROUP_BY,ANSI,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`PEPE`@`localhost`*/ /*!50003 TRIGGER `maj_score` BEFORE INSERT ON `matchs` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`avnadmin`@`%`*/ /*!50003 TRIGGER `maj_score` BEFORE INSERT ON `matchs` FOR EACH ROW BEGIN
     SET NEW.score = CONCAT(NEW.but1, ' - ', NEW.but2);
 END */;;
 DELIMITER ;
@@ -149,9 +157,9 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,ONLY_FULL_GROUP_BY,ANSI,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`PEPE`@`localhost`*/ /*!50003 TRIGGER `maj_score_update` BEFORE UPDATE ON `matchs` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`avnadmin`@`%`*/ /*!50003 TRIGGER `maj_score_update` BEFORE UPDATE ON `matchs` FOR EACH ROW BEGIN
     SET NEW.score = CONCAT(NEW.but1, ' - ', NEW.but2);
 END */;;
 DELIMITER ;
@@ -171,21 +179,21 @@ CREATE TABLE `mises` (
   `id` int NOT NULL AUTO_INCREMENT,
   `mise1` decimal(10,2) DEFAULT NULL,
   `mise2` decimal(10,2) DEFAULT NULL,
-  `resultat1` varchar(20) DEFAULT NULL,
-  `resultat2` varchar(20) DEFAULT NULL,
+  `resultat1` decimal(10,2) DEFAULT NULL,
+  `resultat2` decimal(10,2) DEFAULT NULL,
   `equipe1` varchar(50) DEFAULT NULL,
   `equipe2` varchar(50) DEFAULT NULL,
-  `cote1` varchar(20) DEFAULT NULL,
-  `cote2` varchar(20) DEFAULT NULL,
+  `cote1` int DEFAULT NULL,
+  `cote2` int DEFAULT NULL,
   `id_match` int DEFAULT NULL,
-  `id_utilisateur` int DEFAULT NULL,
   `datemise` date DEFAULT NULL,
+  `id_utilisateur` int DEFAULT NULL,
   PRIMARY KEY (`id`),
+  KEY `id_match` (`id_match`),
   KEY `id_utilisateur` (`id_utilisateur`),
-  KEY `mises_ibfk_2` (`id_match`),
   CONSTRAINT `mises_ibfk_1` FOREIGN KEY (`id_match`) REFERENCES `matchs` (`id`),
-  CONSTRAINT `mises_ibfk_2` FOREIGN KEY (`id_match`) REFERENCES `matchs` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `mises_ibfk_2` FOREIGN KEY (`id_utilisateur`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +202,7 @@ CREATE TABLE `mises` (
 
 LOCK TABLES `mises` WRITE;
 /*!40000 ALTER TABLE `mises` DISABLE KEYS */;
-INSERT INTO `mises` VALUES (25,4.00,NULL,'16',NULL,'Indianapolis Colts',NULL,'4',NULL,2,1,'2024-01-13'),(26,NULL,2.00,NULL,'4',NULL,'Buffalo Bills',NULL,'2',2,1,'2024-01-13'),(28,NULL,1.00,NULL,'2',NULL,'Chicago Bears',NULL,'2',1,1,'2024-01-13'),(29,7.00,NULL,'35',NULL,'Miami Dolphins',NULL,'5',NULL,5,1,'2024-01-25'),(30,NULL,4.00,NULL,'8',NULL,'San Francisco 49ers',NULL,'2',5,1,'2024-01-25'),(32,NULL,2.00,NULL,'4',NULL,'Chicago Bears',NULL,'2',6,1,'2024-01-25'),(33,5.00,NULL,'25',NULL,'Las Vegas Raiders',NULL,'5',NULL,12,1,'2024-01-25'),(34,NULL,5.00,NULL,'15',NULL,'Jacksonville Jaguars',NULL,'3',12,1,'2024-01-25'),(35,12.00,NULL,'24',NULL,'Tampa Bay Buccaneers',NULL,'2',NULL,28,1,'2024-01-25'),(36,NULL,12.00,NULL,'36',NULL,'Atlanta Falcons',NULL,'3',28,1,'2024-01-25'),(37,2.00,NULL,'8',NULL,'Arizona Cardinals',NULL,'4',NULL,40,1,'2024-01-30'),(38,NULL,3.00,NULL,'18',NULL,'Atlanta Falcons',NULL,'6',40,1,'2024-01-30'),(39,4.00,NULL,'8',NULL,'Buffalo Bills',NULL,'2',NULL,41,1,'2024-01-30'),(40,NULL,1.00,NULL,'3',NULL,'Chicago Bears',NULL,'3',41,1,'2024-01-30'),(41,2.00,NULL,'10',NULL,'Detroit Lions',NULL,'5',NULL,43,1,'2024-01-30'),(42,NULL,1.00,NULL,'3',NULL,'Baltimore Ravens',NULL,'3',43,1,'2024-01-30'),(43,2.00,NULL,'10',NULL,'Arizona Cardinals',NULL,'5',NULL,48,1,'2024-02-28'),(44,NULL,2.00,NULL,'12',NULL,'Baltimore Ravens',NULL,'6',48,1,'2024-02-28'),(45,3.00,NULL,'15',NULL,'Kansas City Chiefs',NULL,'5',NULL,30,1,'2024-02-28'),(46,NULL,2.00,NULL,'4',NULL,'New York Jets',NULL,'2',30,1,'2024-02-28'),(47,2.00,NULL,'4',NULL,'Las Vegas Raiders',NULL,'2',NULL,45,8,'2024-04-10'),(48,NULL,1.00,NULL,'6',NULL,'Los Angeles Rams',NULL,'6',45,8,'2024-04-10');
+INSERT INTO `mises` VALUES (28,NULL,1.00,NULL,2.00,NULL,'Chicago Bears',NULL,2,1,'2024-01-13',1),(37,2.00,NULL,8.00,NULL,'Arizona Cardinals',NULL,4,NULL,40,'2024-01-30',1),(38,NULL,3.00,NULL,18.00,NULL,'Atlanta Falcons',NULL,6,40,'2024-01-30',1),(39,4.00,NULL,8.00,NULL,'Buffalo Bills',NULL,2,NULL,41,'2024-01-30',1),(40,NULL,1.00,NULL,3.00,NULL,'Chicago Bears',NULL,3,41,'2024-01-30',1),(41,2.00,NULL,10.00,NULL,'Detroit Lions',NULL,5,NULL,43,'2024-01-30',1),(42,NULL,1.00,NULL,3.00,NULL,'Baltimore Ravens',NULL,3,43,'2024-01-30',1),(43,2.00,NULL,10.00,NULL,'Arizona Cardinals',NULL,5,NULL,48,'2024-02-28',1),(44,NULL,2.00,NULL,12.00,NULL,'Baltimore Ravens',NULL,6,48,'2024-02-28',1),(47,2.00,NULL,4.00,NULL,'Las Vegas Raiders',NULL,2,NULL,45,'2024-04-10',8),(48,NULL,1.00,NULL,6.00,NULL,'Los Angeles Rams',NULL,6,45,'2024-04-10',8),(62,4.00,NULL,16.00,NULL,'Chicago Bears',NULL,4,NULL,50,'2024-06-05',1),(63,NULL,1.00,NULL,3.00,NULL,'Carolina Panthers',NULL,3,50,'2024-06-05',1);
 /*!40000 ALTER TABLE `mises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,7 +223,7 @@ CREATE TABLE `users` (
   `confirmed` tinyint(1) DEFAULT '0',
   `role` varchar(50) DEFAULT 'user',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,6 +235,7 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'pinto','vitor','pintotest@hotmail.com','pbkdf2:sha256:600000$2rLEEDK8pM2YhiCK$35cd308f010800c79a0c5069e78d787e0832aa3515c3eff9f82e0621a393326a','c86f5c141cb96d4def884d3146ae0099',1,'user'),(2,'admin','admin','admin@hotmail.com','pbkdf2:sha256:600000$fzqDO6SnzOF4Mghc$cdf6069e8eec02ed598eaa0c51d393d2f19a9f733d42b4fe1a2d9fca4dab7fb8','e2c1d3a03299c1a2c5f06dde888ac001',1,'admin'),(8,'Test','User','testuser@hotmail.com','pbkdf2:sha256:600000$4xj3OJvgRYWFB7KW$8cc004c02fb718fa2f990656d579453534d2131286ae02774a66127082efb90f','7b300e581bc62b05b9d342efed5cb679',1,'user'),(9,'admin','user','adminuser@hotmail.com','pbkdf2:sha256:600000$MbcE8NsRnWpKGKDb$81d0f97c4e370502f3b88e33e740e6f9be8eaa25157321de4339b9aee8dd3da6','c16251f10f57cc4ac7515712b07c6464',1,'admin');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -237,4 +246,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-26 10:40:49
+-- Dump completed on 2024-06-05 17:03:13

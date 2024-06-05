@@ -15,15 +15,13 @@ from dotenv import load_dotenv
 import os
 from faker import Faker
  
+load_dotenv()
 
 os.environ['FLASK_DEBUG'] = '0'
 
 
 app = Flask(__name__, static_url_path='/static')
 
-
-
-load_dotenv()
 
 app.config['SECRET_KEY'] = os.environ.get('DB_SECRETKEY')
 
@@ -36,21 +34,29 @@ app.config['MAIL_USE_SSL'] = False
 
 mail = Mail(app)
 
-mysql = MySQL()
-app.config['MYSQL_DATABASE_HOST'] = 'db'
-app.config['MYSQL_DATABASE_PORT'] = 3306
-app.config['MYSQL_DATABASE_USER'] = os.environ.get('DB_USER')
-app.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('DB_PASSWORD')
-app.config['MYSQL_DATABASE_DB'] = 'bdsuperbowl'
 
+app.config['MYSQL_DATABASE_HOST'] = 'mysql-1afb9ef7-staniaprojets-ffa9.j.aivencloud.com'
+app.config['MYSQL_DATABASE_PORT'] = 24978
+app.config['MYSQL_DATABASE_USER'] = os.environ.get('MYSQL_USER')
+app.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
+app.config['MYSQL_DATABASE_DB'] = 'defaultdb'
+
+mysql = MySQL(app)
 app.config
+
+print("MYSQL_DATABASE_HOST:", os.environ.get('MYSQL_DATABASE_HOST'))
+print("MYSQL_USER:", os.environ.get('MYSQL_USER'))
+print("MYSQL_PASSWORD:", os.environ.get('MYSQL_PASSWORD'))
+print("MYSQL_DATABASE:", os.environ.get('MYSQL_DATABASE'))
 
 mysql.init_app(app)
 
 bootstrap = Bootstrap(app)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+
+
+# flask run --host=0.0.0.0 --port=5001
+
 
 class Matchs:
     def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires, joueurs_equipe1, joueurs_equipe2, logo_equipe1, logo_equipe2 ):
@@ -191,6 +197,7 @@ for equipe_id in equipes_ids:
         joueurs_prenom = random_prenom(equipe_id)
         ajouter_joueurs(joueurs_prenom)
 
+
 @app.context_processor
 def inject_user_info():
     user_info = {
@@ -207,7 +214,6 @@ def inject_user_info():
         result = cursor.fetchone()
         
         if result is not None:
-            # Si se encontraron resultados, establecer el valor de 'user_admin' en función del rol del usuario
             role = result[0]
             user_info['user_admin'] = role == 'admin'
 
@@ -404,7 +410,7 @@ def modifier_mise(mise_id):
     conn = mysql.connect()
     curseur = conn.cursor()
 
-    requete_select = "SELECT mises.*, matchs.equipe1, matchs.equipe2, matchs.cote1, matchs.cote2 FROM mises INNER JOIN matchs ON mises.id_match = matchs.id WHERE mises.id = %s"
+    requete_select = "SELECT mises.*, matchs.equipe1, matchs.equipe2, matchs.cote1, matchs.cote2, matchs.jour, matchs.debut FROM mises INNER JOIN matchs ON mises.id_match = matchs.id WHERE mises.id = %s"
     curseur.execute(requete_select, (mise_id,))
     mise = curseur.fetchone()
 
@@ -412,7 +418,9 @@ def modifier_mise(mise_id):
         equipe1 = mise[11]  # Obtenir le nom de l'équipe 1 à partir de la mise
         equipe2 = mise[12] 
         cote1 = mise[13]    # Obtenir la valeur de cote1 de la mise
-        cote2 = mise[14] 
+        cote2 = mise[14]
+        jour = mise[16] 
+        debut = mise[17]
         curseur.close()
         conn.close()
 
@@ -424,10 +432,10 @@ def modifier_mise(mise_id):
         curseur.close()
         conn.close()
        
-        return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2)
+        return render_template('miser.html', equipe1=equipe1, equipe2=equipe2, cote1=cote1, cote2=cote2, jour=jour, debut=debut)
     else:
     
-        return "Mise no encontrada"
+        return "Mise no disponible"
 
 @app.route('/mise/<int:mise_id>/supprimer', methods=['GET'])
 def supprimer_mise(mise_id):
@@ -459,7 +467,8 @@ def supprimer_mise(mise_id):
     curseur.close()
     conn.close()
 
-    return render_template('espace_utilisateur.html', utilisateur=utilisateur, mises=mises, active_tab='historique')
+    return redirect(url_for('espace_utilisateur',  utilisateur=utilisateur ,  mises=mises, active_tab='historique', suppression='true'))
+
 
 @app.route('/parier')
 def parier():
@@ -927,3 +936,5 @@ def planification_form():
 def planification():
     return render_template('planification.html')
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5001)

@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS bdsuperbowl;
+CREATE DATABASE IF NOT EXISTS defaultdb;
 
-USE bdsuperbowl;
+USE defaultdb;
 
 
 
