@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for superbowlstania1-small-log-9090 on 2024-06-05T12:29:29+02:00
+# fly.toml app configuration file generated for superbowlstania on 2024-06-07T10:47:37+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'superbowlstania1-small-log-9090'
+app = 'superbowlstania'
 primary_region = 'cdg'
 
 [build]
@@ -21,10 +21,10 @@ primary_region = 'cdg'
 
 [[services]]
   protocol = 'tcp'
-  internal_port = 3307
+  internal_port = 24978
 
   [[services.ports]]
-    port = 3307
+    port = 24978
 
   [services.concurrency]
     hard_limit = 25
@@ -55,3 +55,4 @@ primary_region = 'cdg'
   memory = '2gb'
   cpu_kind = 'shared'
   cpus = 1
+

@@ -23,7 +23,7 @@ os.environ['FLASK_DEBUG'] = '0'
 app = Flask(__name__, static_url_path='/static')
 
 
-app.config['SECRET_KEY'] = os.environ.get('DB_SECRETKEY')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 app.config['MAIL_SERVER']='live.smtp.mailtrap.io'
 app.config['MAIL_PORT'] = 587
@@ -45,9 +45,6 @@ mysql = MySQL(app)
 app.config
 
 print("MYSQL_DATABASE_HOST:", os.environ.get('MYSQL_DATABASE_HOST'))
-print("MYSQL_USER:", os.environ.get('MYSQL_USER'))
-print("MYSQL_PASSWORD:", os.environ.get('MYSQL_PASSWORD'))
-print("MYSQL_DATABASE:", os.environ.get('MYSQL_DATABASE'))
 
 mysql.init_app(app)
 
@@ -609,7 +606,7 @@ def creation_compte_form():
         conn.commit()
 
         # Envoyer l'email de validation
-        msg = Message('Confirmez votre compte', sender='mailtrap@demomailtrap.com', recipients=[email])
+        msg = Message('Confirmez votre compte', sender='mailtrap@superbowlstania.com', recipients=[email])
         msg.body = f'Bonjour {prenom}, s’il vous plaît cliquez sur le lien pour valider votre compte: {request.url_root}confirmer/{token}'
         mail.send(msg)
 
@@ -716,7 +713,7 @@ def mot_de_passe_oublie_form():
 
         # Envoyer l'email
         msg = Message("Récupération de mot de passe",
-                      sender='mailtrap@demomailtrap.com',
+                      sender='mailtrap@superbowlstania.com',
                       recipients=[email])
         msg.body = "Bonjour " + nom + ",\n\nVotre nouveau mot de passe est : " + nouveau_mot_de_passe + "\n\nMerci."
 
