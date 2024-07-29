@@ -2,7 +2,7 @@ from flask import session
 from unittest.mock import patch
 
 def test_login_success_user(client):
-    response = client.post('/se_connecter', data={
+    response = client.post('/connexion/se_connecter', data={
         'inputEmail': 'testuser@hotmail.com',
         'inputPass': 'Testuser1#'
     }, follow_redirects=False)  
@@ -10,7 +10,7 @@ def test_login_success_user(client):
     assert '/espace_utilisateur' in response.location  
 
 def test_login_success_admin(client):
-    response = client.post('/se_connecter', data={
+    response = client.post('/connexion/se_connecter', data={
         'inputEmail': 'adminuser@hotmail.com',
         'inputPass': 'Adminuser1#'
     }, follow_redirects=False)
@@ -20,7 +20,7 @@ def test_login_success_admin(client):
 
 def test_login_user_not_exist(client):
 
-    response = client.post('/se_connecter', data={
+    response = client.post('/connexion/se_connecter', data={
         'inputEmail': 'noexist@example.com',
         'inputPass': 'fakepassword'
     }, follow_redirects=True)
@@ -32,7 +32,7 @@ def test_login_user_not_exist(client):
     assert expected_error_msg in html_content, f"Expected error message not found! Received content: {html_content}"
 
 def test_login_unconfirmed_user(client):
-    response = client.post('/se_connecter', data={
+    response = client.post('/connexion/se_connecter', data={
         'inputEmail': 'notconfirmed@hotmail.com',
         'inputPass': 'Pocholo1#'
     }, follow_redirects=True)
@@ -43,7 +43,7 @@ def test_login_unconfirmed_user(client):
   
 def test_session_creation_on_login(client):
     with client:
-        client.post('/se_connecter', data={
+        client.post('/connexion/se_connecter', data={
             'inputEmail': 'testuser@hotmail.com',
             'inputPass': 'Testuser1#'
         }, follow_redirects=True)
@@ -51,7 +51,7 @@ def test_session_creation_on_login(client):
 
 
 def test_login_with_empty_data(client):
-    response = client.post('/se_connecter', data={
+    response = client.post('/connexion/se_connecter', data={
         'inputEmail': '',
         'inputPass': ''
     }, follow_redirects=True)

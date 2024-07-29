@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS mises (
     FOREIGN KEY (id_utilisateur) REFERENCES users(id)
 );
 
--- Código del disparador aquí
+
 DELIMITER //
 
 CREATE TRIGGER actualizacion_fin_match

@@ -1,3 +1,5 @@
+START TRANSACTION;
+
 CREATE DATABASE IF NOT EXISTS defaultdb;
 
 USE defaultdb;
@@ -147,3 +149,4 @@ VALUES
   ('Tennessee Titans', 'États Unis', 'sources/tennessee_titans.png'),
   ('Washington Commanders', 'États Unis', 'sources/washington_commanders.png');
 
+COMMIT;

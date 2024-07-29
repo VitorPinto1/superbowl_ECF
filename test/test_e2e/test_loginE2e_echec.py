@@ -3,13 +3,19 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import subprocess
+import time
+import os
+import requests
+
+os.environ['FLASK_ENV'] = 'test'
 
 # Configuration du pilote pour utiliser Chrome
 driver = webdriver.Chrome()
 
 try:
     # Naviguer vers la page de connexion
-    driver.get("http://127.0.0.1:5000/se_connecter")
+    driver.get("http://127.0.0.1:5001/connexion/se_connecter")
 
     # Entrer l'adresse email
     email_input = driver.find_element(By.ID, "inputEmail")
@@ -33,3 +39,4 @@ except Exception as e:
     print(f"Test échoué : {e} - L'erreur peut être liée à un problème de connexion ou à la non présence de l'élément.")
 finally:
     driver.quit()
+
