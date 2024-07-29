@@ -2,11 +2,7 @@ from flask import session
 from unittest.mock import patch
 
 def test_login_success_user(client):
-<<<<<<< HEAD
     response = client.post('/connexion/se_connecter', data={
-=======
-    response = client.post('/se_connecter', data={
->>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
         'inputEmail': 'testuser@hotmail.com',
         'inputPass': 'Testuser1#'
     }, follow_redirects=False)  
@@ -14,11 +10,7 @@ def test_login_success_user(client):
     assert '/espace_utilisateur' in response.location  
 
 def test_login_success_admin(client):
-<<<<<<< HEAD
     response = client.post('/connexion/se_connecter', data={
-=======
-    response = client.post('/se_connecter', data={
->>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
         'inputEmail': 'adminuser@hotmail.com',
         'inputPass': 'Adminuser1#'
     }, follow_redirects=False)
@@ -28,11 +20,7 @@ def test_login_success_admin(client):
 
 def test_login_user_not_exist(client):
 
-<<<<<<< HEAD
     response = client.post('/connexion/se_connecter', data={
-=======
-    response = client.post('/se_connecter', data={
->>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
         'inputEmail': 'noexist@example.com',
         'inputPass': 'fakepassword'
     }, follow_redirects=True)
@@ -44,11 +32,7 @@ def test_login_user_not_exist(client):
     assert expected_error_msg in html_content, f"Expected error message not found! Received content: {html_content}"
 
 def test_login_unconfirmed_user(client):
-<<<<<<< HEAD
     response = client.post('/connexion/se_connecter', data={
-=======
-    response = client.post('/se_connecter', data={
->>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
         'inputEmail': 'notconfirmed@hotmail.com',
         'inputPass': 'Pocholo1#'
     }, follow_redirects=True)
@@ -59,11 +43,7 @@ def test_login_unconfirmed_user(client):
   
 def test_session_creation_on_login(client):
     with client:
-<<<<<<< HEAD
         client.post('/connexion/se_connecter', data={
-=======
-        client.post('/se_connecter', data={
->>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
             'inputEmail': 'testuser@hotmail.com',
             'inputPass': 'Testuser1#'
         }, follow_redirects=True)
@@ -71,11 +51,7 @@ def test_session_creation_on_login(client):
 
 
 def test_login_with_empty_data(client):
-<<<<<<< HEAD
     response = client.post('/connexion/se_connecter', data={
-=======
-    response = client.post('/se_connecter', data={
->>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
         'inputEmail': '',
         'inputPass': ''
     }, follow_redirects=True)
