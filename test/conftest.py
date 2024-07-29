@@ -17,7 +17,7 @@ from api.app import app as flask_app
 os.environ['FLASK_ENV'] = 'test'
 # Charger les variables d'environnement de test
 load_dotenv('.env.test')
-print(os.environ['FLASK_ENV'])
+
 @pytest.fixture(scope='module')
 def app():
     
