@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Creer compte{% endblock %}
+{% block content %}
+
+<div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
+  <div class="col-md-4">
+    <h1 class="text-center" style="color: white">Creer compte</h1>
+     <!-- Affichage message d'erreur-->
+    {% if erreur %}
+      <div class="alert alert-danger" role="alert">
+        {{ erreur }}
+      </div>
+    {% endif %}
+    <form id="creationCompteForm" action="/creation_compte" method="POST" style="margin-top: 25px;">
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputNom" aria-label="Champ nom" name="inputNom" title="Nom" minlength="4" maxlength="60" type="text" 
+          tabindex="0" class="input-block " placeholder="Nom" pattern="[A-Za-zÀ-ÿ\s]+" autocorrect="off" spellcheck="false" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputPrenom" aria-label="Champ prenom" name="inputPrenom" title="Prenom" minlength="4" maxlength="60" type="text" 
+          tabindex="0" class="input-block " placeholder="Prenom" pattern="[A-Za-zÀ-ÿ\s]+" autocorrect="off" spellcheck="false" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputEmail" aria-label="Champ adresse e-mail" name="inputEmail" title="E-mail" minlength="4" maxlength="254" type="email" 
+          tabindex="0" class="input-block " placeholder="E-mail" 
+          autocorrect="off" spellcheck="false" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputPass" aria-label="Champ pass" name="inputPass"  minlength="8" maxlength="64" type="password" 
+          tabindex="0" class="input-block " placeholder="Mot de passe" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+          title="Le mot de passe doit contenir au moins 8 caractères, dont au moins une majuscule, une minuscule et un chiffre."
+          autocorrect="off" spellcheck="false" required>
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <div class="d-grid">
+          <button id="submitButton" type="submit" class="btn neon-btn">Creer compte</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+  document.getElementById('creationCompteForm').addEventListener('submit', function(event) {
+    const password = document.getElementById('inputPass').value;
+    let errorMessage = '';
+  
+    if (password.length < 8) {
+      errorMessage += 'Le mot de passe doit contenir au moins 8 caractères.\n';
+    }
+  
+    
+    if (!password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/)) {
+      errorMessage += 'Le mot de passe doit contenir au moins 8 caractères, dont au moins une majuscule, une minuscule et un chiffre.\n';
+    }
+  
+    
+  
+   
+    if (errorMessage) {
+      event.preventDefault();
+      alert(errorMessage);
+    }
+  });
+</script> 
+
+{% endblock %}

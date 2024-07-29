@@ -9,7 +9,11 @@ driver = webdriver.Chrome()
 
 try:
     # Naviguer vers la page de connexion
+<<<<<<< HEAD
     driver.get("http://127.0.0.1:5001/connexion/se_connecter")
+=======
+    driver.get("http://127.0.0.1:5000/se_connecter")
+>>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
 
     # Entrer l'adresse email
     email_input = driver.find_element(By.ID, "inputEmail")

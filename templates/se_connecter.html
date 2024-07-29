@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Se connecter{% endblock %}
+{% block content %}
+
+<div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
+  <div class="col-md-4">
+    <h1 class="text-center" style="color: white">Se connecter</h1>
+    
+    <!-- Affichage message d'erreur-->
+    {% if erreur %}
+        <div class="alert alert-danger" role="alert" id="erreurConnexion">
+            {{ erreur }}
+        </div>
+    {% endif %}
+
+    <form method="POST" action="/se_connecter" style="margin-top: 25px;">
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputEmail" aria-label="Champ adresse e-mail" name="inputEmail" title="E-mail" maxlength="320" type="email" 
+          tabindex="0" class="input-block " placeholder="E-mail" 
+          autocorrect="off" spellcheck="false" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputPass" aria-label="Champ mot de passe, saisir un mot de passe" name="inputPass" 
+          title="Mot de passe" maxlength="128" type="password" tabindex="0" class="input-block " 
+          placeholder="Mot de passe" autocorrect="off" spellcheck="false" 
+          data-password-show-aria="Afficher le mot de passe" data-password-hide-aria="Masquer le mot de passe" required>
+          <a href="{{ url_for('mot_de_passe_oublie')}}" class="btn btn-link" style="color: rgb(215,23,219);" >Mot de passe oublié?</a>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <button type="submit" class="btn neon-btn">Se connecter</button>
+
+        </div>
+      </div>
+      <div class="mb3">
+        <div class="d-grid">
+          <a href="{{ url_for('creation_compte')}}" class="btn btn-link" style="color: rgb(215,23,219);">Créer votre compte</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}

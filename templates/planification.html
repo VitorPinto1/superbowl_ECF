@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Planification{% endblock %}
+{% block content %}
+
+
+<div class="container align-items-center justify-content-center" style="margin-top: 50px;">
+  <h1 class="text-center" style="color: white">Planification des matchs</h1>
+</div>
+
+
+<div class="center-container" id="containerPlanification">
+  <form id="form-planification" action="/planification" method="POST">
+    <label for="equipe1" style="color: white">Equipe visiteur:</label>
+    <select name="equipe1" id="equipe1">
+        {% for equipe in equipes %}
+        <option value="{{ equipe }}">{{ equipe }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <br>
+    <label for="equipe2" style="color: white">Equipe domicile:</label>
+    <select name="equipe2" id="equipe2">
+        {% for equipe in equipes %}
+        <option value="{{ equipe }}">{{ equipe }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <br>
+  
+    <label for="jour" style="color: white">Jour :</label>
+    <input type="date" id="jour" name="jour"  required><br><br>
+
+    <label for="debut" style="color: white">Début :</label>
+    <input type="time" id="debut" name="debut" required><br><br>
+    <label for="cote1" style="color: white">Cote Équipe visiteur :</label>
+    <input type="text" id="cote1" name="cote1" min="1" max="10" step="1" required><br><br>
+
+    <label for="cote2" style="color: white">Cote Équipe domicile :</label>
+    <input type="text" id="cote2" name="cote2" min="1" max="10" step="1" required><br><br>
+
+
+    <input type="submit" class="btn neon-btn" value="Créer le Match">
+  </form>
+</div>
+ 
+<div id="errorModal" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+  <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 30%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="margin: 0; color: #000;">Erreur</h2>
+          <span class="close" onclick="document.getElementById('errorModal').style.display='none'" style="color: red; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+      </div>
+      <p id="errorMessage" style="text-align: center; margin-top: 20px;"></p>
+  </div>
+</div>
+
+
+{% if error_message %}
+<script>
+window.onload = function() {
+  showError("{{ error_message }}");
+};
+</script>
+{% endif %}
+
+<script>
+  function showError(message) {
+    var errorModal = document.getElementById("errorModal");
+    var errorMessage = document.getElementById("errorMessage");
+    errorMessage.innerText = message;
+    errorModal.style.display = "block";
+  }
+  
+  document.addEventListener("DOMContentLoaded", function() {
+    var cote1 = document.getElementById("cote1");
+    var cote2 = document.getElementById("cote2");
+
+    var aujourdhui = new Date().toISOString().split('T')[0];
+    document.getElementById("jour").setAttribute('min', aujourdhui);
+  
+
+    cote1.addEventListener("keypress", validateNumberInput);
+    cote2.addEventListener("keypress", validateNumberInput);
+
+    function validateNumberInput(event) {
+      var charCode = event.charCode;
+      if (charCode < 48 || charCode > 57) { //  Vérification chiffre numérique.
+        event.preventDefault();
+      }
+
+      
+      if (this.value.length > 1) {
+        event.preventDefault();
+      }
+    }
+
+    cote1.addEventListener("input", restrictInputRange);
+    cote2.addEventListener("input", restrictInputRange);
+
+    function restrictInputRange(event) {
+      var value = parseInt(event.target.value, 10);
+      if (value < 1 || value > 10) {
+        event.target.value = '';
+      }
+    }
+
+    
+
+    document.getElementById("form-planification").addEventListener("submit", function(event) {
+      var equipe1 = document.getElementById("equipe1").value;
+      var equipe2 = document.getElementById("equipe2").value;
+     
+
+      
+      if (equipe1 === equipe2) {
+        showError("Les équipes sélectionnées ne peuvent pas être les mêmes.");
+        event.preventDefault();
+        return;
+      }
+    
+    });
+  });
+  
+  function showError(message) {
+    var errorModal = document.getElementById("errorModal");
+    var errorMessage = document.getElementById("errorMessage");
+    errorMessage.innerText = message;
+    errorModal.style.display = "block";
+  }
+  
+</script>
+
+
+{% endblock %}

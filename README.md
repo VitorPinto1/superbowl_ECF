@@ -34,7 +34,11 @@ Exécutez l’application avec Flask dans le teminal :
 
 Ouvrez le navigateur et allez à :
 	
+<<<<<<< HEAD
  	http://127.0.0.1:5001/
+=======
+ 	http://127.0.0.1:5000/
+>>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
 
 Service de mail local
 

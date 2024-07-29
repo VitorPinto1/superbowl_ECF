@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Mot de passe oublié{% endblock %}
+{% block content %}
+
+<div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
+  <div class="col-md-4">
+    <h1 class="text-center" style="color: white">Mot de passe oublié</h1>
+    <form method="POST" style="margin-top: 25px;">
+     
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="Nom" aria-label="Saisir un nom" name="nom" 
+          title="Nom" maxlength="128" type="text" tabindex="0" class="input-block" 
+          placeholder="Nom" autocorrect="off" spellcheck="false" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" required>
+        </div>
+      </div>
+      
+
+      <div class="mb-3">
+        <div class="d-grid">
+          <input id="inputEmail" aria-label="Champ adresse e-mail" name="inputEmail" title="E-mail" maxlength="320" type="text" 
+          tabindex="0" class="input-block " placeholder="E-mail" 
+          autocorrect="off" spellcheck="false">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-grid">
+          <button type="submit" class="btn neon-btn">Envoyer mail pour récupérer mot de passe</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+
+      function validateEmail(email) {
+          const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+          return re.test(String(email).toLowerCase());
+      }
+
+      document.querySelector('form').addEventListener('submit', function(e) {
+          let hasError = false;
+
+          
+          const nameInput = document.getElementById('Nom');
+          if (nameInput.value.trim() === '') {
+              alert("Le champ Nom ne peut pas être vide");
+              hasError = true;
+          }
+
+         
+          const emailInput = document.getElementById('inputEmail');
+          if (emailInput.value.trim() === '' || !validateEmail(emailInput.value)) {
+              alert("Veuillez entrer une adresse e-mail valide");
+              hasError = true;
+          }
+
+          if (hasError) {
+              e.preventDefault();
+          }
+      });
+  });
+</script>
+
+
+{% endblock %}

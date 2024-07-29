@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 .env.development
 .env.test
+=======
+
+.env
+.env.test
+>>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
