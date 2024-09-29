@@ -1,2 +1,6 @@
 .env.development
 .env.test
+.DS_Store
+__pycache__/
+env/
+*.pyc
