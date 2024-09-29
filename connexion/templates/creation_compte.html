@@ -12,7 +12,7 @@
         {{ erreur }}
       </div>
     {% endif %}
-    <form id="creationCompteForm" action="/creation_compte" method="POST" style="margin-top: 25px;">
+    <form id="creationCompteForm" action="{{ url_for('connexion.creation_compte') }}" method="POST" style="margin-top: 25px;">
       <div class="mb-3">
         <div class="d-grid">
           <input id="inputNom" aria-label="Champ nom" name="inputNom" title="Nom" minlength="4" maxlength="60" type="text" 

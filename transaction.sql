@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 START TRANSACTION;
 
-=======
->>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d
 CREATE DATABASE IF NOT EXISTS defaultdb;
 
 USE defaultdb;
@@ -152,7 +149,4 @@ VALUES
   ('Tennessee Titans', 'États Unis', 'sources/tennessee_titans.png'),
   ('Washington Commanders', 'États Unis', 'sources/washington_commanders.png');
 
-<<<<<<< HEAD
 COMMIT;
-=======
->>>>>>> a3e0e0fa2c39cf2a670b65321624fee6cd70f88d

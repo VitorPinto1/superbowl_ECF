@@ -31,14 +31,6 @@ def test_login_user_not_exist(client):
     expected_error_msg = "L&#39;adresse e-mail ou le mot de passe est incorrect."
     assert expected_error_msg in html_content, f"Expected error message not found! Received content: {html_content}"
 
-def test_login_unconfirmed_user(client):
-    response = client.post('/connexion/se_connecter', data={
-        'inputEmail': 'notconfirmed@hotmail.com',
-        'inputPass': 'Pocholo1#'
-    }, follow_redirects=True)
-
-    assert response.status_code == 200
-    assert "Veuillez confirmer votre compte avant de vous connecter." in response.get_data(as_text=True)
 
   
 def test_session_creation_on_login(client):

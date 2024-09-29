@@ -10,7 +10,7 @@
 
 
 <div class="center-container" id="containerPlanification">
-  <form id="form-planification" action="/planification" method="POST">
+  <form id="form-planification" action="{{ url_for('admin.planification') }}" method="POST">
     <label for="equipe1" style="color: white">Equipe visiteur:</label>
     <select name="equipe1" id="equipe1">
         {% for equipe in equipes %}

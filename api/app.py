@@ -55,6 +55,12 @@ app.register_blueprint(admin_bp, url_prefix='/admin')
 app.register_blueprint(user_bp, url_prefix='/user' )
 app.register_blueprint(connexion_bp, url_prefix='/connexion')
 
+@app.context_processor
+def inject_user():
+    return {
+        'user_admin': session.get('user_admin', False),
+        'id_utilisateur': session.get('id_utilisateur', None)
+    }
 
 @app.route('/')
 def index():
@@ -77,6 +83,7 @@ def index():
   
   cursor.close()
   conn.close()
+
 
   return render_template('index.html', current_date=formatted_date, matches = matches)
 

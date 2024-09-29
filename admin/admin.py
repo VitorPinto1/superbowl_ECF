@@ -59,7 +59,7 @@ def creation_form():
     cursor.close()
     conn.close()
 
-    return redirect(url_for('espace_administrateur'))
+    return redirect(url_for('admin.espace_administrateur'))
 
 @admin_bp.route('/planification', methods=['GET', 'POST'])
 
@@ -101,7 +101,7 @@ def planification_form():
                        (equipe1, equipe2, jour, debut, cote1, cote2, statut, meteo))
         conn.commit()
         conn.close()
-        return redirect('/planification')
+        return redirect(url_for('index'))
     
     conn = mysql.connect()
     cursor = conn.cursor()
