@@ -1,3 +1,5 @@
 .gitignore
 test/
 
+.env.development
+.env.test

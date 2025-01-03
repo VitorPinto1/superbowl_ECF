@@ -25,7 +25,8 @@ app.config['MAIL_USERNAME'] = 'api'
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-
+app.config["MONGO_URI"] = os.environ.get('MONGO_URI')
+mongo = PyMongo(app)
 mail = Mail(app)
 
 
@@ -48,12 +49,14 @@ from match.match import match_bp
 from admin.admin import admin_bp
 from user.user import user_bp
 from connexion.connexion import connexion_bp
+from records.records import records_bp
 
 app.register_blueprint(paris_bp, url_prefix='/paris')
 app.register_blueprint(match_bp, url_prefix='/match')
 app.register_blueprint(admin_bp, url_prefix='/admin')
 app.register_blueprint(user_bp, url_prefix='/user' )
 app.register_blueprint(connexion_bp, url_prefix='/connexion')
+app.register_blueprint(records_bp, url_prefix='/records')
 
 @app.context_processor
 def inject_user():
@@ -61,6 +64,8 @@ def inject_user():
         'user_admin': session.get('user_admin', False),
         'id_utilisateur': session.get('id_utilisateur', None)
     }
+
+
 
 @app.route('/')
 def index():
@@ -87,7 +92,13 @@ def index():
 
   return render_template('index.html', current_date=formatted_date, matches = matches)
 
-
+@app.route('/test-mongo')
+def test_mongo():
+    try:
+        mongo.db.command('ping')  # Verifica la conexión
+        return "Conexión a MongoDB exitosa!"
+    except Exception as e:
+        return f"Error conectando a MongoDB: {e}"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)

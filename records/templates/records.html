@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+
+
+
+<body>
+  <h1 class="text-center mt-5" style="color: white">Historique des matchs par année</h1>
+  <table>
+      <thead>
+          <tr>
+              <th>Year</th>
+              <th>Super Bowl</th>
+              <th>Winner</th>
+              <th>Loser</th>
+              <th>Result</th>
+              <th>Location</th>
+              <th>Weather</th>
+              <th>MVP</th>
+              <th>Attendance</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for match in matchs %}
+          <tr>
+              <td>{{ match['year'] }}</td>
+              <td>{{ match['super_bowl'] }}</td>
+              <td>{{ match['winner'] }}</td>
+              <td>{{ match['loser'] }}</td>
+              <td>{{ match['result'] }}</td>
+              <td>{{ match['location']['stadium'] }}, {{ match['location']['city'] }}, {{ match['location']['state'] }}</td>
+              <td>{{ match['météo'] }}</td>
+              <td>{{ match['mvp'] }}</td>
+              <td>{{ match['attendance'] }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</body>
+
+
+
+
+
+<script>
+
+  
+</script>
+
+
+
+{% endblock %}
