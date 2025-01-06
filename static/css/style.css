@@ -303,8 +303,9 @@ button:focus {
     color: white !important; 
     background-color: #000; 
     position: absolute;
-    right: 10px;  /* Mueve el botón hacia la derecha */
+    right: 10px; 
     top: 10px;
+    z-index: 1060; 
   }
   .navbar {
     z-index: 1050; 
