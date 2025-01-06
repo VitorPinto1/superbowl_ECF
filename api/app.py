@@ -92,13 +92,7 @@ def index():
 
   return render_template('index.html', current_date=formatted_date, matches = matches)
 
-@app.route('/test-mongo')
-def test_mongo():
-    try:
-        mongo.db.command('ping')  # Verifica la conexión
-        return "Conexión a MongoDB exitosa!"
-    except Exception as e:
-        return f"Error conectando a MongoDB: {e}"
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
