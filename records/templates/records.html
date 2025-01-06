@@ -1,56 +1,103 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}Chronologie des matchs{% endblock %}
 {% block styles %}
 
 {% endblock %}
 {% block content %}
 
-
-
 <body>
-  <h1 class="text-center mt-5" style="color: white">Historique des matchs par année</h1>
-  <table>
-      <thead>
-          <tr>
-              <th>Year</th>
-              <th>Super Bowl</th>
-              <th>Winner</th>
-              <th>Loser</th>
-              <th>Result</th>
-              <th>Location</th>
-              <th>Weather</th>
-              <th>MVP</th>
-              <th>Attendance</th>
-          </tr>
-      </thead>
-      <tbody>
-          {% for match in matchs %}
-          <tr>
-              <td>{{ match['year'] }}</td>
-              <td>{{ match['super_bowl'] }}</td>
-              <td>{{ match['winner'] }}</td>
-              <td>{{ match['loser'] }}</td>
-              <td>{{ match['result'] }}</td>
-              <td>{{ match['location']['stadium'] }}, {{ match['location']['city'] }}, {{ match['location']['state'] }}</td>
-              <td>{{ match['météo'] }}</td>
-              <td>{{ match['mvp'] }}</td>
-              <td>{{ match['attendance'] }}</td>
-          </tr>
-          {% endfor %}
-      </tbody>
-  </table>
+    <h1 class="text-center mt-5" style="color: white">Chronologie des matchs par année</h1>
+    
+    <div class="text-center mb-4">
+        <label for="yearPickerRecords" style="color: white">Sélectionnez une année :</label>
+        <select id="yearPickerRecords" class="form-control mx-auto" style="width: 200px;">
+            <option value="" selected>Toutes les années</option>
+            {% for year in range(1967, 2024) %}
+            <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div style="max-width: 80%; max-height: 60vh; margin: 0 auto; overflow-x: auto;">
+
+        <table class="table table-striped table-dark w-100">
+            <thead>
+                <tr>
+                    <th>Année</th>
+                    <th>Super Bowl</th>
+                    <th>Vainqueur</th>
+                    <th>Perdant</th>
+                    <th>Resultat</th>
+                    <th>Lieu</th>
+                    <th>Météo</th>
+                    <th>MVP</th>
+                    <th>Assistance</th>
+                </tr>
+            </thead>
+            <tbody id="matchData">
+                {% for match in matchs %}
+                <tr data-year="{{ match['year'] }}">
+                    <td>{{ match['year'] }}</td>
+                    <td>{{ match['super_bowl'] }}</td>
+                    <td>{{ match['winner'] }}</td>
+                    <td>{{ match['loser'] }}</td>
+                    <td>{{ match['result'] }}</td>
+                    <td>{{ match['location']['stadium'] }}, {{ match['location']['city'] }}, {{ match['location']['state'] }}</td>
+                    <td>{{ match['météo'] }}</td>
+                    <td>{{ match['mvp'] }}</td>
+                    <td>{{ match['attendance'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
-
-
-
-
 
 <script>
 
-  
+
+    const yearPicker = document.getElementById('yearPickerRecords');
+
+    yearPicker.size = 1;
+
+    yearPicker.addEventListener('mousedown', function (event) {
+        if (this.size === 1) {
+            event.preventDefault(); 
+            this.size = Math.min(this.options.length, 5); 
+        }
+    });
+
+    yearPicker.addEventListener('change', function () {
+        this.size = 1; 
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!yearPicker.contains(event.target)) {
+            yearPicker.size = 1; 
+        }
+    });
+
+
+
+    document.getElementById('yearPickerRecords').addEventListener('change', function () {
+        const selectedYear = this.value;
+        const rows = document.querySelectorAll('#matchData tr');
+
+        rows.forEach(row => {
+            const year = row.getAttribute('data-year');
+            if (selectedYear === "" || year === selectedYear) {
+                row.style.display = ''; 
+            } else {
+                row.style.display = 'none'; 
+            }
+        });
+
+        this.size = 1;
+    });
+
+
+    
+    
 </script>
-
-
 
 {% endblock %}

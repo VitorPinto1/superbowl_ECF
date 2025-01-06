@@ -286,3 +286,10 @@ button:focus {
       display: none !important;
   }
 }
+
+
+
+#yearPickerRecords {
+  max-height: 120px; /* Altura aproximada para 5 opciones */
+  overflow-y: scroll; /* Activar desplazamiento vertical */
+}
