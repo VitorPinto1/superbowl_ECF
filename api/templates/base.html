@@ -112,11 +112,12 @@
     <script>
       window.addEventListener('unload', function(event) {
         
-        fetch('/deconnecter_utilisateur', {
+        fetch('/connexion/deconnecter_utilisateur', {
           method: 'POST',
           credentials: 'same-origin'
         });
       });
+
     </script>
   
   {% endblock %}
