@@ -3,6 +3,7 @@ from api.app import *
 from connexion.connexion import *
 from match.match import generer_meteo_aleatoire
 
+
 admin_bp = Blueprint('admin', __name__, template_folder='templates')
 
 
@@ -124,3 +125,37 @@ def records_admin():
 
   return render_template('records_admin.html', matchs=matchs)
 
+
+
+
+
+@admin_bp.route('/update_match', methods=['POST'])
+@admin_required
+def update_match():
+    data = request.json
+    match_id = data.get('_id')  
+    updates = data.get('updates')  
+
+    if not match_id or not updates:
+        return jsonify({'error': 'ID ou donnes manquants'}), 400
+
+    try:
+        mongo.db.matchs_year.update_one({'_id': ObjectId(match_id)}, {'$set': updates})
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@admin_bp.route('/delete_match', methods=['POST'])
+@admin_required
+def delete_match():
+    data = request.json
+    match_id = data.get('_id')  
+
+    if not match_id:
+        return jsonify({'error': 'ID manquant'}), 400
+
+    try:
+        mongo.db.matchs_year.delete_one({'_id': ObjectId(match_id)})
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
