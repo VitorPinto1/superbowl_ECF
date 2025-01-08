@@ -1,4 +1,5 @@
 from api.config import *
+from api.app import *
 from connexion.connexion import *
 from match.match import generer_meteo_aleatoire
 
@@ -114,3 +115,12 @@ def planification_form():
 @admin_required
 def planification():
     return render_template('planification.html')
+
+@admin_bp.route('/records_admin')
+@admin_required
+def records_admin():
+  matchs = list(mongo.db.matchs_year.find())
+
+
+  return render_template('records_admin.html', matchs=matchs)
+

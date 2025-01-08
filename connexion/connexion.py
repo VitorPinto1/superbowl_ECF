@@ -1,4 +1,5 @@
 from api.config import *
+from api.app import *
 
 
 connexion_bp = Blueprint('connexion', __name__, template_folder='templates')
@@ -11,31 +12,6 @@ def generer_mot_de_passe(longueur):
     return mot_de_passe
 
 
-@connexion_bp.context_processor
-def inject_user_info():
-    from api.app import mysql
-    user_info = {
-        'user_admin': False
-    }
-
-    if 'id_utilisateur' in session:
-        id_utilisateur = session['id_utilisateur']
-        conn = mysql.connect()
-        cursor = conn.cursor()
-
-        # Obtenir le rôle de l'utilisateur de la base de données
-        cursor.execute("SELECT role FROM users WHERE id = %s", (id_utilisateur,))
-        result = cursor.fetchone()
-        
-        if result is not None:
-            role = result[0]
-            user_info['user_admin'] = role == 'admin'
-
-        cursor.close()
-        conn.close()
-        
-
-    return user_info
 
 
 

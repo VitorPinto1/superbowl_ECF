@@ -92,6 +92,30 @@ def index():
 
   return render_template('index.html', current_date=formatted_date, matches = matches)
 
+@app.context_processor
+def inject_user_info():
+    user_info = {
+        'user_admin': False
+    }
+
+    if 'id_utilisateur' in session:
+        id_utilisateur = session['id_utilisateur']
+        conn = mysql.connect()
+        cursor = conn.cursor()
+
+        # Obtener el rol del usuario desde la base de datos
+        cursor.execute("SELECT role FROM users WHERE id = %s", (id_utilisateur,))
+        result = cursor.fetchone()
+        
+        if result is not None:
+            role = result[0]
+            user_info['user_admin'] = role == 'admin'
+
+        cursor.close()
+        conn.close()
+        
+    return user_info
+
 
 
 if __name__ == '__main__':

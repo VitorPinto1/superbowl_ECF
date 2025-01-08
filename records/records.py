@@ -1,5 +1,6 @@
 from api.config import *
 from api.app import *
+from connexion.connexion import admin_required
 
 
 records_bp = Blueprint('records', __name__, template_folder='templates')
@@ -10,6 +11,4 @@ def records():
 
 
   return render_template('records.html', matchs=matchs)
-
-
 
