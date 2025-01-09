@@ -29,7 +29,7 @@
             data-equipo2="{{ match.equipe2 }}" data-jour="{{ match.jour }}" data-debut="{{ match.debut }}" 
             data-fin="{{ match.fin }}" data-statut="{{ match.statut }}" data-score="{{ match.score }}" data-meteo="{{ match.meteo}}"
             data-joueurs_equipe1="{{ match.joueurs_equipe1 }}" data-joueurs_equipe2="{{ match.joueurs_equipe2 }}" data-cote1="{{ match.cote1 }}"  data-cote2="{{ match.cote2 }}" data-commentaires="{{ match.commentaires}}"
-            data-logo_equipe1="{{ url_for('static', filename=match.logo_equipe1) }}" data-logo_equipe2="{{ url_for('static', filename=match.logo_equipe2) }}">
+            data-logo_equipe1="{{ url_for('static', filename=match.logo_equipe1) }}" data-logo_equipe2="{{ url_for('static', filename=match.logo_equipe2) }}" data-vainqueur="{{ match.vainqueur }}">
             <td style="width: 30%; text-align: right;">
               {% if match.logo_equipe1 %}
                 <img src="{{ url_for('static', filename=match.logo_equipe1) }}" alt="Logo de {{ match.equipe1 }}" style="width: 50px; height: 50px; margin-right: 10px;">
@@ -90,6 +90,7 @@
             <p id="cote1"></p>
             <p id="cote2"></p>
             <p id="commentaires"></p>
+            <p id="vainqueur"></p>
           
           </div>
           <div class="modal-footer">
@@ -151,7 +152,7 @@
         var commentaires = modalTrigger.dataset.commentaires;
         var logo_equipe1 = modalTrigger.dataset.logo_equipe1;
         var logo_equipe2 = modalTrigger.dataset.logo_equipe2;
-        
+        var vainqueur = modalTrigger.dataset.vainqueur;        
         
         document.getElementById("logo_equipe1").src = logo_equipe1;
         document.getElementById("logo_equipe2").src = logo_equipe2;
@@ -168,6 +169,7 @@
         document.getElementById("cote1").innerText = "Cote " + equipe1 + ": " +  cote1;
         document.getElementById("cote2").innerText = "Cote " + equipe2 + ": " +  cote2;
         document.getElementById("commentaires").innerText = "Commentaires: " + commentaires;
+        document.getElementById("vainqueur").innerText = "Vainqueur: " + vainqueur;
 
         document.getElementById("form-equipe1").value = equipe1;
         document.getElementById("form-equipe2").value = equipe2;

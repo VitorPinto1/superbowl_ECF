@@ -7,7 +7,7 @@ records_bp = Blueprint('records', __name__, template_folder='templates')
 
 @records_bp.route('/records')
 def records():
-  matchs = list(mongo.db.matchs_year.find())
+  matchs = list(mongo.db.matchs_year.find().sort("year", 1))
 
 
   return render_template('records.html', matchs=matchs)

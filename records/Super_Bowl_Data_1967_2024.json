@@ -10,7 +10,7 @@
       "city": "Los Angeles",
       "state": "California"
     },
-    "météo": "Ensoleillé, 23°C",
+    "weather": "Ensoleillé, 23°C",
     "mvp": "Bart Starr",
     "attendance": 61546
   },
@@ -25,7 +25,7 @@
       "city": "Miami",
       "state": "Florida"
     },
-    "météo": "Clair, 25°C",
+    "weather": "Clair, 25°C",
     "mvp": "Bart Starr",
     "attendance": 75446
   },
@@ -40,7 +40,7 @@
       "city": "Miami",
       "state": "Florida"
     },
-    "météo": "Temps partiellement couvert, 24°C",
+    "weather": "Temps partiellement couvert, 24°C",
     "mvp": "Joe Namath",
     "attendance": 75777
   },
@@ -55,7 +55,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Léger vent, 21°C",
+    "weather": "Léger vent, 21°C",
     "mvp": "Len Dawson",
     "attendance": 80562
   },
@@ -70,7 +70,7 @@
       "city": "Miami",
       "state": "Florida"
     },
-    "météo": "Ensoleillé, 26°C",
+    "weather": "Ensoleillé, 26°C",
     "mvp": "Chuck Howley (Dallas)",
     "attendance": 79419
   },
@@ -85,7 +85,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Ciel dégagé, 20°C",
+    "weather": "Ciel dégagé, 20°C",
     "mvp": "Roger Staubach",
     "attendance": 81523
   },
@@ -100,7 +100,7 @@
       "city": "Los Angeles",
       "state": "California"
     },
-    "météo": "Ensoleillé, 22°C",
+    "weather": "Ensoleillé, 22°C",
     "mvp": "Jake Scott",
     "attendance": 90539
   },
@@ -115,7 +115,7 @@
       "city": "Houston",
       "state": "Texas"
     },
-    "météo": "Temps clair, 20°C",
+    "weather": "Temps clair, 20°C",
     "mvp": "Larry Csonka",
     "attendance": 71682
   },
@@ -130,7 +130,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Nuageux, 19°C",
+    "weather": "Nuageux, 19°C",
     "mvp": "Franco Harris",
     "attendance": 80997
   },
@@ -145,7 +145,7 @@
       "city": "Miami",
       "state": "Florida"
     },
-    "météo": "Humide, 24°C",
+    "weather": "Humide, 24°C",
     "mvp": "Lynn Swann",
     "attendance": 80397
   },
@@ -160,7 +160,7 @@
       "city": "Pasadena",
       "state": "California"
     },
-    "météo": "Ensoleillé, 25°C",
+    "weather": "Ensoleillé, 25°C",
     "mvp": "Fred Biletnikoff",
     "attendance": 103438
   },
@@ -175,7 +175,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Harvey Martin & Randy White",
     "attendance": 75646
   },
@@ -190,7 +190,7 @@
       "city": "Miami",
       "state": "Florida"
     },
-    "météo": "Clair, 23°C",
+    "weather": "Clair, 23°C",
     "mvp": "Terry Bradshaw",
     "attendance": 79484
   },
@@ -205,7 +205,7 @@
       "city": "Pasadena",
       "state": "California"
     },
-    "météo": "Ciel clair, 20°C",
+    "weather": "Ciel clair, 20°C",
     "mvp": "Terry Bradshaw",
     "attendance": 103985
   },
@@ -220,7 +220,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Jim Plunkett",
     "attendance": 76135
   },
@@ -235,7 +235,7 @@
       "city": "Pontiac",
       "state": "Michigan"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Joe Montana",
     "attendance": 81570
   },
@@ -250,7 +250,7 @@
       "city": "Pasadena",
       "state": "California"
     },
-    "météo": "Ensoleillé, 22°C",
+    "weather": "Ensoleillé, 22°C",
     "mvp": "John Riggins",
     "attendance": 103667
   },
@@ -265,7 +265,7 @@
       "city": "Tampa",
       "state": "Florida"
     },
-    "météo": "Dégagé, 21°C",
+    "weather": "Dégagé, 21°C",
     "mvp": "Marcus Allen",
     "attendance": 72748
   },
@@ -280,7 +280,7 @@
       "city": "Stanford",
       "state": "California"
     },
-    "météo": "Temps doux, 19°C",
+    "weather": "Temps doux, 19°C",
     "mvp": "Joe Montana",
     "attendance": 84559
   },
@@ -295,7 +295,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Richard Dent",
     "attendance": 73518
   },
@@ -310,7 +310,7 @@
       "city": "Pasadena",
       "state": "California"
     },
-    "météo": "Ciel clair, 23°C",
+    "weather": "Ciel clair, 23°C",
     "mvp": "Phil Simms",
     "attendance": 101063
   },
@@ -325,7 +325,7 @@
       "city": "San Diego",
       "state": "California"
     },
-    "météo": "Ensoleillé, 24°C",
+    "weather": "Ensoleillé, 24°C",
     "mvp": "Doug Williams",
     "attendance": 73502
   },
@@ -340,7 +340,7 @@
       "city": "Miami",
       "state": "Florida"
     },
-    "météo": "Douce, 22°C",
+    "weather": "Douce, 22°C",
     "mvp": "Jerry Rice",
     "attendance": 75629
   },
@@ -355,7 +355,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Joe Montana",
     "attendance": 72675
   },
@@ -370,7 +370,7 @@
       "city": "Tampa",
       "state": "Florida"
     },
-    "météo": "Clair, 19°C",
+    "weather": "Clair, 19°C",
     "mvp": "Ottis Anderson",
     "attendance": 73313
   },
@@ -385,7 +385,7 @@
       "city": "Minneapolis",
       "state": "Minnesota"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Mark Rypien",
     "attendance": 63630
   },
@@ -400,7 +400,7 @@
       "city": "Pasadena",
       "state": "California"
     },
-    "météo": "Ensoleillé, 25°C",
+    "weather": "Ensoleillé, 25°C",
     "mvp": "Troy Aikman",
     "attendance": 98974
   },
@@ -415,7 +415,7 @@
       "city": "Atlanta",
       "state": "Georgia"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Emmitt Smith",
     "attendance": 72217
   },
@@ -430,7 +430,7 @@
       "city": "Miami",
       "state": "Florida"
     },
-    "météo": "Beau, 24°C",
+    "weather": "Beau, 24°C",
     "mvp": "Steve Young",
     "attendance": 74865
   },
@@ -445,7 +445,7 @@
       "city": "Tempe",
       "state": "Arizona"
     },
-    "météo": "Temps sec, 21°C",
+    "weather": "Temps sec, 21°C",
     "mvp": "Larry Brown",
     "attendance": 76136
   },
@@ -460,7 +460,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Desmond Howard",
     "attendance": 72144
   },
@@ -475,7 +475,7 @@
       "city": "San Diego",
       "state": "California"
     },
-    "météo": "Ensoleillé, 24°C",
+    "weather": "Ensoleillé, 24°C",
     "mvp": "Terrell Davis",
     "attendance": 68439
   },
@@ -490,7 +490,7 @@
       "city": "Miami",
       "state": "Florida"
     },
-    "météo": "Ciel clair, 23°C",
+    "weather": "Ciel clair, 23°C",
     "mvp": "John Elway",
     "attendance": 74125
   },
@@ -505,7 +505,7 @@
       "city": "Atlanta",
       "state": "Georgia"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Kurt Warner",
     "attendance": 72149
   },
@@ -520,7 +520,7 @@
       "city": "Tampa",
       "state": "Florida"
     },
-    "météo": "Clair, 22°C",
+    "weather": "Clair, 22°C",
     "mvp": "Ray Lewis",
     "attendance": 71525
   },
@@ -535,7 +535,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Tom Brady",
     "attendance": 72922
   },
@@ -550,7 +550,7 @@
       "city": "San Diego",
       "state": "California"
     },
-    "météo": "Ensoleillé, 23°C",
+    "weather": "Ensoleillé, 23°C",
     "mvp": "Dexter Jackson",
     "attendance": 67503
   },
@@ -565,7 +565,7 @@
       "city": "Houston",
       "state": "Texas"
     },
-    "météo": "Indoor (toit fermé)",
+    "weather": "Indoor (toit fermé)",
     "mvp": "Tom Brady",
     "attendance": 71725
   },
@@ -580,7 +580,7 @@
       "city": "Jacksonville",
       "state": "Florida"
     },
-    "météo": "Clair, 18°C",
+    "weather": "Clair, 18°C",
     "mvp": "Deion Branch",
     "attendance": 78225
   },
@@ -595,7 +595,7 @@
       "city": "Detroit",
       "state": "Michigan"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Hines Ward",
     "attendance": 68206
   },
@@ -610,7 +610,7 @@
       "city": "Miami",
       "state": "Florida"
     },
-    "météo": "Pluvieux, 18°C",
+    "weather": "Pluvieux, 18°C",
     "mvp": "Peyton Manning",
     "attendance": 74512
   },
@@ -625,7 +625,7 @@
       "city": "Glendale",
       "state": "Arizona"
     },
-    "météo": "Toit fermé, 20°C",
+    "weather": "Toit fermé, 20°C",
     "mvp": "Eli Manning",
     "attendance": 71401
   },
@@ -640,7 +640,7 @@
       "city": "Tampa",
       "state": "Florida"
     },
-    "météo": "Clair, 19°C",
+    "weather": "Clair, 19°C",
     "mvp": "Santonio Holmes",
     "attendance": 70674
   },
@@ -655,7 +655,7 @@
       "city": "Miami Gardens",
       "state": "Florida"
     },
-    "météo": "Tempéré, 17°C",
+    "weather": "Tempéré, 17°C",
     "mvp": "Drew Brees",
     "attendance": 74106
   },
@@ -670,7 +670,7 @@
       "city": "Arlington",
       "state": "Texas"
     },
-    "météo": "Froid, toit fermé",
+    "weather": "Froid, toit fermé",
     "mvp": "Aaron Rodgers",
     "attendance": 103219
   },
@@ -685,7 +685,7 @@
       "city": "Indianapolis",
       "state": "Indiana"
     },
-    "météo": "Frais, toit fermé",
+    "weather": "Frais, toit fermé",
     "mvp": "Eli Manning",
     "attendance": 68558
   },
@@ -700,7 +700,7 @@
       "city": "New Orleans",
       "state": "Louisiana"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Joe Flacco",
     "attendance": 71324
   },
@@ -715,7 +715,7 @@
       "city": "East Rutherford",
       "state": "New Jersey"
     },
-    "météo": "Froid, 4°C",
+    "weather": "Froid, 4°C",
     "mvp": "Malcolm Smith",
     "attendance": 82529
   },
@@ -730,7 +730,7 @@
       "city": "Glendale",
       "state": "Arizona"
     },
-    "météo": "Clair, 19°C (toit fermé)",
+    "weather": "Clair, 19°C (toit fermé)",
     "mvp": "Tom Brady",
     "attendance": 70488
   },
@@ -745,7 +745,7 @@
       "city": "Santa Clara",
       "state": "California"
     },
-    "météo": "Soleil, 23°C",
+    "weather": "Soleil, 23°C",
     "mvp": "Von Miller",
     "attendance": 71788
   },
@@ -760,7 +760,7 @@
       "city": "Houston",
       "state": "Texas"
     },
-    "météo": "Toit fermé, 21°C",
+    "weather": "Toit fermé, 21°C",
     "mvp": "Tom Brady",
     "attendance": 70607
   },
@@ -775,7 +775,7 @@
       "city": "Minneapolis",
       "state": "Minnesota"
     },
-    "météo": "Froid, toit fermé",
+    "weather": "Froid, toit fermé",
     "mvp": "Nick Foles",
     "attendance": 67312
   },
@@ -790,7 +790,7 @@
       "city": "Atlanta",
       "state": "Georgia"
     },
-    "météo": "Indoor (dôme)",
+    "weather": "Indoor (dôme)",
     "mvp": "Julian Edelman",
     "attendance": 70181
   },
@@ -805,7 +805,7 @@
       "city": "Miami Gardens",
       "state": "Florida"
     },
-    "météo": "Clair, 22°C",
+    "weather": "Clair, 22°C",
     "mvp": "Patrick Mahomes",
     "attendance": 62417
   },
@@ -820,7 +820,7 @@
       "city": "Tampa",
       "state": "Florida"
     },
-    "météo": "Nuageux, 18°C",
+    "weather": "Nuageux, 18°C",
     "mvp": "Tom Brady",
     "attendance": 24035
   },
@@ -835,7 +835,7 @@
       "city": "Inglewood",
       "state": "California"
     },
-    "météo": "Ensoleillé, 29°C",
+    "weather": "Ensoleillé, 29°C",
     "mvp": "Cooper Kupp",
     "attendance": 70548
   },
@@ -850,7 +850,7 @@
       "city": "Glendale",
       "state": "Arizona"
     },
-    "météo": "Clair, 20°C",
+    "meteo": "Clair, 20°C",
     "mvp": "Patrick Mahomes",
     "attendance": 67600
   }

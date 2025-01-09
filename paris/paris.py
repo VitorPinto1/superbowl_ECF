@@ -1,4 +1,5 @@
 from api.config import *
+from api.app import *
 
 
 paris_bp = Blueprint('paris', __name__, template_folder='templates')
@@ -341,3 +342,68 @@ def form_miser_selection():
     cursor.close()
     conn.close()
     return redirect(url_for('user.espace_utilisateur'))
+
+@paris_bp.before_app_request
+def mettre_a_jour_scores_et_statut():
+    conn = mysql.connect()
+    curseur = conn.cursor()
+
+    # Requête pour récupérer les matchs nécessitant une mise à jour
+    select_query = """
+        SELECT id, equipe1, equipe2, but1, but2, statut, vainqueur, jour, fin
+        FROM matchs
+        WHERE (statut != 'Terminé' AND (jour < %s OR (jour = %s AND fin IS NOT NULL AND fin < %s)))
+        OR (statut = 'Terminé' AND (vainqueur IS NULL OR LENGTH(vainqueur) < 5));
+    """
+    now = datetime.now()
+    curseur.execute(select_query, (now.date(), now.date(), now.time()))
+    matchs = curseur.fetchall()
+
+    if matchs:
+        for match in matchs:
+            id_match = match[0]
+            equipe1 = match[1]
+            equipe2 = match[2]
+            but1 = match[3]
+            but2 = match[4]
+            statut = match[5]
+            vainqueur = match[6]
+            jour = match[7]
+            fin = match[8]
+
+            # Ignorer les matchs qui ne sont pas encore terminés
+            if jour == now.date() and fin and now.time() < datetime.strptime(fin, "%H:%M").time():
+                continue  # Sauter si le match n'est pas encore terminé
+
+            # Générer des scores si manquants
+            if but1 is None or but2 is None:
+                but1 = random.randint(0, 50) if but1 is None else but1
+                but2 = random.randint(0, 50) if but2 is None else but2
+
+            # Déterminer le vainqueur si nécessaire
+            if vainqueur is None or len(vainqueur.strip()) < 5:
+                if but1 > but2:
+                    vainqueur = equipe1
+                elif but2 > but1:
+                    vainqueur = equipe2
+                else:
+                    vainqueur = "Égalité"
+
+            # Mettre à jour le statut à "Terminé" si nécessaire
+            if statut != "Terminé":
+                statut = "Terminé"
+
+            # Mise à jour dans la base de données
+            update_query = """
+                UPDATE matchs
+                SET but1 = %s, but2 = %s, statut = %s, vainqueur = %s
+                WHERE id = %s
+            """
+            curseur.execute(update_query, (but1, but2, statut, vainqueur, id_match))
+
+        # Confirmer les modifications
+        conn.commit()
+
+    # Fermeture des ressources
+    curseur.close()
+    conn.close()

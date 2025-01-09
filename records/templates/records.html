@@ -96,6 +96,14 @@
         this.size = 1;
     });
 
+    document.querySelectorAll('[data-dismiss="modal"]').forEach(button => {
+        button.addEventListener('click', function () {
+            const modal = button.closest('.modal');
+            if (modal) {
+                $(modal).modal('hide'); 
+            }
+        });
+    });
 
 
     

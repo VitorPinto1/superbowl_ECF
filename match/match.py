@@ -2,7 +2,7 @@ from api.config import Blueprint, fake, Faker, random
 match_bp = Blueprint('match', __name__, template_folder='templates')
 
 class Matchs:
-    def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires, joueurs_equipe1, joueurs_equipe2, logo_equipe1, logo_equipe2 ):
+    def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires, joueurs_equipe1, joueurs_equipe2, logo_equipe1, logo_equipe2, vainqueur ):
         self.equipe1 = equipe1
         self.equipe2 = equipe2
         self.jour = jour
@@ -18,6 +18,7 @@ class Matchs:
         self.joueurs_equipe2 = joueurs_equipe2
         self.logo_equipe1 = logo_equipe1
         self.logo_equipe2 = logo_equipe2
+        self.vainqueur = vainqueur
         
 def obtenir_matchs_from_database():
     from api.app import mysql
@@ -39,7 +40,8 @@ def obtenir_matchs_from_database():
         GROUP_CONCAT(DISTINCT CONCAT(j1.nom_joueur, ' ', j1.prenom_joueur, ' (#', j1.numero_tshirt, ')') ORDER BY j1.nom_joueur SEPARATOR ', ') AS joueurs_equipe1,
         GROUP_CONCAT(DISTINCT CONCAT(j2.nom_joueur, ' ', j2.prenom_joueur, ' (#', j2.numero_tshirt, ')') ORDER BY j2.nom_joueur SEPARATOR ', ') AS joueurs_equipe2,
         e1.logo AS logo_equipe1,
-        e2.logo AS logo_equipe2
+        e2.logo AS logo_equipe2,
+        m.vainqueur
     FROM 
         matchs m
     LEFT JOIN 
@@ -51,12 +53,12 @@ def obtenir_matchs_from_database():
     LEFT JOIN 
         joueurs j2 ON e2.id = j2.equipe_id
     GROUP BY 
-        m.equipe1, m.equipe2, m.jour, m.debut, m.fin, m.statut, m.score, m.meteo, m.cote1, m.cote2, m.commentaires, e1.logo, e2.logo
+        m.equipe1, m.equipe2, m.jour, m.debut, m.fin, m.statut, m.score, m.meteo, m.cote1, m.cote2, m.commentaires, e1.logo, e2.logo, m.vainqueur
     ORDER BY 
         CASE m.statut 
             WHEN 'En cours' THEN 1
-            WHEN 'Terminé' THEN 2
-            WHEN 'À venir' THEN 3
+            WHEN 'À venir' THEN 2
+            WHEN 'Terminé' THEN 3
             ELSE 4
         END,
         m.jour
@@ -81,6 +83,8 @@ def obtenir_matchs_from_database():
             match.meteo = ' - '
         if match.commentaires is None:
             match.commentaires = ' - '
+        if match.vainqueur is None:
+            match.vainqueur = ' - '
 
         matchs.append(match)
 

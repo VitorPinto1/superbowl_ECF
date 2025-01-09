@@ -117,16 +117,55 @@ def planification_form():
 def planification():
     return render_template('planification.html')
 
+
+
 @admin_bp.route('/records_admin')
 @admin_required
 def records_admin():
-  matchs = list(mongo.db.matchs_year.find())
+  matchs = list(mongo.db.matchs_year.find().sort("year", 1))
 
 
   return render_template('records_admin.html', matchs=matchs)
 
 
 
+
+# longueurs maximales pour chaque champ
+LONGUEURS_CHAMPS = {
+    'super_bowl': 5,
+    'winner': 50,
+    'loser': 50,
+    'result': 20,
+    'location.stadium': 50,
+    'location.city': 50,
+    'location.state': 50,
+    'weather': 50,
+    'mvp': 50,
+    'attendance': 10,
+}
+
+def valider_longueur_champs(donnees):
+    for champ, longueur_max in LONGUEURS_CHAMPS.items():
+        cles = champ.split('.')
+        valeur = donnees
+        for cle in cles:
+            valeur = valeur.get(cle, {})
+        
+        # Validation pour les chaînes de caractères
+        if isinstance(valeur, str) and len(valeur) > longueur_max:
+            return f"Le champ '{champ}' dépasse la longueur maximale autorisée de {longueur_max} caractères."
+        
+        # Validation pour les entiers (convertibles)
+        if champ in ['year', 'attendance', 'super_bowl']:
+            if not isinstance(valeur, int):
+                try:
+                    valeur = int(valeur)  # Tente de convertir en entier
+                except ValueError:
+                    return f"Le champ '{champ}' doit être un entier valide."
+            if len(str(valeur)) > longueur_max:
+                return f"Le champ '{champ}' dépasse la longueur maximale autorisée de {longueur_max} chiffres."
+    
+    return None
 
 
 @admin_bp.route('/update_match', methods=['POST'])
@@ -138,12 +177,90 @@ def update_match():
 
     if not match_id or not updates:
         return jsonify({'error': 'ID ou donnes manquants'}), 400
+    
+     # Validation de la longueur
+    validation_error = valider_longueur_champs(updates)
+    if validation_error:
+        return jsonify({'error': validation_error}), 400
 
     try:
-        mongo.db.matchs_year.update_one({'_id': ObjectId(match_id)}, {'$set': updates})
+        # Validation de l'ID MongoDB
+        try:
+            match_id = ObjectId(match_id)
+        except InvalidId:
+            return jsonify({'error': 'Invalid ID format'}), 400
+
+        # Mise à jour des données dans la base MongoDB
+        mongo.db.matchs_year.update_one({'_id': match_id}, {'$set': updates})
         return jsonify({'success': True})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Une erreur est survenue'}), 500
+    
+@admin_bp.route('/add_match', methods=['POST'])
+@admin_required
+def add_match():
+    data = request.json
+
+    REQUIRED_FIELDS = {
+        'year': 4,  
+        'super_bowl': 5,  
+        'winner': 50,
+        'loser': 50,
+        'result': 20,
+        'location.stadium': 100,
+        'location.city': 50,
+        'location.state': 50,
+        'weather': 50,
+        'mvp': 50,
+        'attendance': 10,  
+    }
+
+    def get_nested_value(data, keys):
+        """Helper function to get nested value from a dictionary."""
+        for key in keys:
+            if isinstance(data, dict):
+                data = data.get(key, None)
+            else:
+                return None
+        return data
+
+    for field, max_length in REQUIRED_FIELDS.items():
+        keys = field.split('.')
+        value = get_nested_value(data, keys)
+        
+        # Validation : le champ est obligatoire
+        if value is None:
+            return jsonify({'error': f"Le champ '{field}' est requis."}), 400
+
+        # Validation de la longueur pour les chaînes
+        if isinstance(value, str) and len(value) > max_length:
+            return jsonify({'error': f"Le champ '{field}' dépasse la longueur maximale de {max_length} caractères."}), 400
+
+        # Validation et conversion des entiers
+        if field in ['year', 'attendance', 'super_bowl']:
+            try:
+                int_value = int(value)  # Convertir en entier
+                if len(str(int_value)) > max_length:  # Vérifier la longueur
+                    return jsonify({'error': f"Le champ '{field}' dépasse la longueur maximale de {max_length} chiffres."}), 400
+                # Mise à jour de la donnée avec la valeur entière
+                if len(keys) == 1:
+                    data[keys[0]] = int_value
+                else:
+                    nested_data = data
+                    for key in keys[:-1]:
+                        nested_data = nested_data[key]
+                    nested_data[keys[-1]] = int_value
+            except (ValueError, TypeError):
+                return jsonify({'error': f"Le champ '{field}' doit être un entier valide."}), 400
+
+    try:
+        # Ajouter le match dans MongoDB
+        match_id = mongo.db.matchs_year.insert_one(data).inserted_id
+        return jsonify({'success': True, 'match_id': str(match_id)}), 201
+    except Exception as e:
+        return jsonify({'error': f"Une erreur est survenue lors de l’ajout du match : {str(e)}"}), 500
+
+
 
 @admin_bp.route('/delete_match', methods=['POST'])
 @admin_required
