@@ -1,5 +1,7 @@
 from api.config import Blueprint, fake, Faker, random
+from api.app import *
 match_bp = Blueprint('match', __name__, template_folder='templates')
+
 
 class Matchs:
     def __init__(self, equipe1, equipe2, jour, debut, fin, statut, score, meteo, cote1, cote2, commentaires, joueurs_equipe1, joueurs_equipe2, logo_equipe1, logo_equipe2, vainqueur ):
@@ -147,3 +149,62 @@ for equipe_id in equipes_ids:
         joueurs_prenom = random_prenom(equipe_id)
         ajouter_joueurs(joueurs_prenom)
 
+def generer_matchs_quotidiens():
+    """Génère automatiquement des matchs chaque jour, en vérifiant s'il y a déjà des matchs."""
+    from api.app import mysql
+    from datetime import datetime, timedelta
+    import random
+
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    # Récupérer la date cible (par défaut demain)
+    jour = (datetime.now() + timedelta(days=1)).date()
+
+    # Vérifier s'il existe déjà des matchs pour cette date
+    cursor.execute("SELECT COUNT(*) FROM matchs WHERE jour = %s", (jour,))
+    nb_matchs = cursor.fetchone()[0]
+
+    if nb_matchs > 0:
+        conn.close()
+        print(f"Des matchs ont déjà été générés pour le {jour}. Aucun nouveau match ne sera créé.")
+        return
+
+    # Récupérer les équipes disponibles
+    cursor.execute("SELECT nom_equipe FROM equipes")
+    equipes = [equipe[0] for equipe in cursor.fetchall()]
+
+    if len(equipes) < 2:
+        conn.close()
+        print("Erreur : Pas assez d'équipes pour générer des matchs.")
+        return
+
+    # Mélanger les équipes et former des matchs
+    random.shuffle(equipes)
+    matchs = []
+
+    for i in range(0, len(equipes) - 1, 2):
+        equipe1 = equipes[i]
+        equipe2 = equipes[i + 1]
+        debut = f"{random.randint(14, 20)}:00"  # Heure aléatoire entre 14:00 et 20:00
+        cote1 = round(random.uniform(1.5, 3.5), 2)
+        cote2 = round(random.uniform(1.5, 3.5), 2)
+        statut = "À venir"
+        meteo = generer_meteo_aleatoire()
+
+        matchs.append((equipe1, equipe2, jour, debut, cote1, cote2, statut, meteo))
+
+        if len(matchs) == 4:  # Limiter à 4 matchs
+            break
+
+    # Insérer les matchs dans la base de données
+    for match in matchs:
+        cursor.execute("""
+            INSERT INTO matchs (equipe1, equipe2, jour, debut, cote1, cote2, statut, meteo)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """, match)
+
+    conn.commit()
+    conn.close()
+    print(f"4 matchs pour le {jour} ont été générés avec succès.")

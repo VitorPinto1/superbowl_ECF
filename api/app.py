@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from api.config import *
-
+from scheduler.scheculer import *
 
 
 env = os.getenv('FLASK_ENV', 'development')
@@ -36,6 +36,7 @@ app.config['MYSQL_DATABASE_USER'] = os.environ.get('MYSQL_USER')
 app.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
 app.config['MYSQL_DATABASE_DB'] = 'defaultdb'
 
+
 mysql = MySQL(app)
 app.config
 
@@ -43,6 +44,9 @@ app.config
 mysql.init_app(app)
 
 bootstrap = Bootstrap(app)
+
+scheduler.init_app(app)
+
 
 from paris.paris import paris_bp
 from match.match import match_bp
@@ -117,6 +121,8 @@ def inject_user_info():
     return user_info
 
 
+taches()
+scheduler.start()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
