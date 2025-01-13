@@ -91,7 +91,7 @@
                         </div>
                         <div class="form-group">
                             <label>Météo</label>
-                            <input type="text" class="form-control" id="editMétéo">
+                            <input type="text" class="form-control" id="editMeteo">
                         </div>
                         <div class="form-group">
                             <label>MVP</label>
@@ -157,7 +157,7 @@
                         </div>
                         <div class="form-group">
                             <label>Météo</label>
-                            <input type="text" class="form-control" id="addMétéo" maxlength="50" required>
+                            <input type="text" class="form-control" id="addMeteo" maxlength="50" required>
                         </div>
                         <div class="form-group">
                             <label>MVP</label>
@@ -195,7 +195,7 @@
             document.getElementById('editStadium').value = locationData[0];
             document.getElementById('editCity').value = locationData[1];
             document.getElementById('editState').value = locationData[2];
-            document.getElementById('editMétéo').value = currentRow.querySelector('.weather').innerText;
+            document.getElementById('editMeteo').value = currentRow.querySelector('.weather').innerText;
             document.getElementById('editMvp').value = currentRow.querySelector('.mvp').innerText;
             document.getElementById('editAttendance').value = currentRow.querySelector('.attendance').innerText;
 
@@ -215,7 +215,7 @@
                 city: document.getElementById('editCity').value,
                 state: document.getElementById('editState').value,
             },
-            météo: document.getElementById('editMétéo').value,
+            weather: document.getElementById('editMeteo').value,
             mvp: document.getElementById('editMvp').value,
             attendance: document.getElementById('editAttendance').value,
         };
@@ -238,7 +238,7 @@
                     currentRow.querySelector('.loser').innerText = updates.loser;
                     currentRow.querySelector('.result').innerText = updates.result;
                     currentRow.querySelector('.location').innerText = `${updates.location.stadium}, ${updates.location.city}, ${updates.location.state}`;
-                    currentRow.querySelector('.weather').innerText = updates.météo;
+                    currentRow.querySelector('.weather').innerText = updates.weather;
                     currentRow.querySelector('.mvp').innerText = updates.mvp;
                     currentRow.querySelector('.attendance').innerText = updates.attendance;
                     $('#actionModal').modal('hide');  
@@ -285,7 +285,7 @@
                 city: document.getElementById('addCity').value,
                 state: document.getElementById('addState').value,
             },
-            météo: document.getElementById('addMétéo').value,
+            weather: document.getElementById('addMeteo').value,
             mvp: document.getElementById('addMvp').value,
             attendance: document.getElementById('addAttendance').value,
         };
@@ -311,7 +311,7 @@
                         <td class="loser">${newMatch.loser}</td>
                         <td class="result">${newMatch.result}</td>
                         <td class="location">${newMatch.location.stadium}, ${newMatch.location.city}, ${newMatch.location.state}</td>
-                        <td class="weather">${newMatch.météo}</td>
+                        <td class="weather">${newMatch.weather}</td>
                         <td class="mvp">${newMatch.mvp}</td>
                         <td class="attendance">${newMatch.attendance}</td>
                     `;

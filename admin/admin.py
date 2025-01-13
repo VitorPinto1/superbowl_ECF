@@ -252,6 +252,15 @@ def add_match():
                     nested_data[keys[-1]] = int_value
             except (ValueError, TypeError):
                 return jsonify({'error': f"Le champ '{field}' doit être un entier valide."}), 400
+            
+    existing_year_match = mongo.db.matchs_year.find_one({'year': data['year']})
+    if existing_year_match:
+        return jsonify({'error': f"Un match pour l'année '{data['year']}' existe déjà. Vous ne pouvez pas ajouter un autre match pour cette année."}), 400
+
+    existing_super_bowl_match = mongo.db.matchs_year.find_one({'super_bowl': data['super_bowl']})
+    if existing_super_bowl_match:
+        return jsonify({'error': f"Un match avec le Super Bowl '{data['super_bowl']}' existe déjà."}), 400
+
 
     try:
         # Ajouter le match dans MongoDB
