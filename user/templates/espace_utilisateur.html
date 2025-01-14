@@ -26,6 +26,14 @@
           <div style="width: 200px; height: 200px">
             <canvas id="monGraphique"></canvas>
           </div>
+          <div class="col-md-6">
+            <div id="statsGraphique" style="margin-top: 20px;">
+              <p>Nombre de victoires : <span id="nombreVictoires">0</span></p>
+              <p>Nombre de pertes : <span id="nombrePertes">0</span></p>
+              <p>Total des gains : <span id="totalGagnes">0</span> €</p>
+              <p>Total des pertes : <span id="totalPerdus">0</span> €</p>
+            </div>
+          </div>
         
           
         
@@ -74,14 +82,14 @@
                   <td>
                     {% if mise[10] == "Terminé" %}
                       {% if mise[12] == mise[11] %}
-                        <span class="text-success">{{ mise[8] |float|int }}</span>
+                        <span class="text-success">{{ mise[8] |float|int }} €</span>
                       {% elif mise[13] == mise[11] %}
-                        <span class="text-success">{{ mise[9] |float|int }}</span>
+                        <span class="text-success">{{ mise[9] |float|int }} €</span>
                       {% else %}
                         {% if mise[6] is not none %}
-                          <span class="text-danger">{{ mise[6] |float|int }}</span>
+                          <span class="text-danger"> - {{ mise[6] |float|int }} €</span>
                         {% elif mise[7] is not none %}
-                          <span class="text-danger">{{ mise[7] |float|int }}</span>
+                          <span class="text-danger"> - {{ mise[7] |float|int }} €</span>
                         {% else %}
                           -
                         {% endif %}
@@ -174,8 +182,11 @@
       let tdBenefices = row.cells[6];
       let span = tdBenefices.querySelector('span');
       if (span) {
-        let valeur = parseFloat(span.textContent);
-        if (span.classList.contains('text-danger') && valeur > 0) {
+        let valeur = span.textContent.replace('€', '').replace('-', '').replace(' - ', '').trim();
+        valeur = parseFloat(valeur);
+        if (isNaN(valeur)) valeur = 0;
+
+        if (span.classList.contains('text-danger')) {
             valeur = -valeur;
         }
 
@@ -186,6 +197,7 @@
         }
       }
     });
+
 
     let pourcentageBenefices, pourcentagePertes;
     if (totalBenefices - totalPertes !== 0) {
@@ -214,9 +226,41 @@
         responsive: true
       }
     });
+
+    let nombreVictoires = 0;
+    let nombrePertes = 0;
+    let totalGagnes = 0;
+    let totalPerdus = 0;
+  
+    // Parcourir chaque ligne du tableau
+    document.querySelectorAll('table tbody tr').forEach((row) => {
+      const tdBenefices = row.cells[6]; // Colonne des bénéfices
+      const span = tdBenefices.querySelector('span');
+  
+      if (span) {
+        let valeur = span.textContent.replace('€', '').replace(' - ', '').trim();
+        valeur = parseFloat(valeur);
+        if (isNaN(valeur)) valeur = 0;
+        // Vérifier si c'est une victoire ou une perte
+        if (span.classList.contains('text-success')) {
+          nombreVictoires++;
+          totalGagnes += valeur; 
+        } else if (span.classList.contains('text-danger')) {
+          nombrePertes++;
+          totalPerdus += valeur; 
+        }
+      }
+    });    
+    document.getElementById('nombreVictoires').textContent = nombreVictoires;
+    document.getElementById('nombrePertes').textContent = nombrePertes;
+    document.getElementById('totalGagnes').textContent = totalGagnes; // Afficher avec 2 décimales
+    document.getElementById('totalPerdus').textContent = Math.abs(totalPerdus); // Convertir en positif et afficher avec 2 décimales
     activateHistoriqueTab()
 
   });
+
+ 
+  
 </script>
 
 <style>

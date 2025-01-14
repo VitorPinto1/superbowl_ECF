@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from api.config import *
-from scheduler.scheculer import *
+from scheduler.scheduler import *
 
 
 env = os.getenv('FLASK_ENV', 'development')

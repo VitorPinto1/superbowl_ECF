@@ -19,7 +19,7 @@
                         <div class="col-md-6 text-center">
                             
                             <label for="equipe1" class="control-label">{{ equipe1 }}</label>
-                            <label for="cote1" class="control-label" style="margin-left: 10px;">{{ cote1 }}</label>
+                            <label for="cote1" class="control-label" style="margin-left: 10px;">Cote : {{ cote1 }}</label>
                             <div class="d-flex justify-content-center">
                                 <input type="text" class="form-control" id="mise1" name="mise1" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication('mise1', 'resultat1', parseFloat('{{ cote1 }}') )"
                                 style="margin-top: 10px; width: 40%" maxlength="7">
@@ -32,7 +32,7 @@
                         <div class="col-md-6 text-center">
                           
                             <label for="equipe2" class="control-label">{{ equipe2 }}</label>
-                            <label for="cote2" class="control-label" style="margin-left: 10px;">{{ cote2 }}</label>
+                            <label for="cote2" class="control-label" style="margin-left: 10px;">Cote : {{ cote2 }}</label>
                             <div class="d-flex justify-content-center">
                                 <input type="text" class="form-control" id="mise2" name="mise2" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication('mise2', 'resultat2',parseFloat('{{ cote2 }}') )"
                                 style="margin-top: 10px; width: 40%" maxlength="7">
@@ -90,7 +90,7 @@
     
         if (!isNaN(valeur))  {
             var multiplication = cote * valeur;
-            resultat.textContent = 'Résultat : ' + multiplication;
+            resultat.textContent = 'Gain potentiel : ' + multiplication + ' €';
             resultatInput.value = multiplication; 
         } else {
             resultat.textContent = '';
