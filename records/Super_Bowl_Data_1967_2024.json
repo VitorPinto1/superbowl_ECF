@@ -1,0 +1,857 @@
+[
+  {
+    "year": 1967,
+    "super_bowl": 1,
+    "winner": "Green Bay Packers",
+    "loser": "Kansas City Chiefs",
+    "result": "35–10",
+    "location": {
+      "stadium": "Los Angeles Memorial Coliseum",
+      "city": "Los Angeles",
+      "state": "California"
+    },
+    "weather": "Ensoleillé, 23°C",
+    "mvp": "Bart Starr",
+    "attendance": 61546
+  },
+  {
+    "year": 1968,
+    "super_bowl": 2,
+    "winner": "Green Bay Packers",
+    "loser": "Oakland Raiders",
+    "result": "33–14",
+    "location": {
+      "stadium": "Orange Bowl",
+      "city": "Miami",
+      "state": "Florida"
+    },
+    "weather": "Clair, 25°C",
+    "mvp": "Bart Starr",
+    "attendance": 75446
+  },
+  {
+    "year": 1969,
+    "super_bowl": 3,
+    "winner": "New York Jets",
+    "loser": "Baltimore Colts",
+    "result": "16–7",
+    "location": {
+      "stadium": "Orange Bowl",
+      "city": "Miami",
+      "state": "Florida"
+    },
+    "weather": "Temps partiellement couvert, 24°C",
+    "mvp": "Joe Namath",
+    "attendance": 75777
+  },
+  {
+    "year": 1970,
+    "super_bowl": 4,
+    "winner": "Kansas City Chiefs",
+    "loser": "Minnesota Vikings",
+    "result": "23–7",
+    "location": {
+      "stadium": "Tulane Stadium",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Léger vent, 21°C",
+    "mvp": "Len Dawson",
+    "attendance": 80562
+  },
+  {
+    "year": 1971,
+    "super_bowl": 5,
+    "winner": "Baltimore Colts",
+    "loser": "Dallas Cowboys",
+    "result": "16–13",
+    "location": {
+      "stadium": "Orange Bowl",
+      "city": "Miami",
+      "state": "Florida"
+    },
+    "weather": "Ensoleillé, 26°C",
+    "mvp": "Chuck Howley (Dallas)",
+    "attendance": 79419
+  },
+  {
+    "year": 1972,
+    "super_bowl": 6,
+    "winner": "Dallas Cowboys",
+    "loser": "Miami Dolphins",
+    "result": "24–3",
+    "location": {
+      "stadium": "Tulane Stadium",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Ciel dégagé, 20°C",
+    "mvp": "Roger Staubach",
+    "attendance": 81523
+  },
+  {
+    "year": 1973,
+    "super_bowl": 7,
+    "winner": "Miami Dolphins",
+    "loser": "Washington Redskins",
+    "result": "14–7",
+    "location": {
+      "stadium": "Los Angeles Memorial Coliseum",
+      "city": "Los Angeles",
+      "state": "California"
+    },
+    "weather": "Ensoleillé, 22°C",
+    "mvp": "Jake Scott",
+    "attendance": 90539
+  },
+  {
+    "year": 1974,
+    "super_bowl": 8,
+    "winner": "Miami Dolphins",
+    "loser": "Minnesota Vikings",
+    "result": "24–7",
+    "location": {
+      "stadium": "Rice Stadium",
+      "city": "Houston",
+      "state": "Texas"
+    },
+    "weather": "Temps clair, 20°C",
+    "mvp": "Larry Csonka",
+    "attendance": 71682
+  },
+  {
+    "year": 1975,
+    "super_bowl": 9,
+    "winner": "Pittsburgh Steelers",
+    "loser": "Minnesota Vikings",
+    "result": "16–6",
+    "location": {
+      "stadium": "Tulane Stadium",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Nuageux, 19°C",
+    "mvp": "Franco Harris",
+    "attendance": 80997
+  },
+  {
+    "year": 1976,
+    "super_bowl": 10,
+    "winner": "Pittsburgh Steelers",
+    "loser": "Dallas Cowboys",
+    "result": "21–17",
+    "location": {
+      "stadium": "Orange Bowl",
+      "city": "Miami",
+      "state": "Florida"
+    },
+    "weather": "Humide, 24°C",
+    "mvp": "Lynn Swann",
+    "attendance": 80397
+  },
+  {
+    "year": 1977,
+    "super_bowl": 11,
+    "winner": "Oakland Raiders",
+    "loser": "Minnesota Vikings",
+    "result": "32–14",
+    "location": {
+      "stadium": "Rose Bowl",
+      "city": "Pasadena",
+      "state": "California"
+    },
+    "weather": "Ensoleillé, 25°C",
+    "mvp": "Fred Biletnikoff",
+    "attendance": 103438
+  },
+  {
+    "year": 1978,
+    "super_bowl": 12,
+    "winner": "Dallas Cowboys",
+    "loser": "Denver Broncos",
+    "result": "27–10",
+    "location": {
+      "stadium": "Louisiana Superdome",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Harvey Martin & Randy White",
+    "attendance": 75646
+  },
+  {
+    "year": 1979,
+    "super_bowl": 13,
+    "winner": "Pittsburgh Steelers",
+    "loser": "Dallas Cowboys",
+    "result": "35–31",
+    "location": {
+      "stadium": "Orange Bowl",
+      "city": "Miami",
+      "state": "Florida"
+    },
+    "weather": "Clair, 23°C",
+    "mvp": "Terry Bradshaw",
+    "attendance": 79484
+  },
+  {
+    "year": 1980,
+    "super_bowl": 14,
+    "winner": "Pittsburgh Steelers",
+    "loser": "Los Angeles Rams",
+    "result": "31–19",
+    "location": {
+      "stadium": "Rose Bowl",
+      "city": "Pasadena",
+      "state": "California"
+    },
+    "weather": "Ciel clair, 20°C",
+    "mvp": "Terry Bradshaw",
+    "attendance": 103985
+  },
+  {
+    "year": 1981,
+    "super_bowl": 15,
+    "winner": "Oakland Raiders",
+    "loser": "Philadelphia Eagles",
+    "result": "27–10",
+    "location": {
+      "stadium": "Louisiana Superdome",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Jim Plunkett",
+    "attendance": 76135
+  },
+  {
+    "year": 1982,
+    "super_bowl": 16,
+    "winner": "San Francisco 49ers",
+    "loser": "Cincinnati Bengals",
+    "result": "26–21",
+    "location": {
+      "stadium": "Pontiac Silverdome",
+      "city": "Pontiac",
+      "state": "Michigan"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Joe Montana",
+    "attendance": 81570
+  },
+  {
+    "year": 1983,
+    "super_bowl": 17,
+    "winner": "Washington Redskins",
+    "loser": "Miami Dolphins",
+    "result": "27–17",
+    "location": {
+      "stadium": "Rose Bowl",
+      "city": "Pasadena",
+      "state": "California"
+    },
+    "weather": "Ensoleillé, 22°C",
+    "mvp": "John Riggins",
+    "attendance": 103667
+  },
+  {
+    "year": 1984,
+    "super_bowl": 18,
+    "winner": "Los Angeles Raiders",
+    "loser": "Washington Redskins",
+    "result": "38–9",
+    "location": {
+      "stadium": "Tampa Stadium",
+      "city": "Tampa",
+      "state": "Florida"
+    },
+    "weather": "Dégagé, 21°C",
+    "mvp": "Marcus Allen",
+    "attendance": 72748
+  },
+  {
+    "year": 1985,
+    "super_bowl": 19,
+    "winner": "San Francisco 49ers",
+    "loser": "Miami Dolphins",
+    "result": "38–16",
+    "location": {
+      "stadium": "Stanford Stadium",
+      "city": "Stanford",
+      "state": "California"
+    },
+    "weather": "Temps doux, 19°C",
+    "mvp": "Joe Montana",
+    "attendance": 84559
+  },
+  {
+    "year": 1986,
+    "super_bowl": 20,
+    "winner": "Chicago Bears",
+    "loser": "New England Patriots",
+    "result": "46–10",
+    "location": {
+      "stadium": "Louisiana Superdome",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Richard Dent",
+    "attendance": 73518
+  },
+  {
+    "year": 1987,
+    "super_bowl": 21,
+    "winner": "New York Giants",
+    "loser": "Denver Broncos",
+    "result": "39–20",
+    "location": {
+      "stadium": "Rose Bowl",
+      "city": "Pasadena",
+      "state": "California"
+    },
+    "weather": "Ciel clair, 23°C",
+    "mvp": "Phil Simms",
+    "attendance": 101063
+  },
+  {
+    "year": 1988,
+    "super_bowl": 22,
+    "winner": "Washington Redskins",
+    "loser": "Denver Broncos",
+    "result": "42–10",
+    "location": {
+      "stadium": "Jack Murphy Stadium",
+      "city": "San Diego",
+      "state": "California"
+    },
+    "weather": "Ensoleillé, 24°C",
+    "mvp": "Doug Williams",
+    "attendance": 73502
+  },
+  {
+    "year": 1989,
+    "super_bowl": 23,
+    "winner": "San Francisco 49ers",
+    "loser": "Cincinnati Bengals",
+    "result": "20–16",
+    "location": {
+      "stadium": "Joe Robbie Stadium",
+      "city": "Miami",
+      "state": "Florida"
+    },
+    "weather": "Douce, 22°C",
+    "mvp": "Jerry Rice",
+    "attendance": 75629
+  },
+  {
+    "year": 1990,
+    "super_bowl": 24,
+    "winner": "San Francisco 49ers",
+    "loser": "Denver Broncos",
+    "result": "55–10",
+    "location": {
+      "stadium": "Louisiana Superdome",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Joe Montana",
+    "attendance": 72675
+  },
+  {
+    "year": 1991,
+    "super_bowl": 25,
+    "winner": "New York Giants",
+    "loser": "Buffalo Bills",
+    "result": "20–19",
+    "location": {
+      "stadium": "Tampa Stadium",
+      "city": "Tampa",
+      "state": "Florida"
+    },
+    "weather": "Clair, 19°C",
+    "mvp": "Ottis Anderson",
+    "attendance": 73313
+  },
+  {
+    "year": 1992,
+    "super_bowl": 26,
+    "winner": "Washington Redskins",
+    "loser": "Buffalo Bills",
+    "result": "37–24",
+    "location": {
+      "stadium": "Metrodome",
+      "city": "Minneapolis",
+      "state": "Minnesota"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Mark Rypien",
+    "attendance": 63630
+  },
+  {
+    "year": 1993,
+    "super_bowl": 27,
+    "winner": "Dallas Cowboys",
+    "loser": "Buffalo Bills",
+    "result": "52–17",
+    "location": {
+      "stadium": "Rose Bowl",
+      "city": "Pasadena",
+      "state": "California"
+    },
+    "weather": "Ensoleillé, 25°C",
+    "mvp": "Troy Aikman",
+    "attendance": 98974
+  },
+  {
+    "year": 1994,
+    "super_bowl": 28,
+    "winner": "Dallas Cowboys",
+    "loser": "Buffalo Bills",
+    "result": "30–13",
+    "location": {
+      "stadium": "Georgia Dome",
+      "city": "Atlanta",
+      "state": "Georgia"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Emmitt Smith",
+    "attendance": 72217
+  },
+  {
+    "year": 1995,
+    "super_bowl": 29,
+    "winner": "San Francisco 49ers",
+    "loser": "San Diego Chargers",
+    "result": "49–26",
+    "location": {
+      "stadium": "Joe Robbie Stadium",
+      "city": "Miami",
+      "state": "Florida"
+    },
+    "weather": "Beau, 24°C",
+    "mvp": "Steve Young",
+    "attendance": 74865
+  },
+  {
+    "year": 1996,
+    "super_bowl": 30,
+    "winner": "Dallas Cowboys",
+    "loser": "Pittsburgh Steelers",
+    "result": "27–17",
+    "location": {
+      "stadium": "Sun Devil Stadium",
+      "city": "Tempe",
+      "state": "Arizona"
+    },
+    "weather": "Temps sec, 21°C",
+    "mvp": "Larry Brown",
+    "attendance": 76136
+  },
+  {
+    "year": 1997,
+    "super_bowl": 31,
+    "winner": "Green Bay Packers",
+    "loser": "New England Patriots",
+    "result": "35–21",
+    "location": {
+      "stadium": "Louisiana Superdome",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Desmond Howard",
+    "attendance": 72144
+  },
+  {
+    "year": 1998,
+    "super_bowl": 32,
+    "winner": "Denver Broncos",
+    "loser": "Green Bay Packers",
+    "result": "31–24",
+    "location": {
+      "stadium": "Qualcomm Stadium",
+      "city": "San Diego",
+      "state": "California"
+    },
+    "weather": "Ensoleillé, 24°C",
+    "mvp": "Terrell Davis",
+    "attendance": 68439
+  },
+  {
+    "year": 1999,
+    "super_bowl": 33,
+    "winner": "Denver Broncos",
+    "loser": "Atlanta Falcons",
+    "result": "34–19",
+    "location": {
+      "stadium": "Pro Player Stadium",
+      "city": "Miami",
+      "state": "Florida"
+    },
+    "weather": "Ciel clair, 23°C",
+    "mvp": "John Elway",
+    "attendance": 74125
+  },
+  {
+    "year": 2000,
+    "super_bowl": 34,
+    "winner": "St. Louis Rams",
+    "loser": "Tennessee Titans",
+    "result": "23–16",
+    "location": {
+      "stadium": "Georgia Dome",
+      "city": "Atlanta",
+      "state": "Georgia"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Kurt Warner",
+    "attendance": 72149
+  },
+  {
+    "year": 2001,
+    "super_bowl": 35,
+    "winner": "Baltimore Ravens",
+    "loser": "New York Giants",
+    "result": "34–7",
+    "location": {
+      "stadium": "Raymond James Stadium",
+      "city": "Tampa",
+      "state": "Florida"
+    },
+    "weather": "Clair, 22°C",
+    "mvp": "Ray Lewis",
+    "attendance": 71525
+  },
+  {
+    "year": 2002,
+    "super_bowl": 36,
+    "winner": "New England Patriots",
+    "loser": "St. Louis Rams",
+    "result": "20–17",
+    "location": {
+      "stadium": "Louisiana Superdome",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Tom Brady",
+    "attendance": 72922
+  },
+  {
+    "year": 2003,
+    "super_bowl": 37,
+    "winner": "Tampa Bay Buccaneers",
+    "loser": "Oakland Raiders",
+    "result": "48–21",
+    "location": {
+      "stadium": "Qualcomm Stadium",
+      "city": "San Diego",
+      "state": "California"
+    },
+    "weather": "Ensoleillé, 23°C",
+    "mvp": "Dexter Jackson",
+    "attendance": 67503
+  },
+  {
+    "year": 2004,
+    "super_bowl": 38,
+    "winner": "New England Patriots",
+    "loser": "Carolina Panthers",
+    "result": "32–29",
+    "location": {
+      "stadium": "Reliant Stadium",
+      "city": "Houston",
+      "state": "Texas"
+    },
+    "weather": "Indoor (toit fermé)",
+    "mvp": "Tom Brady",
+    "attendance": 71725
+  },
+  {
+    "year": 2005,
+    "super_bowl": 39,
+    "winner": "New England Patriots",
+    "loser": "Philadelphia Eagles",
+    "result": "24–21",
+    "location": {
+      "stadium": "Alltel Stadium",
+      "city": "Jacksonville",
+      "state": "Florida"
+    },
+    "weather": "Clair, 18°C",
+    "mvp": "Deion Branch",
+    "attendance": 78225
+  },
+  {
+    "year": 2006,
+    "super_bowl": 40,
+    "winner": "Pittsburgh Steelers",
+    "loser": "Seattle Seahawks",
+    "result": "21–10",
+    "location": {
+      "stadium": "Ford Field",
+      "city": "Detroit",
+      "state": "Michigan"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Hines Ward",
+    "attendance": 68206
+  },
+  {
+    "year": 2007,
+    "super_bowl": 41,
+    "winner": "Indianapolis Colts",
+    "loser": "Chicago Bears",
+    "result": "29–17",
+    "location": {
+      "stadium": "Dolphin Stadium",
+      "city": "Miami",
+      "state": "Florida"
+    },
+    "weather": "Pluvieux, 18°C",
+    "mvp": "Peyton Manning",
+    "attendance": 74512
+  },
+  {
+    "year": 2008,
+    "super_bowl": 42,
+    "winner": "New York Giants",
+    "loser": "New England Patriots",
+    "result": "17–14",
+    "location": {
+      "stadium": "University of Phoenix Stadium",
+      "city": "Glendale",
+      "state": "Arizona"
+    },
+    "weather": "Toit fermé, 20°C",
+    "mvp": "Eli Manning",
+    "attendance": 71401
+  },
+  {
+    "year": 2009,
+    "super_bowl": 43,
+    "winner": "Pittsburgh Steelers",
+    "loser": "Arizona Cardinals",
+    "result": "27–23",
+    "location": {
+      "stadium": "Raymond James Stadium",
+      "city": "Tampa",
+      "state": "Florida"
+    },
+    "weather": "Clair, 19°C",
+    "mvp": "Santonio Holmes",
+    "attendance": 70674
+  },
+  {
+    "year": 2010,
+    "super_bowl": 44,
+    "winner": "New Orleans Saints",
+    "loser": "Indianapolis Colts",
+    "result": "31–17",
+    "location": {
+      "stadium": "Sun Life Stadium",
+      "city": "Miami Gardens",
+      "state": "Florida"
+    },
+    "weather": "Tempéré, 17°C",
+    "mvp": "Drew Brees",
+    "attendance": 74106
+  },
+  {
+    "year": 2011,
+    "super_bowl": 45,
+    "winner": "Green Bay Packers",
+    "loser": "Pittsburgh Steelers",
+    "result": "31–25",
+    "location": {
+      "stadium": "Cowboys Stadium",
+      "city": "Arlington",
+      "state": "Texas"
+    },
+    "weather": "Froid, toit fermé",
+    "mvp": "Aaron Rodgers",
+    "attendance": 103219
+  },
+  {
+    "year": 2012,
+    "super_bowl": 46,
+    "winner": "New York Giants",
+    "loser": "New England Patriots",
+    "result": "21–17",
+    "location": {
+      "stadium": "Lucas Oil Stadium",
+      "city": "Indianapolis",
+      "state": "Indiana"
+    },
+    "weather": "Frais, toit fermé",
+    "mvp": "Eli Manning",
+    "attendance": 68558
+  },
+  {
+    "year": 2013,
+    "super_bowl": 47,
+    "winner": "Baltimore Ravens",
+    "loser": "San Francisco 49ers",
+    "result": "34–31",
+    "location": {
+      "stadium": "Mercedes-Benz Superdome",
+      "city": "New Orleans",
+      "state": "Louisiana"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Joe Flacco",
+    "attendance": 71324
+  },
+  {
+    "year": 2014,
+    "super_bowl": 48,
+    "winner": "Seattle Seahawks",
+    "loser": "Denver Broncos",
+    "result": "43–8",
+    "location": {
+      "stadium": "MetLife Stadium",
+      "city": "East Rutherford",
+      "state": "New Jersey"
+    },
+    "weather": "Froid, 4°C",
+    "mvp": "Malcolm Smith",
+    "attendance": 82529
+  },
+  {
+    "year": 2015,
+    "super_bowl": 49,
+    "winner": "New England Patriots",
+    "loser": "Seattle Seahawks",
+    "result": "28–24",
+    "location": {
+      "stadium": "University of Phoenix Stadium",
+      "city": "Glendale",
+      "state": "Arizona"
+    },
+    "weather": "Clair, 19°C (toit fermé)",
+    "mvp": "Tom Brady",
+    "attendance": 70488
+  },
+  {
+    "year": 2016,
+    "super_bowl": 50,
+    "winner": "Denver Broncos",
+    "loser": "Carolina Panthers",
+    "result": "24–10",
+    "location": {
+      "stadium": "Levi's Stadium",
+      "city": "Santa Clara",
+      "state": "California"
+    },
+    "weather": "Soleil, 23°C",
+    "mvp": "Von Miller",
+    "attendance": 71788
+  },
+  {
+    "year": 2017,
+    "super_bowl": 51,
+    "winner": "New England Patriots",
+    "loser": "Atlanta Falcons",
+    "result": "34–28",
+    "location": {
+      "stadium": "NRG Stadium",
+      "city": "Houston",
+      "state": "Texas"
+    },
+    "weather": "Toit fermé, 21°C",
+    "mvp": "Tom Brady",
+    "attendance": 70607
+  },
+  {
+    "year": 2018,
+    "super_bowl": 52,
+    "winner": "Philadelphia Eagles",
+    "loser": "New England Patriots",
+    "result": "41–33",
+    "location": {
+      "stadium": "U.S. Bank Stadium",
+      "city": "Minneapolis",
+      "state": "Minnesota"
+    },
+    "weather": "Froid, toit fermé",
+    "mvp": "Nick Foles",
+    "attendance": 67312
+  },
+  {
+    "year": 2019,
+    "super_bowl": 53,
+    "winner": "New England Patriots",
+    "loser": "Los Angeles Rams",
+    "result": "13–3",
+    "location": {
+      "stadium": "Mercedes-Benz Stadium",
+      "city": "Atlanta",
+      "state": "Georgia"
+    },
+    "weather": "Indoor (dôme)",
+    "mvp": "Julian Edelman",
+    "attendance": 70181
+  },
+  {
+    "year": 2020,
+    "super_bowl": 54,
+    "winner": "Kansas City Chiefs",
+    "loser": "San Francisco 49ers",
+    "result": "31–20",
+    "location": {
+      "stadium": "Hard Rock Stadium",
+      "city": "Miami Gardens",
+      "state": "Florida"
+    },
+    "weather": "Clair, 22°C",
+    "mvp": "Patrick Mahomes",
+    "attendance": 62417
+  },
+  {
+    "year": 2021,
+    "super_bowl": 55,
+    "winner": "Tampa Bay Buccaneers",
+    "loser": "Kansas City Chiefs",
+    "result": "31–9",
+    "location": {
+      "stadium": "Raymond James Stadium",
+      "city": "Tampa",
+      "state": "Florida"
+    },
+    "weather": "Nuageux, 18°C",
+    "mvp": "Tom Brady",
+    "attendance": 24035
+  },
+  {
+    "year": 2022,
+    "super_bowl": 56,
+    "winner": "Los Angeles Rams",
+    "loser": "Cincinnati Bengals",
+    "result": "23–20",
+    "location": {
+      "stadium": "SoFi Stadium",
+      "city": "Inglewood",
+      "state": "California"
+    },
+    "weather": "Ensoleillé, 29°C",
+    "mvp": "Cooper Kupp",
+    "attendance": 70548
+  },
+  {
+    "year": 2023,
+    "super_bowl": 57,
+    "winner": "Kansas City Chiefs",
+    "loser": "Philadelphia Eagles",
+    "result": "38–35",
+    "location": {
+      "stadium": "State Farm Stadium",
+      "city": "Glendale",
+      "state": "Arizona"
+    },
+    "weather": "Clair, 20°C",
+    "mvp": "Patrick Mahomes",
+    "attendance": 67600
+  }
+]

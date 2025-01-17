@@ -1,0 +1,339 @@
+{% extends 'base.html' %}
+
+{% block title %}Chronologie admin{% endblock %}
+{% block content %}
+
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center align-items-center">
+            <h1 class="me-5" style="color: white;">Chronologie admin</h1>
+            <button class="btn btn-success ms-5" data-bs-toggle="modal" data-bs-target="#addMatchModal">Ajouter un Match</button>
+        </div>
+    </div>
+    
+  
+    <div style="max-width: 80%; max-height: 60vh; margin: 0 auto; overflow-x: auto;">
+        <table class="table table-striped table-dark w-100">
+            <thead>
+                <tr>
+                    <th>Année</th>
+                    <th>Super Bowl</th>
+                    <th>Vainqueur</th>
+                    <th>Perdant</th>
+                    <th>Résultat</th>
+                    <th>Lieu</th>
+                    <th>Météo</th>
+                    <th>MVP</th>
+                    <th>Assistance</th>
+                </tr>
+            </thead>
+            <tbody id="matchData">
+                {% for match in matchs %}
+                <tr data-id="{{ match['_id'] }}">
+                    <td class="year">{{ match['year'] }}</td>
+                    <td class="super_bowl">{{ match['super_bowl'] }}</td>
+                    <td class="winner">{{ match['winner'] }}</td>
+                    <td class="loser">{{ match['loser'] }}</td>
+                    <td class="result">{{ match['result'] }}</td>
+                    <td class="location">{{ match['location']['stadium'] }}, {{ match['location']['city'] }}, {{ match['location']['state'] }}</td>
+                    <td class="weather">{{ match['weather'] }}</td>
+                    <td class="mvp">{{ match['mvp'] }}</td>
+                    <td class="attendance">{{ match['attendance'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="actionModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Action sur le match</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <div class="form-group">
+                            <label>Année</label>
+                            <input type="text" class="form-control" id="editYear" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Super Bowl</label>
+                            <input type="text" class="form-control" id="editSuperBowl">
+                        </div>
+                        <div class="form-group">
+                            <label>Vainqueur</label>
+                            <input type="text" class="form-control" id="editWinner">
+                        </div>
+                        <div class="form-group">
+                            <label>Perdant</label>
+                            <input type="text" class="form-control" id="editLoser">
+                        </div>
+                        <div class="form-group">
+                            <label>Résultat</label>
+                            <input type="text" class="form-control" id="editResult">
+                        </div>
+                        <div class="form-group">
+                            <label>Stade</label>
+                            <input type="text" class="form-control" id="editStadium">
+                        </div>
+                        <div class="form-group">
+                            <label>Ville</label>
+                            <input type="text" class="form-control" id="editCity">
+                        </div>
+                        <div class="form-group">
+                            <label>État</label>
+                            <input type="text" class="form-control" id="editState">
+                        </div>
+                        <div class="form-group">
+                            <label>Météo</label>
+                            <input type="text" class="form-control" id="editMeteo">
+                        </div>
+                        <div class="form-group">
+                            <label>MVP</label>
+                            <input type="text" class="form-control" id="editMvp">
+                        </div>
+                        <div class="form-group">
+                            <label>Assistance</label>
+                            <input type="text" class="form-control" id="editAttendance">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="deleteRow">Supprimer</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" id="addMatchModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter un Match</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addMatchForm">
+                        <div class="form-group">
+                            <label>Année</label>
+                            <input type="text" class="form-control" id="addYear" maxlength="4" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Super Bowl</label>
+                            <input type="text" class="form-control" id="addSuperBowl" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Vainqueur</label>
+                            <input type="text" class="form-control" id="addWinner" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Perdant</label>
+                            <input type="text" class="form-control" id="addLoser" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Résultat</label>
+                            <input type="text" class="form-control" id="addResult" maxlength="20" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Stade</label>
+                            <input type="text" class="form-control" id="addStadium" maxlength="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ville</label>
+                            <input type="text" class="form-control" id="addCity" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>État</label>
+                            <input type="text" class="form-control" id="addState" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Météo</label>
+                            <input type="text" class="form-control" id="addMeteo" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>MVP</label>
+                            <input type="text" class="form-control" id="addMvp" maxlength="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Assistance</label>
+                            <input type="text" class="form-control" id="addAttendance" maxlength="10" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveMatch">Ajouter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  
+</body>
+
+<script>
+    let currentRow;
+
+    document.querySelectorAll('#matchData tr').forEach(row => {
+        row.addEventListener('click', function () {
+            currentRow = this;
+            const locationData = currentRow.querySelector('.location').innerText.split(', ');
+
+            document.getElementById('editYear').value = currentRow.querySelector('.year').innerText;
+            document.getElementById('editSuperBowl').value = currentRow.querySelector('.super_bowl').innerText;
+            document.getElementById('editWinner').value = currentRow.querySelector('.winner').innerText;
+            document.getElementById('editLoser').value = currentRow.querySelector('.loser').innerText;
+            document.getElementById('editResult').value = currentRow.querySelector('.result').innerText;
+            document.getElementById('editStadium').value = locationData[0];
+            document.getElementById('editCity').value = locationData[1];
+            document.getElementById('editState').value = locationData[2];
+            document.getElementById('editMeteo').value = currentRow.querySelector('.weather').innerText;
+            document.getElementById('editMvp').value = currentRow.querySelector('.mvp').innerText;
+            document.getElementById('editAttendance').value = currentRow.querySelector('.attendance').innerText;
+
+            $('#actionModal').modal('show');
+        });
+    });
+
+    document.getElementById('saveChanges').addEventListener('click', function () {
+        const matchId = currentRow.getAttribute('data-id');
+        const updates = {
+            super_bowl: document.getElementById('editSuperBowl').value,
+            winner: document.getElementById('editWinner').value,
+            loser: document.getElementById('editLoser').value,
+            result: document.getElementById('editResult').value,
+            location: {
+                stadium: document.getElementById('editStadium').value,
+                city: document.getElementById('editCity').value,
+                state: document.getElementById('editState').value,
+            },
+            weather: document.getElementById('editMeteo').value,
+            mvp: document.getElementById('editMvp').value,
+            attendance: document.getElementById('editAttendance').value,
+        };
+
+        fetch('/admin/update_match', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                _id: matchId,
+                updates: updates,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    currentRow.querySelector('.super_bowl').innerText = updates.super_bowl;
+                    currentRow.querySelector('.winner').innerText = updates.winner;
+                    currentRow.querySelector('.loser').innerText = updates.loser;
+                    currentRow.querySelector('.result').innerText = updates.result;
+                    currentRow.querySelector('.location').innerText = `${updates.location.stadium}, ${updates.location.city}, ${updates.location.state}`;
+                    currentRow.querySelector('.weather').innerText = updates.weather;
+                    currentRow.querySelector('.mvp').innerText = updates.mvp;
+                    currentRow.querySelector('.attendance').innerText = updates.attendance;
+                    $('#actionModal').modal('hide');  
+                } else {
+                    alert('Erreur.');
+                }
+            });
+    });
+
+    document.getElementById('deleteRow').addEventListener('click', function () {
+        const matchId = currentRow.getAttribute('data-id');
+
+        const confirmation = confirm("Êtes-vous sûr ?");
+        if (confirmation) {
+            fetch('/admin/delete_match', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ _id: matchId }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        currentRow.remove();
+                        $('#actionModal').modal('hide');
+                    } else {
+                        alert('Erreur.');
+                    }
+                });
+        }
+    });
+
+    document.getElementById('saveMatch').addEventListener('click', function () {
+
+        const newMatch = {
+            year: document.getElementById('addYear').value,
+            super_bowl: document.getElementById('addSuperBowl').value,
+            winner: document.getElementById('addWinner').value,
+            loser: document.getElementById('addLoser').value,
+            result: document.getElementById('addResult').value,
+            location: {
+                stadium: document.getElementById('addStadium').value,
+                city: document.getElementById('addCity').value,
+                state: document.getElementById('addState').value,
+            },
+            weather: document.getElementById('addMeteo').value,
+            mvp: document.getElementById('addMvp').value,
+            attendance: document.getElementById('addAttendance').value,
+        };
+    
+        fetch('/admin/add_match', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newMatch),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Match ajouté avec succès !');
+                    const tbody = document.getElementById('matchData');
+                    const newRow = document.createElement('tr');
+                    newRow.setAttribute('data-id', data.match_id);
+                    newRow.innerHTML = `
+                        <td class="year">${newMatch.year}</td>
+                        <td class="super_bowl">${newMatch.super_bowl}</td>
+                        <td class="winner">${newMatch.winner}</td>
+                        <td class="loser">${newMatch.loser}</td>
+                        <td class="result">${newMatch.result}</td>
+                        <td class="location">${newMatch.location.stadium}, ${newMatch.location.city}, ${newMatch.location.state}</td>
+                        <td class="weather">${newMatch.weather}</td>
+                        <td class="mvp">${newMatch.mvp}</td>
+                        <td class="attendance">${newMatch.attendance}</td>
+                    `;
+                    tbody.appendChild(newRow);
+                    $('#addMatchModal').modal('hide');
+                } else {
+                    alert(`Erreur : ${data.error}`);
+                }
+            });
+    });
+    
+    document.querySelectorAll('[data-dismiss="modal"]').forEach(button => {
+        button.addEventListener('click', function () {
+            const modal = button.closest('.modal');
+            if (modal) {
+                $(modal).modal('hide'); 
+            }
+        });
+    });
+    
+
+
+</script>
+
+{% endblock %}
