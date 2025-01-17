@@ -21,6 +21,9 @@ import string
 
 from flaskext.mysql import MySQL
 
+
+
+
 from dotenv import load_dotenv
 import os
 from faker import Faker 

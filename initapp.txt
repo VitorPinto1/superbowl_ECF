@@ -2,7 +2,9 @@ export FLASK_APP=api.app
 export FLASK_ENV=development
 flask run
 
-
+export FLASK_APP=api.app
+export FLASK_ENV=test
+flask run
 
 python -m records.insert_data
 
