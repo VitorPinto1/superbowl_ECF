@@ -1,10 +1,14 @@
 .env.development
 .env.test
 <<<<<<< HEAD
+<<<<<<< HEAD
 .DS_Store
 __pycache__/
 env/
 *.pyc
+=======
+test/
+>>>>>>> main
 =======
 test/
 >>>>>>> main
