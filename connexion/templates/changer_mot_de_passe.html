@@ -3,12 +3,34 @@
 {% block title %}Mot de passe oublié{% endblock %}
 {% block content %}
 
+<div class="container mt-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% set last_message = messages | last %}
+      <div class="alert alert-{{ last_message[0] }} alert-dismissible fade show" role="alert">
+        {{ last_message[1] }}
+      </div>
+    {% endif %}
+  {% endwith %}
+</div>
+
+
 <div class="container d-flex align-items-center justify-content-center" style="margin-top: 50px;">
   <div class="col-md-4">
     <h1 class="text-center" style="color: white">Changement mot de passe</h1>
     <form id="changer_mot_de_passe" method="POST" style="margin-top: 25px;">
       <div class="mb-3">
         <div class="d-grid">
+          <label for="inputMdp" style="color: white;">Veuillez saisir votre mot de passe actuel</label>
+          <input id="inputMdp" aria-label="Veuillez saisir votre mot de passe actuel" name="inputMdp"  minlength="8" maxlength="64" type="password" 
+          tabindex="0" class="input-block " placeholder="Mot de passe actuel" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+          title="Le mot de passe doit contenir au moins 8 caractères, dont au moins une majuscule, une minuscule et un chiffre."
+          autocorrect="off" spellcheck="false" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-grid">
+          <label for="inputModificationMdp" style="color: white;">Saisir un mot de passe</label>
           <input id="inputModificationMdp" aria-label="Saisir un mot de passe" name="inputModificationMdp"  minlength="8" maxlength="64" type="password" 
           tabindex="0" class="input-block " placeholder="Mot de passe" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
           title="Le mot de passe doit contenir au moins 8 caractères, dont au moins une majuscule, une minuscule et un chiffre."
@@ -31,25 +53,25 @@
 
 <script>
   document.getElementById('changer_mot_de_passe').addEventListener('submit', function(event) {
-    const password = document.getElementById('inputModificationMdp').value;
+    const currentPassword = document.getElementById('inputMdp').value;
+    const newPassword = document.getElementById('inputModificationMdp').value;
     let errorMessage = '';
   
-   
+    if (!currentPassword.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/)) {
+      errorMessage += 'Le mot de passe actuel doit contenir au moins 8 caractères, dont au moins une majuscule, une minuscule et un chiffre.\n';
+    }
     
-    if (!password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/)) {
-      errorMessage += 'Le mot de passe doit contenir au moins 8 caractères, dont au moins une majuscule, une minuscule et un chiffre.\n';
+    if (!newPassword.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/)) {
+      errorMessage += 'Le nouveau mot de passe doit contenir au moins 8 caractères, dont au moins une majuscule, une minuscule et un chiffre.\n';
     }
   
-    
-  
-   
     if (errorMessage) {
-      event.preventDefault();
-      alert(errorMessage);
+      event.preventDefault(); 
+      alert(errorMessage);    
     }
   });
- 
 </script>
+
 
 
 {% endblock %}

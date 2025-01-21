@@ -141,23 +141,40 @@ def mot_de_passe_oublie_form():
         )
         msg.body = f"Bonjour {nom},\n\nVotre nouveau mot de passe est : {nouveau_mot_de_passe}\n\nMerci."
         mail.send(msg)
-        return "L'email a été envoyé avec succès."
+        return render_template('mot_de_passe_confirmation.html', message_mot="L'email a été envoyé avec succès.")
+
     return render_template('mot_de_passe_oublie.html')
 
 @connexion_bp.route('/mot_de_passe_oublie', methods=['GET'])
 def mot_de_passe_oublie():
     return render_template("mot_de_passe_oublie.html")
 
+
 @connexion_bp.route('/changer_mot_de_passe', methods=['GET', 'POST'])
 def changer_mot_de_passe():
-    mysql = current_app.extensions['mysql']
+    mysql = current_app.extensions['mysql']    
     if 'id_utilisateur' not in session:
         return redirect(url_for('connexion.se_connecter'))
     if request.method == 'POST':
+        mot_de_passe_actuel = request.form.get('inputMdp')
         nouveau_mot_de_passe = request.form.get('inputModificationMdp')
         id_utilisateur = session['id_utilisateur']
         conn = mysql.connect()
         cursor = conn.cursor()
+        query = "SELECT mot_de_passe FROM users WHERE id = %s"
+        cursor.execute(query, (id_utilisateur,))
+        result = cursor.fetchone()
+        if result is None:
+            cursor.close()
+            conn.close()
+            flash("Utilisateur introuvable.", "danger")
+            return redirect(url_for('connexion.se_connecter'))
+        mot_de_passe_hash = result[0]
+        if not check_password_hash(mot_de_passe_hash, mot_de_passe_actuel):
+            cursor.close()
+            conn.close()
+            flash("Le mot de passe actuel est incorrect.", "danger")
+            return redirect(url_for('connexion.changer_mot_de_passe'))
         hashed_password = generate_password_hash(nouveau_mot_de_passe)
         update_query = "UPDATE users SET mot_de_passe = %s WHERE id = %s"
         cursor.execute(update_query, (hashed_password, id_utilisateur))
@@ -166,7 +183,9 @@ def changer_mot_de_passe():
         conn.close()
         flash('Votre mot de passe a été changé avec succès.', 'success')
         return redirect(url_for('user.espace_utilisateur'))
+    
     return render_template('changer_mot_de_passe.html')
+
 
 def admin_required(func):
     @wraps(func)

@@ -328,3 +328,26 @@ button:focus {
   max-height: 120px; 
   overflow-y: scroll; 
 }
+
+
+
+
+
+#confirmation-mot-message {
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#confirmation-mot-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+#redirect-mot-text {
+  font-size: 14px;
+  color: white;
+}
