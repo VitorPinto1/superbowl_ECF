@@ -30,6 +30,8 @@ def create_app():
     mail = Mail(app)
     app.extensions['mail'] = mail
     
+
+
    
     
     app.config['MYSQL_DATABASE_HOST'] = 'mysql-1afb9ef7-staniaprojets-ffa9.j.aivencloud.com'
@@ -86,7 +88,7 @@ def create_app():
         cursor.close()
         conn.close()
         return render_template('index.html', current_date=formatted_date, matches=matches)
-    taches()
+    taches(app)
     scheduler.start()
     return app
 

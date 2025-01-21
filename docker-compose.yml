@@ -1,44 +1,45 @@
+version: "3.9"
 
 services:
   web:
     build: .
     command: >
-      sh -c "dockerize -wait tcp://mysql-1afb9ef7-staniaprojets-ffa9.j.aivencloud.com:24978 -timeout 60s &&
-        flask run --host=0.0.0.0"
+      sh -c "dockerize -wait tcp://${MYSQL_DATABASE_HOST}:${MYSQL_DATABASE_PORT} -timeout 60s &&
+      flask run --host=0.0.0.0"
     volumes:
       - .:/code
     ports:
-      - "8080:5000"
-    environment:
-      - FLASK_APP=${FLASK_APP}
-      - FLASK_ENV=${FLASK_ENV}
-      - FLASK_DEBUG=${FLASK_DEBUG}
-      - DB_SECRETKEY=${DB_SECRETKEY}
-      - DB_PASSWORDEMAIL=${DB_PASSWORDEMAIL}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - MAIL_USERNAME=${MAIL_USERNAME}
-      - MAIL_PASSWORD=${MAIL_PASSWORD}
-      - MAIL_DEFAULT_SENDER=mailtrap@demomailtrap.com
-      
+      - "8080:5001"
+    env_file:
+      - .env.development
+ 
     networks:
       - backend
 
   mail:
     build: .
-    platform: linux/amd64 
-    environment:
-      - MAIL_SERVER=live.smtp.mailtrap.io
-      - MAIL_PORT=587
-      - MAIL_USERNAME=api
-      - MAIL_PASSWORD=${MAIL_PASSWORD}
-  
+    platform: linux/amd64
+    env_file:
+      - .env.development
     ports:
       - "2525:587"
+    networks:
+      - backend
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: always
+    ports:
+      - "28000:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
     networks:
       - backend
 
 networks:
   backend:
     driver: bridge
-

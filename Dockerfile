@@ -16,22 +16,13 @@ RUN apt-get update && apt-get install -y \
 
 COPY . .
 
-RUN pip install --no-cache-dir -r requirements.txt 
+RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5001
 
-ENV NAME World
-ENV FLASK_APP ${FLASK_APP}
-ENV FLASK_ENV ${FLASK_ENV}
-ENV FLASK_DEBUG ${FLASK_DEBUG}
-ENV DB_SECRETKEY ${DB_SECRETKEY}
-ENV DB_PASSWORDEMAIL ${DB_PASSWORDEMAIL}
-ENV DB_USER ${DB_USER}
-ENV DB_PASSWORD ${DB_PASSWORD}
-ENV MAIL_PASSWORD ${MAIL_PASSWORD}
-ENV MYSQL_ROOT_PASSWORD ${MYSQL_ROOT_PASSWORD}
-ENV MYSQL_DATABASE_HOST ${MYSQL_DATABASE_HOST}
 
-ENTRYPOINT ["dockerize", "-wait", "tcp://mysql-1afb9ef7-staniaprojets-ffa9.j.aivencloud.com:24978", "-timeout", "60s"]
-CMD ["python", "/app/app.py"]
+
+ENTRYPOINT ["sh", "-c", "dockerize -wait tcp://$MYSQL_DATABASE_HOST:$MYSQL_DATABASE_PORT -timeout 60s && python app.py"]
+
+CMD ["python", "app.py"]
 

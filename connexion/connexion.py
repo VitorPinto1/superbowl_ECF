@@ -37,12 +37,15 @@ def creation_compte_form():
         conn.commit()
         cursor.close()
         conn.close()
-        msg = current_app.extensions['mail'].Message(
+        confirmation_url = url_for('connexion.confirmer_compte', token=token, _external=True)
+
+        msg = Message(
             'Confirmez votre compte', 
             sender='mailtrap@superbowlstania.com', 
             recipients=[email]
         )
-        msg.body = f'Bonjour {prenom}, cliquez sur le lien pour valider votre compte: {request.url_root}confirmer/{token}'
+        msg.body = f'Bonjour {prenom}, cliquez sur le lien pour valider votre compte: {confirmation_url}'
+
         mail.send(msg)
     return redirect(url_for('connexion.reussite_creation_compte'))
 
@@ -131,7 +134,7 @@ def mot_de_passe_oublie_form():
         conn.commit()
         cursor.close()
         conn.close()
-        msg = mail.Message(
+        msg = Message(
             "Récupération de mot de passe",
             sender='mailtrap@superbowlstania.com',
             recipients=[email]
