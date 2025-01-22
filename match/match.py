@@ -24,8 +24,9 @@ class Matchs:
         self.commentaires = commentaires if commentaires is not None else ' - '
         self.joueurs_equipe1 = joueurs_equipe1
         self.joueurs_equipe2 = joueurs_equipe2
-        self.logo_equipe1 = logo_equipe1
-        self.logo_equipe2 = logo_equipe2
+        self.logo_equipe1 = logo_equipe1 if logo_equipe1 is not None else 'sources/default_logo.png'
+        self.logo_equipe2 = logo_equipe2 if logo_equipe2 is not None else 'sources/default_logo.png'
+
         self.vainqueur = vainqueur if vainqueur is not None else ' - '
 
 def obtenir_matchs_from_database():

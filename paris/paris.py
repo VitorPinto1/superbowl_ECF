@@ -297,19 +297,19 @@ def form_miser_selection():
     cursor = conn.cursor()
 
     for index, match_info in enumerate(matchs_selectionnes):
-        mise1 = request.form.get(f'mise_equipe1_{index + 1}')
-        mise2 = request.form.get(f'mise_equipe2_{index + 1}')
-        if mise1 is None:
-            mise1 = '0'
-        if mise2 is None:
-            mise2 = '0'
-        mise1_decimal = Decimal(mise1)
-        mise2_decimal = Decimal(mise2)
+        mise1 = request.form.get(f'mise_equipe1_{index + 1}', '0')
+        mise2 = request.form.get(f'mise_equipe2_{index + 1}', '0')
+
+        mise1_decimal = Decimal(mise1) if mise1.isdigit() else Decimal('0')
+        mise2_decimal = Decimal(mise2) if mise2.isdigit() else Decimal('0')
+
+        if mise1_decimal == Decimal('0') and mise2_decimal == Decimal('0'):
+            continue
 
         equipe1 = match_info['equipe1']
         equipe2 = match_info['equipe2']
-        cote1 = match_info['cote1']
-        cote2 = match_info['cote2']
+        cote1 = Decimal(match_info['cote1'])
+        cote2 = Decimal(match_info['cote2'])
         jour = match_info['jour']
         utilisateur = session['id_utilisateur']
         datemise = datetime.now()
@@ -320,53 +320,54 @@ def form_miser_selection():
         """
         cursor.execute(select_match_query, (equipe1, equipe2, jour))
         match_row = cursor.fetchone()
+
         if match_row:
             id_match = match_row[0]
-            # Equipe1
-            select_existing_bet_query = """
-                SELECT id FROM mises
-                WHERE id_utilisateur = %s AND id_match = %s AND equipe1 = %s
-            """
-            cursor.execute(select_existing_bet_query, (utilisateur, id_match, equipe1))
-            existing_bet = cursor.fetchone()
-            if existing_bet:
-                update_query = "UPDATE mises SET mise1 = %s, resultat1 = %s WHERE id = %s"
-                resultat1 = Decimal(mise1) * Decimal(cote1)
-                cursor.execute(update_query, (Decimal(mise1), resultat1, existing_bet[0]))
-            else:
-                insert_query = """
-                    INSERT INTO mises 
-                    (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match, datemise)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)
-                """
-                resultat1 = Decimal(mise1) * Decimal(cote1)
-                cursor.execute(insert_query, (
-                    Decimal(mise1), resultat1, equipe1, cote1,
-                    utilisateur, id_match, datemise
-                ))
 
-            # Equipe2
-            select_existing_bet_query = """
-                SELECT id FROM mises
-                WHERE id_utilisateur = %s AND id_match = %s AND equipe2 = %s
-            """
-            cursor.execute(select_existing_bet_query, (utilisateur, id_match, equipe2))
-            existing_bet = cursor.fetchone()
-            if existing_bet:
-                update_query = "UPDATE mises SET mise2 = %s, resultat2 = %s WHERE id = %s"
-                resultat2 = Decimal(mise2) * Decimal(cote2)
-                cursor.execute(update_query, (Decimal(mise2), resultat2, existing_bet[0]))
-            else:
-                insert_query = """
-                    INSERT INTO mises 
-                    (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match, datemise)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+            if mise1_decimal > Decimal('0'):
+                select_existing_bet_query = """
+                    SELECT id FROM mises
+                    WHERE id_utilisateur = %s AND id_match = %s AND equipe1 = %s
                 """
-                resultat2 = Decimal(mise2) * Decimal(cote2)
-                cursor.execute(insert_query, (
-                    Decimal(mise2), resultat2, equipe2, cote2,
-                    utilisateur, id_match, datemise
-                ))
+                cursor.execute(select_existing_bet_query, (utilisateur, id_match, equipe1))
+                existing_bet = cursor.fetchone()
+                resultat1 = mise1_decimal * cote1
+
+                if existing_bet:
+                    update_query = "UPDATE mises SET mise1 = %s, resultat1 = %s WHERE id = %s"
+                    cursor.execute(update_query, (mise1_decimal, resultat1, existing_bet[0]))
+                else:
+                    insert_query = """
+                        INSERT INTO mises 
+                        (mise1, resultat1, equipe1, cote1, id_utilisateur, id_match, datemise)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    """
+                    cursor.execute(insert_query, (
+                        mise1_decimal, resultat1, equipe1, cote1, utilisateur, id_match, datemise
+                    ))
+
+            if mise2_decimal > Decimal('0'):
+                select_existing_bet_query = """
+                    SELECT id FROM mises
+                    WHERE id_utilisateur = %s AND id_match = %s AND equipe2 = %s
+                """
+                cursor.execute(select_existing_bet_query, (utilisateur, id_match, equipe2))
+                existing_bet = cursor.fetchone()
+                resultat2 = mise2_decimal * cote2
+
+                if existing_bet:
+                    update_query = "UPDATE mises SET mise2 = %s, resultat2 = %s WHERE id = %s"
+                    cursor.execute(update_query, (mise2_decimal, resultat2, existing_bet[0]))
+                else:
+                    insert_query = """
+                        INSERT INTO mises 
+                        (mise2, resultat2, equipe2, cote2, id_utilisateur, id_match, datemise)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    """
+                    cursor.execute(insert_query, (
+                        mise2_decimal, resultat2, equipe2, cote2, utilisateur, id_match, datemise
+                    ))
+
 
     conn.commit()
     cursor.close()

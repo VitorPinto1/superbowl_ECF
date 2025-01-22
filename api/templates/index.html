@@ -17,16 +17,21 @@
             {% for match in matches %}
             <tr>
               <td style="text-align: left;">
-                {% if match[15] %}  {# verification logo local #}
+                {% if match[15] %}  
                   <img src="{{ url_for('static', filename=match[15]) }}" alt="Logo de {{ match.equipe1 }}" style="width: 50px; height: 50px; margin-right: 10px;">
+                {% else %}
+                  <img src="{{ url_for('static', filename='sources/default_logo.png') }}" alt="Logo par défaut" style="width: 50px; height: 50px; margin-right: 10px;">
                 {% endif %}
+                
                 {{ match[1] }}
               </td>
               <td style="text-align: right; vertical-align: middle; padding-right: 0px;">-</td>
               <td style="text-align: right; padding: 0px;">
                 {{ match[2] }}
-                {% if match[16] %} {# verification logo visiteur #}
+                {% if match[16] %} 
                   <img src="{{ url_for('static', filename=match[16]) }}" alt="Logo de {{ match.equipe2 }}" style="width: 50px; height: 50px; margin-left: 10px;">
+                 {% else %}
+                  <img src="{{ url_for('static', filename='sources/default_logo.png') }}" alt="Logo par défaut" style="width: 50px; height: 50px; margin-left: 10px;">
                 {% endif %}
               </td>
             </tr>

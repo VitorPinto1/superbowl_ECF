@@ -16,7 +16,7 @@
           <span class="cote-label col-sm-4 control-label" style="color: white" >Cote : {{ match.cote1 }}</span>
           <div class="col-sm-4">
             <input type="text" class="form-control" id="mise_equipe1_{{ loop.index }}" name="mise_equipe1_{{ loop.index }}"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication(this.value, '{{ match.cote1 }}', 'resultat1_{{ loop.index }}','resultat1_input_{{ loop.index }}')"
-             maxlength="5" required placeholder="Montant en €">
+             maxlength="5" placeholder="Montant en €">
             <span id="resultat1_{{ loop.index }}" style="color: white" ></span>
             <input type="hidden" id="resultat1_input_{{ loop.index }}" name="resultat1_{{ loop.index }}"  value="" style="color: white" >
           </div>
@@ -28,7 +28,7 @@
           <span class="cote-label col-sm-4 control-label" style="color: white" >Cote : {{ match.cote2 }}</span>
           <div class="col-sm-4">
             <input type="text" class="form-control" id="mise_equipe2_{{ loop.index }}" name="mise_equipe2_{{ loop.index }}"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculerMultiplication(this.value, '{{ match.cote2 }}', 'resultat2_{{ loop.index }}', 'resultat2_input_{{ loop.index }}')" 
-            maxlength="5" required placeholder="Montant en €">
+            maxlength="5" placeholder="Montant en €">
             <span id="resultat2_{{ loop.index }}" style="color: white" ></span>
             <input type="hidden" id="resultat2_input_{{ loop.index }}" name="resultat2_{{ loop.index }}" value="" style="color: white">
           </div>

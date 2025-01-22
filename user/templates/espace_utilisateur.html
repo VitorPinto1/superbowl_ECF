@@ -63,9 +63,9 @@
                 {% for mise in mises %}
                 <tr>
                   <td>
-                    <img src="{{ url_for('static', filename= mise[15])}}" alt="{{ mise[1] }} Logo" width="20" height="20">
+                    <img src="{{ url_for('static', filename=mise[15]) if mise[15] else url_for('static', filename='sources/default_logo.png') }}" alt="{{ mise[1] }} Logo" width="20" height="20">
                     {{ mise[1] }} VS {{ mise[2] }}
-                    <img src="{{ url_for('static', filename= mise[16])}}" alt="{{ mise[2] }} Logo" width="20" height="20">
+                    <img src="{{ url_for('static', filename=mise[16]) if mise[16] else url_for('static', filename='sources/default_logo.png') }}" alt="{{ mise[2] }} Logo" width="20" height="20">
                   </td>
                   <td>{{ mise[3] }}</td>
                   <td>{{ mise[4] }}</td>
