@@ -8,3 +8,8 @@ def records():
     mongo = current_app.extensions['mongo']
     matchs = list(mongo.db.matchs_year.find().sort("year", 1))
     return render_template('records.html', matchs=matchs)
+
+
+
+
+

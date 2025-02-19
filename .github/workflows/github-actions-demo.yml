@@ -38,12 +38,17 @@ jobs:
       - name: Stop container
         run: docker stop superbowl-container
 
+      # Installation de flyctl pour le déploiement sur Fly.io
+      - name: Install Flyctl
+        if: github.ref == 'refs/heads/main'
+        run: |
+          curl -L https://fly.io/install.sh | sh
+          echo "$HOME/.fly/bin" >> $GITHUB_PATH
+
       
-      # Déploiement vers Fly.io uniquement sur la branche main
+       # Déploiement sur Fly.io
       - name: Deploy to Fly.io
         if: github.ref == 'refs/heads/main'
-        uses: superfly/flyctl-action@v1
-        with:
-          args: deploy --remote-only
+        run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

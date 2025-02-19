@@ -15,7 +15,7 @@ def create_app():
     template_folder='api/templates',
     static_folder='static',
     static_url_path='/static'
-)
+    )
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
     app.config['MAIL_SERVER'] = 'live.smtp.mailtrap.io'
     app.config['MAIL_PORT'] = 587

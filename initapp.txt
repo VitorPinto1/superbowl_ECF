@@ -1,8 +1,8 @@
-export FLASK_APP=api.app
+export FLASK_APP=app
 export FLASK_ENV=development
 flask run
 
-export FLASK_APP=api.app
+export FLASK_APP=app
 export FLASK_ENV=test
 flask run
 
@@ -12,3 +12,7 @@ http://0.0.0.0:8080/  docker
 
 
 docker run --rm -p 8080:5001 --env-file .env.development --name superbowl-container superbowl
+
+
+
+pytest -v --disable-warnings -s
