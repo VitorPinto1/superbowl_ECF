@@ -24,12 +24,11 @@ jobs:
     #  - name: Run tests inside container
      #   run: docker run --rm -d -p 8080:5001 --env-file .env.test --name superbowl-container superbowl pytest
 
-      # Ensuite, pour les tests d'intégration : démarrer l'application et vérifier qu'elle répond
-     # - name: Run container for integration test
-      #  run: |
-       #   docker run --rm -d -p 8080:5001 --env-file .env.development --name superbowl-container superbowl
-          # Attendre quelques secondes pour que l'application démarre
-        #  sleep 10
+      #Ensuite, pour les tests d'intégration : démarrer l'application et vérifier qu'elle répond
+      - name: Run container for integration test
+        run: |
+          docker run --rm -d -p 8080:5001 --env-file .env.development --name superbowl-container superbowl
+          sleep 10
 
       - name: Vérifier que l'application répond
         run: |
