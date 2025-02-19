@@ -37,3 +37,13 @@ jobs:
 
       - name: Stop container
         run: docker stop superbowl-container
+
+      
+      # Déploiement vers Fly.io uniquement sur la branche main
+      - name: Deploy to Fly.io
+        if: github.ref == 'refs/heads/main'
+        uses: superfly/flyctl-action@v1
+        with:
+          args: deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
