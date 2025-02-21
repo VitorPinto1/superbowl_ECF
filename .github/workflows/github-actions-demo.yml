@@ -18,16 +18,16 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build Docker image
-        run: docker build -t superbowl .
+        run: docker build -t vitorpinto500/superbowl:latest .
 
       # Étape pour lancer les tests dans une instance éphémère du container
       - name: Run tests inside container
-        run: docker run --rm -d -p 8080:5001 --name website-web vitorpinto500/superbowl:latest pytest
+        run: docker run --rm -d -p 8080:5001 --name superbowl-test vitorpinto500/superbowl:latest pytest
 
       #Ensuite, pour les tests d'intégration : démarrer l'application et vérifier qu'elle répond
       - name: Run container for integration test
         run: |
-          docker run --rm -d -p 8080:5001 --name website-web vitorpinto500/superbowl:latest
+          docker run --rm -d -p 8080:5001 --name superbowl-int vitorpinto500/superbowl:latest
 
           sleep 10
 
@@ -36,7 +36,7 @@ jobs:
           curl --fail http://localhost:8080 || (echo "L'application ne répond pas" && exit 1)
 
       - name: Stop container
-        run: docker stop superbowl-container
+        run: docker stop superbowl-int
 
       # Installation de flyctl pour le déploiement sur Fly.io
       - name: Install Flyctl
