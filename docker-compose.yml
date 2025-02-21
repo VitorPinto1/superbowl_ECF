@@ -2,6 +2,8 @@
 
 services:
   web:
+    image: vitorpinto500/superbowl:latest
+    platform: linux/amd64
     build: .
     command: >
       sh -c "dockerize -wait tcp://${MYSQL_DATABASE_HOST}:${MYSQL_DATABASE_PORT} -timeout 60s &&
@@ -17,8 +19,8 @@ services:
       - backend
 
   mail:
-    build: .
-    platform: linux/amd64
+    image: vitorpinto500/superbowl:latest
+    command: ["python", "mail_service.py"]
     env_file:
       - .env.development
     ports:

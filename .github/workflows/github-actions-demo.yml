@@ -22,12 +22,13 @@ jobs:
 
       # Étape pour lancer les tests dans une instance éphémère du container
       - name: Run tests inside container
-        run: docker run --rm -d -p 8080:5001 --env-file .env.test --name superbowl-container superbowl pytest
+        run: docker run --rm -d -p 8080:5001 --name website-web vitorpinto500/superbowl:latest pytest
 
       #Ensuite, pour les tests d'intégration : démarrer l'application et vérifier qu'elle répond
       - name: Run container for integration test
         run: |
-          docker run --rm -d -p 8080:5001 --env-file .env.development --name superbowl-container superbowl
+          docker run --rm -d -p 8080:5001 --name website-web vitorpinto500/superbowl:latest
+
           sleep 10
 
       - name: Vérifier que l'application répond
