@@ -34,8 +34,16 @@ jobs:
       - name: Run container for integration test
         run: |
           docker run --rm -d -p 8080:5001 --name superbowl-int vitorpinto500/superbowl:latest
-
-          sleep 30
+          timeout=30
+          until curl --fail http://localhost:8080; do
+            echo "Esperando a que la aplicación esté disponible..."
+            sleep 1
+            timeout=$((timeout - 1))
+            if [ $timeout -le 0 ]; then
+              echo "Timeout: La aplicación no respondió a tiempo"
+              exit 1
+            fi
+          done
 
       - name: Vérifier que l'application répond
         run: |
