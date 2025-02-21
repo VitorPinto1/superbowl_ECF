@@ -23,6 +23,12 @@ jobs:
       # Étape pour lancer les tests dans une instance éphémère du container
       - name: Run tests inside container
         run: docker run --rm -d -p 8080:5001 --name superbowl-test vitorpinto500/superbowl:latest pytest
+      
+      - name: Wait for tests to finish
+        run: sleep 10
+
+      - name: Stop test container
+        run: docker stop superbowl-test || true
 
       #Ensuite, pour les tests d'intégration : démarrer l'application et vérifier qu'elle répond
       - name: Run container for integration test
