@@ -40,7 +40,7 @@ jobs:
 
       # Installation de flyctl pour le déploiement sur Fly.io
       - name: Install Flyctl
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' 
         run: |
           curl -L https://fly.io/install.sh | sh
           echo "$HOME/.fly/bin" >> $GITHUB_PATH
