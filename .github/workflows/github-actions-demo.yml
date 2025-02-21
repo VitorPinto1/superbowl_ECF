@@ -35,7 +35,7 @@ jobs:
         run: |
           docker run --rm -d -p 8080:5001 --name superbowl-int vitorpinto500/superbowl:latest
 
-          sleep 10
+          sleep 30
 
       - name: Vérifier que l'application répond
         run: |
