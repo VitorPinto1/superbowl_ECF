@@ -1,4 +1,4 @@
-version: "3.9"
+
 
 services:
   web:
@@ -43,3 +43,7 @@ services:
 networks:
   backend:
     driver: bridge
+
+
+volumes:
+  mongo_data:

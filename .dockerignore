@@ -3,4 +3,5 @@ test/
 
 .env.development
 .env.test
+.env
 
