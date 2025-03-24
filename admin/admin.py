@@ -3,6 +3,7 @@ from connexion.connexion import admin_required
 from match.match import generer_meteo_aleatoire
 
 from api.config import *
+from utils.statistiques_mongo import sync_mises_to_mongo
 
 admin_bp = Blueprint('admin', __name__, template_folder='templates')
 
@@ -231,3 +232,52 @@ def delete_match():
         return jsonify({'success': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@admin_bp.route("/statistiques")
+@admin_required
+def statistiques():
+    # Synchronise les mises de MySQL vers Mongo
+    sync_mises_to_mongo()
+
+    mongo = current_app.extensions['mongo']
+
+    pipeline = [
+        { "$unwind": "$bets" },
+        { "$group": {
+            "_id": "$match.id",
+            "match_equipe1": { "$first": "$match.equipe1" },
+            "match_equipe2": { "$first": "$match.equipe2" },
+            "paris_equipe1": {
+                "$sum": {
+                    "$cond": [
+                        { "$and": [
+                            { "$eq": [ "$bets.team", "$match.equipe1" ] },
+                            { "$gt": [ "$bets.mise", 0 ] }
+                        ] },
+                        1,
+                        0
+                    ]
+                }
+            },
+            "paris_equipe2": {
+                "$sum": {
+                    "$cond": [
+                        { "$and": [
+                            { "$eq": [ "$bets.team", "$match.equipe2" ] },
+                            { "$gt": [ "$bets.mise", 0 ] }
+                        ] },
+                        1,
+                        0
+                    ]
+                }
+            }
+        }},
+        { "$sort": { "_id": 1 } }
+    ]
+
+
+    
+    stats_equipe = list(mongo.db.mises.aggregate(pipeline))
+    
+    return render_template("statistiques.html", stats_equipe=stats_equipe)

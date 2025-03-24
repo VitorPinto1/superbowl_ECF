@@ -13,6 +13,6 @@ http://0.0.0.0:8080/  docker
 
 docker run --rm -p 8080:5001 --env-file .env.development --name superbowl-container superbowl
 
-
+docker-compose up --build -d
 
 pytest -v --disable-warnings -s

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Statistiques des Paris{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: 50px;">
+  <h1 class="text-center text-white mb-4">📊 Statistiques des Paris</h1>
+  
+  <h2 class="text-white">Nombre total de paris par match</h2>
+  <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+    <table class="table table-bordered table-striped table-hover table-dark">
+      <thead class="thead-light">
+        <tr>
+          <th>ID du Match</th>
+          <th>Équipe 1</th>
+          <th>Équipe 2</th>
+          <th>Paris Équipe 1</th>
+          <th>Paris Équipe 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stat in stats_equipe %}
+        <tr>
+          <td>{{ stat._id }}</td>
+          <td>{{ stat.match_equipe1 }}</td>
+          <td>{{ stat.match_equipe2 }}</td>
+          <td>{{ stat.paris_equipe1 }}</td>
+          <td>{{ stat.paris_equipe2 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

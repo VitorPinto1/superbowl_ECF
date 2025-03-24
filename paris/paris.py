@@ -4,6 +4,7 @@ from flask import current_app
 from api.config import *
 from match.match import obtenir_matchs_from_database
 
+
 paris_bp = Blueprint('paris', __name__, template_folder='templates')
 
 @paris_bp.route('/visualiser_matchs')
@@ -111,6 +112,8 @@ def form_miser():
             if mise1 is not None and mise1.strip() == "0" and existing_bet[1] == equipe1:
                 delete_query1 = "DELETE FROM mises WHERE id = %s"
                 cursor.execute(delete_query1, (existing_bet[0],))
+              
+
             elif existing_bet[1] == equipe1 and mise1 is not None and mise1.strip() != "":
                 update_query1 = """
                     UPDATE mises
@@ -121,9 +124,13 @@ def form_miser():
                 data1 = (Decimal(mise1), resultat1, existing_bet[0])
                 cursor.execute(update_query1, data1)
 
+              
+
             if mise2 is not None and mise2.strip() == "0" and existing_bet[2] == equipe2:
                 delete_query2 = "DELETE FROM mises WHERE id = %s"
                 cursor.execute(delete_query2, (existing_bet[0],))
+              
+                
             elif existing_bet[2] == equipe2 and mise2 is not None and mise2.strip() != "":
                 update_query2 = """
                     UPDATE mises
@@ -133,6 +140,7 @@ def form_miser():
                 resultat2 = Decimal(mise2) * Decimal(cote2)
                 data2 = (Decimal(mise2), resultat2, existing_bet[0])
                 cursor.execute(update_query2, data2)
+                
         conn.commit()
     else:
         if mise1 is not None and mise1.strip() != "":
@@ -143,6 +151,7 @@ def form_miser():
             resultat1 = Decimal(mise1) * Decimal(cote1)
             data1 = (Decimal(mise1), resultat1, equipe1, cote1, utilisateur, id_match, datemise)
             cursor.execute(insert_query1, data1)
+        
 
         if mise2 is not None and mise2.strip() != "":
             insert_query2 = '''
@@ -152,7 +161,10 @@ def form_miser():
             resultat2 = Decimal(mise2) * Decimal(cote2)
             data2 = (Decimal(mise2), resultat2, equipe2, cote2, utilisateur, id_match, datemise)
             cursor.execute(insert_query2, data2)
+           
         conn.commit()
+
+   
 
     cursor.close()
     conn.close()
@@ -188,6 +200,11 @@ def modifier_mise(mise_id):
         requete_delete = "DELETE FROM mises WHERE id = %s"
         curseur.execute(requete_delete, (mise_id,))
         conn.commit()
+
+        
+
+       
+
         curseur.close()
         conn.close()
 
@@ -345,6 +362,8 @@ def form_miser_selection():
                     cursor.execute(insert_query, (
                         mise1_decimal, resultat1, equipe1, cote1, utilisateur, id_match, datemise
                     ))
+                
+            
 
             if mise2_decimal > Decimal('0'):
                 select_existing_bet_query = """
@@ -367,6 +386,7 @@ def form_miser_selection():
                     cursor.execute(insert_query, (
                         mise2_decimal, resultat2, equipe2, cote2, utilisateur, id_match, datemise
                     ))
+           
 
 
     conn.commit()
