@@ -233,7 +233,6 @@ def delete_match():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 @admin_bp.route("/statistiques")
 @admin_required
 def statistiques():
@@ -242,7 +241,8 @@ def statistiques():
 
     mongo = current_app.extensions['mongo']
 
-    pipeline = [
+    # Pipeline d'agrégation pour récupérer les stats par match
+    pipeline_match = [
         { "$unwind": "$bets" },
         { "$group": {
             "_id": "$match.id",
@@ -276,8 +276,10 @@ def statistiques():
         { "$sort": { "_id": 1 } }
     ]
 
+    #stats_match = list(mongo.db.mises.aggregate(pipeline_match))
+    
+    # Récupérer également les stats par utilisateur depuis MongoDB
+    stats_user = list(mongo.db.user_stats.find({}))
+    stats_match = list(mongo.db.match_stats.find({}))
 
-    
-    stats_equipe = list(mongo.db.mises.aggregate(pipeline))
-    
-    return render_template("statistiques.html", stats_equipe=stats_equipe)
+    return render_template("statistiques.html", stats_match=stats_match, stats_user=stats_user)
