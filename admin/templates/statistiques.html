@@ -4,66 +4,138 @@
 
 {% block content %}
 <div class="container" style="margin-top: 50px;">
-  <h1 class="text-center text-white mb-4">📊 Statistiques des Paris</h1>
+  <h1 class="text-center text-white mb-4">Statistiques des Paris</h1>
   
-  <!-- Table des stats par match -->
-  <h2 class="text-white">Nombre total de paris par match</h2>
-  <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-    <table class="table table-bordered table-striped table-hover table-dark">
-      <thead class="thead-light">
-        <tr>
-          <th>ID du Match</th>
-          <th>Équipe 1</th>
-          <th>Équipe 2</th>
-          <th>Paris Équipe 1</th>
-          <th>Paris Équipe 2</th>
-          <th>% Équipe 1</th>
-          <th>% Équipe 2</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for stat in stats_match %}
-        <tr>
-          <td>{{ stat.id_match }}</td>
-          <td>{{ stat.equipe1 }}</td>
-          <td>{{ stat.equipe2 }}</td>
-          <td>{{ stat.nb_paris_equipe1 }}</td>
-          <td>{{ stat.nb_paris_equipe2 }}</td>
-          <td>{{ stat.pourcentage_equipe1 }}%</td>
-          <td>{{ stat.pourcentage_equipe2 }}%</td>
-          <!-- Ajoutez ici d'autres colonnes si nécessaire -->
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  
-  <!-- Table des stats par utilisateur -->
-  <h2 class="text-white mt-5">Statistiques par Utilisateur</h2>
-  <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-    <table class="table table-bordered table-striped table-hover table-dark">
-      <thead class="thead-light">
-        <tr>
-          <th>ID Utilisateur</th>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>% Gagné</th>
-          <th>% Perdu</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for user in stats_user %}
-        <tr>
-          <td>{{ user.id_utilisateur }}</td>
-          <td>{{ user.nom }}</td>
-          <td>{{ user.prenom }}</td>
-          <td>{{ user.pourcentage_gagnes }}%</td>
-          <td>{{ user.pourcentage_pertes }}%</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <!-- Carousel pour afficher les statistiques -->
+  <div id="statsCarousel" class="carousel slide" >
+    <div class="carousel-inner">
+      
+      <!-- Diapositive 1 : Nombre total de paris par match -->
+      <div class="carousel-item active">
+        <h4 class="text-white text-center">Nombre total de paris par match</h4>
+        <div class="table-responsive" style="overflow-y: auto; max-width: 100vh; max-height: 40vh; margin: 0 auto;">
+          <table class="table table-bordered table-striped table-hover table-dark">
+            <thead class="thead-light">
+              <tr>
+                <th>ID du Match</th>
+                <th>Équipe 1</th>
+                <th>Équipe 2</th>
+                <th>Paris Équipe 1</th>
+                <th>Paris Équipe 2</th>
+                <th>% Équipe 1</th>
+                <th>% Équipe 2</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for stat in stats_match %}
+              <tr>
+                <td>{{ stat.id_match }}</td>
+                <td>{{ stat.equipe1 }}</td>
+                <td>{{ stat.equipe2 }}</td>
+                <td>{{ stat.nb_paris_equipe1 }}</td>
+                <td>{{ stat.nb_paris_equipe2 }}</td>
+                <td>{{ stat.pourcentage_equipe1 }}%</td>
+                <td>{{ stat.pourcentage_equipe2 }}%</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Diapositive 2 : Statistiques par Utilisateur -->
+      <div class="carousel-item">
+        <h4 class="text-white text-center">Statistiques par Utilisateur</h4>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="userSelect" class="text-white">Choisissez un utilisateur :</label>
+              <select id="userSelect" class="form-control">
+                <option value="">-- Sélectionnez un utilisateur --</option>
+                {% for user in stats_user %}
+                  <option value="{{ user.id_utilisateur }}"
+                          data-gagnes="{{ user.pourcentage_gagnes }}"
+                          data-pertes="{{ user.pourcentage_pertes }}">
+                    {{ user.id_utilisateur }} - {{ user.nom }} {{ user.prenom }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mt-1">
+              <canvas id="pieChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- Contrôles du carousel -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#statsCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Précédent</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#statsCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Suivant</span>
+    </button>
   </div>
   
 </div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var ctx = document.getElementById('pieChart').getContext('2d');
+  var pieChart;
+  
+  document.getElementById('userSelect').addEventListener('change', function() {
+    var selectedOption = this.options[this.selectedIndex];
+    if (!selectedOption.value) {
+      return;
+    }
+    var pourcentageGagnes = parseFloat(selectedOption.getAttribute('data-gagnes'));
+    var pourcentagePertes = parseFloat(selectedOption.getAttribute('data-pertes'));
+  
+    var data = {
+      labels: ['Gagnés', 'Perdus'],
+      datasets: [{
+        data: [pourcentageGagnes, pourcentagePertes],
+        backgroundColor: ['#28a745', '#dc3545']
+      }]
+    };
+  
+    if (pieChart) {
+      pieChart.data = data;
+      pieChart.update();
+    } else {
+      pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Répartition des résultats',
+              color: 'white'
+            },
+            legend: {
+              labels: {
+                color: 'white'
+              }
+            }
+          }
+        }
+      });
+    }
+  });
+});
+
+
+</script>
 {% endblock %}
