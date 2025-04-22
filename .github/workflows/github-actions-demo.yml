@@ -19,14 +19,12 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t vitorpinto500/superbowl:latest .
-      # Agregar login en Docker Hub (o tu registro) usando secrets
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
       - name: Push Docker image
         run: docker push vitorpinto500/superbowl:latest
 
 
-      # Étape pour lancer les tests dans une instance éphémère du container
       - name: Run tests inside container
         run: docker run --rm -d -p 8080:5001 --name superbowl-test vitorpinto500/superbowl:latest pytest
       
@@ -36,22 +34,17 @@ jobs:
       - name: Stop test container
         run: docker stop superbowl-test || true
 
-      #Ensuite, pour les tests d'intégration : démarrer l'application et vérifier qu'elle répond
       - name: Run container for integration test
         run: |
           docker run --rm -d -p 8080:5001 --name superbowl-int vitorpinto500/superbowl:latest
          
 
-   #   - name: Vérifier que l'application répond
-    #    run: |
-     #     curl --fail http://localhost:8080 || (echo "L'application ne répond pas" && exit 1)
 
 
 
       - name: Stop container
         run: docker stop superbowl-int
 
-      # Installation de flyctl pour le déploiement sur Fly.io
       - name: Install Flyctl
         if: github.ref == 'refs/heads/main' 
         run: |
@@ -59,7 +52,6 @@ jobs:
           echo "$HOME/.fly/bin" >> $GITHUB_PATH
 
       
-       # Déploiement sur Fly.io
       - name: Deploy to Fly.io
         if: github.ref == 'refs/heads/main'
         run: flyctl deploy --remote-only

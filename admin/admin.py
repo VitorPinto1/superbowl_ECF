@@ -276,7 +276,6 @@ def statistiques():
         { "$sort": { "_id": 1 } }
     ]
 
-    #stats_match = list(mongo.db.mises.aggregate(pipeline_match))
     
     # Récupérer également les stats par utilisateur depuis MongoDB
     stats_user = list(mongo.db.user_stats.find({}))

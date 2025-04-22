@@ -8,6 +8,7 @@ Prérequis
 -	Python 3.9
 -	Flask
 -	Mailtrap
+- MongoDB
 
 1.	Installation et déploiement
 
@@ -34,17 +35,37 @@ Exécutez l’application avec Flask dans le teminal :
 
 Ouvrez le navigateur et allez à :
 	
- 	http://127.0.0.1:5001/
+ 	http://127.0.0.1:5000/
 
 Service de mail local
-
-
 
 Pour visualiser les emails, ouvrez un navigateur et allez à :
 
 	-https://mailtrap.io/home
 
 
-Conclusion
+Déploiement avec Docker
 
-En suivant ces étapes, vous devriez être en mesure de déployer l'application web localement et tester ses fonctionnalités.
+Prérequis :
+
+- Docker Desktop installé
+
+Lancer l'application avec Docker Compose
+
+	« docker-compose up »
+
+Construction manuelle 
+Construire et lancer sans docker-compose :
+
+	«	docker build -t vitorpinto500/superbowl:latest .
+		docker run -it --rm -p 8080:5001 vitorpinto500/superbowl:latest
+
+CI/CD à chaque git push sur main :
+
+- L'image Docker est automatiquement construite avec GitHub Actions
+
+- L'image est poussée sur DockerHub sous : vitorpinto500/apppython:latest
+
+Auteur
+
+Projet réalisé par Vitor Pinto Passionné par le développement et l'IA.
