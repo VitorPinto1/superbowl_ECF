@@ -16,3 +16,7 @@ docker run --rm -p 8080:5001 --env-file .env.development --name superbowl-contai
 docker-compose up --build -d
 
 pytest -v --disable-warnings -s
+
+pytest -p no:warnings
+
+flask run --port=5001
