@@ -4,5 +4,5 @@
 test/
 mysql_data/
 initapp.txt
-pycache/
+__pycache__/
 templates/
