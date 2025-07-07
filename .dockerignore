@@ -5,3 +5,5 @@ test/
 .env.test
 .env
 
+__pycache__
+mysql_data/
