@@ -2,4 +2,7 @@
 .env.test
 .env
 test/
+mysql_data/
 initapp.txt
+pycache/
+templates/

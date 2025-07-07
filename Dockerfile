@@ -22,7 +22,5 @@ EXPOSE 5001
 
 
 
-ENTRYPOINT ["sh", "-c", "dockerize -wait tcp://$MYSQL_DATABASE_HOST:$MYSQL_DATABASE_PORT -timeout 60s && python app.py"]
 
-CMD ["python", "app.py"]
 
