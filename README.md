@@ -64,7 +64,7 @@ CI/CD à chaque git push sur main :
 
 - L'image Docker est automatiquement construite avec GitHub Actions
 
-- L'image est poussée sur DockerHub sous : vitorpinto500/apppython:latest
+- L'image est poussée sur DockerHub sous : vitorpinto500/superbowl:latest
 
 Auteur
 
