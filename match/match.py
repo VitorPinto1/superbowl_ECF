@@ -169,21 +169,78 @@ def generer_matchs_quotidiens():
     conn.close()
     print(f"4 matchs pour le {jour} ont été générés avec succès.")
 
-def mettre_a_jour_debut_en_cours():
+
+def mettre_a_jour_tous_les_statuts():
+    """Met à jour tous les statuts des matchs (À venir -> En cours -> Terminé)"""
     mysql = current_app.extensions['mysql']
     conn = mysql.connect()
     cursor = conn.cursor()
     now = datetime.now()
     current_date = now.date()
     current_time = now.time()
+    
+    # 1. Mettre à jour À venir -> En cours
     cursor.execute("""
         UPDATE matchs
         SET statut = 'En cours'
         WHERE jour = %s AND debut <= %s AND statut = 'À venir'
     """, (current_date, current_time))
-    updated_rows = cursor.rowcount
+    updated_en_cours = cursor.rowcount
+    
+    # 2. Mettre à jour En cours -> Terminé
+    # Sélectionner seulement les matchs qui sont vraiment terminés
+    # On exclut les matchs qui viennent d'être mis "En cours" (statut = 'En cours')
+    cursor.execute("""
+        SELECT id, equipe1, equipe2, but1, but2, statut, vainqueur, jour, fin
+        FROM matchs
+        WHERE (
+            statut = 'En cours'
+            AND jour < %s
+        )
+        OR (
+            statut = 'En cours'
+            AND jour = %s 
+            AND fin IS NOT NULL 
+            AND fin <= %s
+        )
+        OR (
+            statut = 'Terminé'
+            AND (vainqueur IS NULL OR LENGTH(vainqueur) < 5)
+        )
+    """, (current_date, current_date, current_time))
+    
+    matchs_a_terminer = cursor.fetchall()
+    updated_terminé = 0
+    
+    for match in matchs_a_terminer:
+        id_match, equipe1, equipe2, but1, but2, statut, vainqueur, jour, fin = match
+        
+            
+        # Générer les scores si nécessaire
+        if but1 is None or but2 is None:
+            but1 = random.randint(0, 50) if but1 is None else but1
+            but2 = random.randint(0, 50) if but2 is None else but2
+        
+        # Déterminer le vainqueur
+        if not vainqueur or len(vainqueur.strip()) < 5:
+            if but1 > but2:
+                vainqueur = equipe1
+            elif but2 > but1:
+                vainqueur = equipe2
+            else:
+                vainqueur = "Égalité"
+        
+        # Mettre à jour le match
+        cursor.execute("""
+            UPDATE matchs
+            SET but1 = %s, but2 = %s, statut = 'Terminé', vainqueur = %s
+            WHERE id = %s
+        """, (but1, but2, vainqueur, id_match))
+        updated_terminé += 1
+    
     conn.commit()
     cursor.close()
     conn.close()
-    if updated_rows > 0:
-        print(f"{updated_rows} match(s) ont été mis à jour à 'En cours'.")
+    
+    if updated_en_cours > 0 or updated_terminé > 0:
+        print(f"Scheduler: {updated_en_cours} match(s) mis à 'En cours', {updated_terminé} match(s) terminés.")

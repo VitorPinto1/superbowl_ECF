@@ -79,11 +79,18 @@ def create_app():
     def index():
         now = datetime.now()
         formatted_date = now.strftime("%d/%m/%Y")
+        current_date = now.date()  # Utiliser la date du système Python
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT CURDATE()")
-        current_date = cursor.fetchone()[0]
-        cursor.execute('SELECT m.*, e1.logo AS logo_equipe1, e2.logo AS logo_equipe2 FROM matchs m JOIN equipes e1 ON m.equipe1 = e1.nom_equipe JOIN equipes e2 ON m.equipe2 = e2.nom_equipe WHERE m.jour = %s;', (current_date,))
+        cursor.execute('''
+            SELECT m.*, e1.logo AS logo_equipe1, e2.logo AS logo_equipe2 
+            FROM matchs m 
+            JOIN equipes e1 ON m.equipe1 = e1.nom_equipe 
+            JOIN equipes e2 ON m.equipe2 = e2.nom_equipe 
+            WHERE m.jour = %s 
+            ORDER BY m.debut
+            LIMIT 5
+        ''', (current_date,))
         matches = cursor.fetchall()
         cursor.close()
         conn.close()
