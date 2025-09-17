@@ -168,3 +168,22 @@ def generer_matchs_quotidiens():
     conn.commit()
     conn.close()
     print(f"4 matchs pour le {jour} ont été générés avec succès.")
+
+def mettre_a_jour_debut_en_cours():
+    mysql = current_app.extensions['mysql']
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    now = datetime.now()
+    current_date = now.date()
+    current_time = now.time()
+    cursor.execute("""
+        UPDATE matchs
+        SET statut = 'En cours'
+        WHERE jour = %s AND debut <= %s AND statut = 'À venir'
+    """, (current_date, current_time))
+    updated_rows = cursor.rowcount
+    conn.commit()
+    cursor.close()
+    conn.close()
+    if updated_rows > 0:
+        print(f"{updated_rows} match(s) ont été mis à jour à 'En cours'.")
