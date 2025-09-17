@@ -78,8 +78,8 @@ def create_app():
     @app.route('/')
     def index():
         now = datetime.now()
-        formatted_date = now.strftime("%d/%m/%Y")
         current_date = now.date()  # Utiliser la date du système Python
+        formatted_date = current_date.strftime("%d/%m/%Y")  # Formater la même date
         conn = mysql.connect()
         cursor = conn.cursor()
         cursor.execute('''
