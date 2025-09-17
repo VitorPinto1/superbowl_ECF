@@ -6,6 +6,9 @@
 app = 'superbowlstania'
 primary_region = 'cdg'
 
+[env]
+  TZ = "Europe/Paris"
+
 [build]
   image = "docker.io/vitorpinto500/superbowl:latest"
 [[mounts]]

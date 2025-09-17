@@ -77,8 +77,11 @@ def create_app():
         return data
     @app.route('/')
     def index():
-        # Utiliser la date système locale
-        current_date = datetime.now().date()
+        # Utiliser l'heure française
+        from datetime import timezone, timedelta
+        france_tz = timezone(timedelta(hours=2))  # UTC+2 (heure d'été française)
+        now_france = datetime.now(france_tz)
+        current_date = now_france.date()
         formatted_date = current_date.strftime("%d/%m/%Y")
         conn = mysql.connect()
         cursor = conn.cursor()
